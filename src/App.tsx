@@ -16,7 +16,13 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Plus as AddIcon, UserRoundPlus as AddPersonIcon } from "lucide-react";
+import {
+    Plus as AddIcon,
+    UserRoundPlus as AddPersonIcon,
+    Award,
+    SquareKanban,
+    Crown as WinnerIcon,
+} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { v4 as uuidv4 } from "uuid";
 import Container from "./components/layout/Container";
@@ -138,24 +144,51 @@ export default function App() {
     }, [data, sortOption]);
 
     return (
-        <main className="flex min-h-screen w-full overflow-auto bg-gradient-to-br from-purple-50 to-indigo-200">
+        <main className="flex min-h-screen w-full bg-gradient-to-br from-purple-50 to-indigo-200">
             <aside className="h-screen min-w-80 bg-background">
                 <Container className="flex h-full flex-col justify-between align-middle">
-                    <h3 className="mt-8 text-2xl font-semibold text-primary">
+                    <h3 className="mt-8 flex gap-1 text-3xl font-semibold text-primary">
+                        <Award size="1.2em" />
                         Leaderboard
                     </h3>
                     <Separator className="my-2" />
                     <section>
-                        {leaderBoardData.map((l) => (
-                            <section className="my-2 flex justify-between rounded bg-indigo-50 px-4 py-2">
-                                <p className="my-auto">{l.player}</p>
-                                <div>
-                                    <p className="font-semibold">{l.sum}</p>
-                                    <small className="-mt-1 flex justify-end text-end text-indigo-400">
-                                        {l.difference}
-                                    </small>
-                                </div>
-                            </section>
+                        {leaderBoardData.map((l, index) => (
+                            <>
+                                {index === 0 &&
+                                sortOption != SortOptions.NONE ? (
+                                    <section className="my-2 flex justify-between rounded border border-primary bg-indigo-50 px-4 py-2">
+                                        <div>
+                                            <WinnerIcon className="text-primary" />
+                                            <p className="my-auto text-lg">
+                                                {l.player}
+                                            </p>
+                                        </div>
+                                        <p className="mt-auto font-semibold">
+                                            {l.sum}
+                                        </p>
+                                    </section>
+                                ) : (
+                                    <section className="my-2 flex justify-between rounded bg-indigo-50 p-2">
+                                        <div className="flex gap-2">
+                                            <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
+                                                {index + 1}
+                                            </p>
+                                            <p className="my-auto">
+                                                {l.player}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold">
+                                                {l.sum}
+                                            </p>
+                                            <small className="-mt-1 flex justify-end text-end text-indigo-400">
+                                                {l.difference}
+                                            </small>
+                                        </div>
+                                    </section>
+                                )}
+                            </>
                         ))}
                     </section>
                     <Tabs
@@ -178,7 +211,7 @@ export default function App() {
                     </Tabs>
                 </Container>
             </aside>
-            <Container>
+            <Container className="h-screen overflow-auto">
                 <h3 className="mt-8 text-3xl font-semibold text-primary">
                     Scores
                 </h3>
@@ -242,7 +275,7 @@ export default function App() {
                         <AlertDialogContent>
                             <AlertDialogHeader>
                                 <AlertDialogTitle>
-                                    Are you absolutely sure?
+                                    Add an person
                                 </AlertDialogTitle>
                             </AlertDialogHeader>
                             <Input
@@ -271,7 +304,7 @@ export default function App() {
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <Button
-                                                className="h-12 w-full rounded bg-card"
+                                                className="h-12 w-full rounded-xs bg-card"
                                                 variant="ghost"
                                                 onClick={() =>
                                                     setInputData(score)
