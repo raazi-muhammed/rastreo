@@ -3,7 +3,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,16 +19,17 @@ import {
 import { Plus as AddIcon, UserRoundPlus as AddPersonIcon } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import Container from "./components/layout/Container";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 export default function App() {
     const [inputData, setInputData] = useState<number>(0);
     const [inputPerson, setInputPerson] = useState<string>("");
 
-    const [data, setData] = useState({
+    const [data, setData] = useLocalStorage("__rastreo", {
         players: [
             {
                 id: "1",
-                name: "Raazi",
+                name: "Raazs",
             },
             {
                 id: "2",
@@ -219,6 +220,13 @@ export default function App() {
                                         </PopoverContent>
                                     </Popover>
                                 ))}
+                                {s.scores.length === 0 && (
+                                    <div className="grid h-12 w-full place-items-center rounded bg-card">
+                                        <p className="mb-1 text-xs text-indigo-300">
+                                            No score yet
+                                        </p>
+                                    </div>
+                                )}
                                 <Popover>
                                     <PopoverTrigger>
                                         <Button size="icon">
