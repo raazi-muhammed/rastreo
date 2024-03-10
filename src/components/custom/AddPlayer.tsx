@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { UserRoundPlus as AddPersonIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { useState } from "react";
+import { Label } from "../ui/label";
 
 export default function AddPlayer({
     handleAddPerson,
@@ -32,13 +33,16 @@ export default function AddPlayer({
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Add an person</AlertDialogTitle>
+                    <AlertDialogTitle>Add an player</AlertDialogTitle>
                 </AlertDialogHeader>
-                <Input
-                    value={inputPerson}
-                    onChange={(e) => setInputPerson(e.target.value)}
-                    placeholder="name"
-                />
+                <div>
+                    <Label>Enter player name</Label>
+                    <Input
+                        value={inputPerson}
+                        onChange={(e) => setInputPerson(e.target.value)}
+                        placeholder="name"
+                    />
+                </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction

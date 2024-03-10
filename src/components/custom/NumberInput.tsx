@@ -1,3 +1,4 @@
+import { Delete } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function NumberInput({
@@ -11,7 +12,8 @@ export default function NumberInput({
             {numbers.map((n) => (
                 <Button
                     type="button"
-                    variant="accent"
+                    className="bg-indigo-100"
+                    variant="secondary"
                     onClick={() => setInputData((i) => Number(i + n))}>
                     {n}
                 </Button>
@@ -23,7 +25,7 @@ export default function NumberInput({
                     setInputData((e) => Number(e.toString().slice(0, -1)))
                 }
                 variant="destructive">
-                Clear
+                <Delete size="1.3em" />
             </Button>
         </div>
     );

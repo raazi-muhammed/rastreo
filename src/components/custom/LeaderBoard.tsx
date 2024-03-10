@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { InitData } from "@/App";
 import { Switch } from "@/components/ui/switch";
+import { formatNumber } from "@/lib/utils";
 
 enum SortOptions {
     TOHIGH = "TOHIGH",
@@ -84,8 +85,8 @@ export default function LeaderBoard({
                                             {l.player}
                                         </p>
                                     </div>
-                                    <p className="mt-auto font-semibold">
-                                        {l.sum}
+                                    <p className="-me-1 mt-auto font-semibold">
+                                        {formatNumber(l.sum)}
                                     </p>
                                 </section>
                             ) : (
@@ -96,11 +97,15 @@ export default function LeaderBoard({
                                         </p>
                                         <p className="my-auto">{l.player}</p>
                                     </div>
-                                    <div>
-                                        <p className="font-semibold">{l.sum}</p>
-                                        <small className="-mt-1 flex justify-end text-end text-indigo-400">
-                                            {l.difference}
-                                        </small>
+                                    <div className="me-1">
+                                        <p className="font-semibold">
+                                            {formatNumber(l.sum)}
+                                        </p>
+                                        {l.difference ? (
+                                            <small className="-mt-1 flex justify-end text-end text-indigo-400">
+                                                {formatNumber(l.difference)}
+                                            </small>
+                                        ) : null}
                                     </div>
                                 </section>
                             )}

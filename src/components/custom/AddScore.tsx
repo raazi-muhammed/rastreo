@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Input } from "../ui/input";
 import { Plus as AddIcon } from "lucide-react";
 import NumberInput from "./NumberInput";
+import { Label } from "../ui/label";
 
 export default function AddScore({
     handleAddInput,
@@ -19,15 +20,17 @@ export default function AddScore({
     handleAddInput: (userId: string, newScore: number) => void;
 }) {
     const [inputData, setInputData] = useState<number>(0);
+    const [open, setOpen] = useState(false);
 
     return (
-        <Popover>
-            <PopoverTrigger>
+        <Popover open={open}>
+            <PopoverTrigger onClick={() => setOpen(true)}>
                 <Button size="icon">
                     <AddIcon size="1.5em" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent
+                onInteractOutside={() => setOpen(false)}
                 onOpenAutoFocus={
                     isOnTouchMode
                         ? (e) => {
@@ -39,7 +42,9 @@ export default function AddScore({
                     onSubmit={(e) => {
                         e.preventDefault();
                         handleAddInput(playerId, inputData);
+                        setOpen(false);
                     }}>
+                    <Label>Add a new score record</Label>
                     <Input
                         value={inputData}
                         className="mb-4"

@@ -6,6 +6,8 @@ import {
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
+import { Trash2 as DeleteIcon } from "lucide-react";
+import { Label } from "../ui/label";
 
 export default function TablePlayerCard({
     player,
@@ -36,17 +38,18 @@ export default function TablePlayerCard({
                         e.preventDefault();
                         handleChangePersonName(player.id, inputPerson);
                     }}>
+                    <Label>Change player name</Label>
                     <Input
                         value={inputPerson}
                         onChange={(e) => setInputPerson(e.target.value)}
                         placeholder="name"
                     />
-                    <div className="mt-2 flex justify-end gap-2">
+                    <div className="mt-3 flex justify-end gap-2">
                         <Button
                             variant="destructive"
                             type="button"
                             onClick={() => handleDeletePerson(player.id)}>
-                            Delete
+                            <DeleteIcon size="1.2em" />
                         </Button>
                         <Button>Change</Button>
                     </div>

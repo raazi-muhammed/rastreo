@@ -148,8 +148,8 @@ export default function App() {
                                     />
                                 ))}
                                 {s.scores.length === 0 && (
-                                    <div className="grid h-12 w-full place-items-center rounded bg-card">
-                                        <p className="mb-1 text-xs text-indigo-300">
+                                    <div className="grid h-12 w-full place-items-center rounded-xs bg-card opacity-50">
+                                        <p className="my-auto text-xs text-indigo-300">
                                             No score yet
                                         </p>
                                     </div>
