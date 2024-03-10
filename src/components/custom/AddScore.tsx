@@ -28,8 +28,8 @@ export default function AddScore({
                 <Button
                     onClick={() => setOpen(true)}
                     size="icon"
-                    className="shadow-md shadow-primary/80">
-                    <AddIcon size="1.5em" />
+                    className="mx-auto flex shadow-md shadow-primary/80">
+                    <AddIcon size="1.5em" className="mx-auto" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent
