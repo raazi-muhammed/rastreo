@@ -17,6 +17,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Plus as AddIcon, UserRoundPlus as AddPersonIcon } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 import { v4 as uuidv4 } from "uuid";
 import Container from "./components/layout/Container";
 import useLocalStorage from "./hooks/useLocalStorage";
@@ -28,13 +29,15 @@ enum SortOptions {
     NONE = "NONE",
 }
 
+type LeaderBoardItem = { player: string; sum: number; difference?: number };
+
 export default function App() {
     const [inputData, setInputData] = useState<number>(0);
     const [inputPerson, setInputPerson] = useState<string>("");
     const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.NONE);
-    const [leaderBoardData, setLeaderBoardData] = useState<
-        { player: string; sum: number }[]
-    >([]);
+    const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
+        []
+    );
 
     type InitData = {
         players: {
@@ -103,8 +106,18 @@ export default function App() {
         return sum;
     }
 
+    function addDifferences(lbData: LeaderBoardItem[]) {
+        let lastSum = 0;
+        return lbData.map((l, i) => {
+            l.difference = l.sum - lastSum;
+            lastSum = l.sum;
+            if (i === 0) l.difference = undefined;
+            return l;
+        });
+    }
+
     useEffect(() => {
-        const lbData = [];
+        const lbData: LeaderBoardItem[] = [];
         for (let i = 0; i < data.players.length; i++) {
             const sum = findSumOfPlayerWithId(data.players[i].id);
             lbData.push({
@@ -112,12 +125,16 @@ export default function App() {
                 sum,
             });
         }
+
+        let withDifference: LeaderBoardItem[] = lbData;
         if (sortOption == SortOptions.TOHIGH) {
             lbData.sort((a, b) => a.sum - b.sum);
+            withDifference = addDifferences(lbData);
         } else if (sortOption == SortOptions.TOLOW) {
             lbData.sort((a, b) => b.sum - a.sum);
+            withDifference = addDifferences(lbData);
         }
-        setLeaderBoardData(lbData);
+        setLeaderBoardData(withDifference);
     }, [data, sortOption]);
 
     return (
@@ -127,11 +144,17 @@ export default function App() {
                     <h3 className="mt-8 text-2xl font-semibold text-primary">
                         Leaderboard
                     </h3>
+                    <Separator className="my-2" />
                     <section>
                         {leaderBoardData.map((l) => (
                             <section className="my-2 flex justify-between rounded bg-indigo-50 px-4 py-2">
-                                <p>{l.player}</p>
-                                <p className="font-semibold">{l.sum}</p>
+                                <p className="my-auto">{l.player}</p>
+                                <div>
+                                    <p className="font-semibold">{l.sum}</p>
+                                    <small className="-mt-1 flex justify-end text-end text-indigo-400">
+                                        {l.difference}
+                                    </small>
+                                </div>
                             </section>
                         ))}
                     </section>
@@ -156,6 +179,10 @@ export default function App() {
                 </Container>
             </aside>
             <Container>
+                <h3 className="mt-8 text-3xl font-semibold text-primary">
+                    Scores
+                </h3>
+                <Separator className="my-2" />
                 <section className="flex gap-1 text-primary">
                     {data.players.map((player) => (
                         <div className="flex w-44 flex-shrink-0 py-2">
@@ -163,11 +190,11 @@ export default function App() {
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant="ghost"
-                                        className="w-full"
+                                        className="h-10 w-full rounded"
                                         onClick={() =>
                                             setInputPerson(player.name)
                                         }>
-                                        <p className="w-full text-start text-lg font-bold">
+                                        <p className="w-full text-start text-xl font-semibold">
                                             {player.name}
                                         </p>
                                     </Button>
@@ -204,12 +231,12 @@ export default function App() {
                         </div>
                     ))}
                     <AlertDialog>
-                        <AlertDialogTrigger className="me-4 ms-auto flex py-2">
+                        <AlertDialogTrigger className="mx-2 my-auto flex">
                             <Button
-                                className="my-auto flex"
+                                variant="accent"
+                                size="icon"
                                 onClick={() => setInputPerson("")}>
-                                <AddPersonIcon size="1.25em" className="me-1" />
-                                Add player
+                                <AddPersonIcon size="1.35em" />
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
