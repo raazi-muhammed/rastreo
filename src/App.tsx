@@ -20,7 +20,6 @@ import {
     Plus as AddIcon,
     UserRoundPlus as AddPersonIcon,
     Award,
-    SquareKanban,
     Crown as WinnerIcon,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
