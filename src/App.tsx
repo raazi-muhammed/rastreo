@@ -20,41 +20,36 @@ import { Plus as AddIcon, UserRoundPlus as AddPersonIcon } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import Container from "./components/layout/Container";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+enum SortOptions {
+    TOHIGH = "TOHIGH",
+    TOLOW = "TOLOW",
+    NONE = "NONE",
+}
 
 export default function App() {
     const [inputData, setInputData] = useState<number>(0);
     const [inputPerson, setInputPerson] = useState<string>("");
+    const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.NONE);
+    const [leaderBoardData, setLeaderBoardData] = useState<
+        { player: string; sum: number }[]
+    >([]);
 
-    const [data, setData] = useLocalStorage("__rastreo", {
-        players: [
-            {
-                id: "1",
-                name: "Raazs",
-            },
-            {
-                id: "2",
-                name: "Remi",
-            },
-            {
-                id: "3",
-                name: "Rasal",
-            },
-        ],
-        scores: [
-            {
-                id: "1",
-                scores: [13, 4, 5, 3, 2, 323, 23, 242, 3],
-            },
-            {
-                id: "2",
-                scores: [13, 4, 5, 3, 2, 323, 23, 242, 3],
-            },
-            {
-                id: "3",
-                scores: [13, 4, 5, 3, 2, 323, 23, 242, 3],
-            },
-        ],
-    });
+    type InitData = {
+        players: {
+            id: string;
+            name: string;
+        }[];
+        scores: { id: string; scores: number[] }[];
+    };
+
+    const initData: InitData = {
+        players: [],
+        scores: [],
+    };
+
+    const [data, setData] = useLocalStorage("__rastreo", initData);
 
     function handleAddInput(userId: string) {
         const scores = data.scores.map((e) => {
@@ -66,6 +61,7 @@ export default function App() {
     }
 
     function handleEditScore(userId: string, index: number) {
+        if (!data.scores) data.scores = [];
         const scores = data.scores.map((s) => {
             if (s.id === userId) s.scores[index] = inputData;
             return s;
@@ -99,8 +95,66 @@ export default function App() {
         setData({ ...newData });
     }
 
+    function findSumOfPlayerWithId(id: string) {
+        let sum = 0;
+        data.scores.map((e) => {
+            if (e.id === id) sum = e.scores.reduce((a, e) => (a += e), 0);
+        });
+        return sum;
+    }
+
+    useEffect(() => {
+        const lbData = [];
+        for (let i = 0; i < data.players.length; i++) {
+            const sum = findSumOfPlayerWithId(data.players[i].id);
+            lbData.push({
+                player: data.players[i].name,
+                sum,
+            });
+        }
+        if (sortOption == SortOptions.TOHIGH) {
+            lbData.sort((a, b) => a.sum - b.sum);
+        } else if (sortOption == SortOptions.TOLOW) {
+            lbData.sort((a, b) => b.sum - a.sum);
+        }
+        setLeaderBoardData(lbData);
+    }, [data, sortOption]);
+
     return (
-        <main className="min-h-screen w-full overflow-auto bg-gradient-to-br from-purple-50 to-indigo-200">
+        <main className="flex min-h-screen w-full overflow-auto bg-gradient-to-br from-purple-50 to-indigo-200">
+            <aside className="h-screen min-w-80 bg-background">
+                <Container className="flex h-full flex-col justify-between align-middle">
+                    <h3 className="mt-8 text-2xl font-semibold text-primary">
+                        Leaderboard
+                    </h3>
+                    <section>
+                        {leaderBoardData.map((l) => (
+                            <section className="my-2 flex justify-between rounded bg-indigo-50 px-4 py-2">
+                                <p>{l.player}</p>
+                                <p className="font-semibold">{l.sum}</p>
+                            </section>
+                        ))}
+                    </section>
+                    <Tabs
+                        onValueChange={(value) => {
+                            setSortOption(value as SortOptions);
+                        }}
+                        defaultValue={SortOptions.NONE}
+                        className="mx-auto mb-8 mt-auto flex h-fit w-fit">
+                        <TabsList>
+                            <TabsTrigger value={SortOptions.TOLOW}>
+                                Lowest
+                            </TabsTrigger>
+                            <TabsTrigger value={SortOptions.NONE}>
+                                None
+                            </TabsTrigger>
+                            <TabsTrigger value={SortOptions.TOHIGH}>
+                                Hightest
+                            </TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                </Container>
+            </aside>
             <Container>
                 <section className="flex gap-1 text-primary">
                     {data.players.map((player) => (
@@ -155,7 +209,7 @@ export default function App() {
                                 className="my-auto flex"
                                 onClick={() => setInputPerson("")}>
                                 <AddPersonIcon size="1.25em" className="me-1" />
-                                Add person
+                                Add player
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
@@ -248,9 +302,11 @@ export default function App() {
                                                 }
                                                 type="number"
                                             />
-                                            <Button className="ms-auto mt-2 flex">
+                                            <Button
+                                                size="sm"
+                                                className="ms-auto mt-2 flex">
                                                 <AddIcon
-                                                    size="1.3em"
+                                                    size="1.2em"
                                                     className="me-1"
                                                 />
                                                 Add
@@ -262,6 +318,11 @@ export default function App() {
                         </section>
                     ))}
                 </section>
+                {data.players.length === 0 && (
+                    <div>
+                        <p>No players</p>
+                    </div>
+                )}
             </Container>
         </main>
     );
