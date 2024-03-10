@@ -46,6 +46,7 @@ export default function AddScore({
                         e.preventDefault();
                         handleAddInput(playerId, inputData);
                         setOpen(false);
+                        setInputData(0);
                     }}>
                     <Label>Add a new score record</Label>
                     <Input
