@@ -13,12 +13,14 @@ export default function TableScoreCard({
     index,
     personId,
     handleEditScore,
+    handleRemoveScore,
     isOnTouchMode,
 }: {
     score: number;
     index: number;
     isOnTouchMode: boolean;
     personId: string;
+    handleRemoveScore: (userId: string, index: number) => void;
     handleEditScore: (userId: string, index: number, newScore: number) => void;
 }) {
     const [inputData, setInputData] = useState<number>(0);
@@ -41,18 +43,30 @@ export default function TableScoreCard({
                           }
                         : () => {}
                 }>
-                <Input
-                    value={inputData}
-                    className="mb-4"
-                    onChange={(e) => setInputData(Number(e.target.value))}
-                    type="number"
-                />
-                {isOnTouchMode && <NumberInput setInputData={setInputData} />}
-                <Button
-                    className="mx-auto mt-3 flex"
-                    onClick={() => handleEditScore(personId, index, inputData)}>
-                    Save
-                </Button>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleEditScore(personId, index, inputData);
+                    }}>
+                    <Input
+                        value={inputData}
+                        className="mb-4"
+                        onChange={(e) => setInputData(Number(e.target.value))}
+                        type="number"
+                    />
+                    {isOnTouchMode && (
+                        <NumberInput setInputData={setInputData} />
+                    )}
+                    <div className="mt-3 flex justify-end gap-2">
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            onClick={() => handleRemoveScore(personId, index)}>
+                            Remove
+                        </Button>
+                        <Button>Save</Button>
+                    </div>
+                </form>
             </PopoverContent>
         </Popover>
     );

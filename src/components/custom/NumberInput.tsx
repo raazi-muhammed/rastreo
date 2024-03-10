@@ -18,7 +18,10 @@ export default function NumberInput({
             ))}
             <Button
                 type="button"
-                onClick={() => setInputData(0)}
+                onDoubleClick={() => setInputData(0)}
+                onClick={() =>
+                    setInputData((e) => Number(e.toString().slice(0, -1)))
+                }
                 variant="destructive">
                 Clear
             </Button>

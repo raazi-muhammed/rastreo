@@ -46,6 +46,14 @@ export default function App() {
         });
         setData({ ...data, scores });
     }
+    function handleRemoveScore(userId: string, index: number) {
+        if (!data.scores) data.scores = [];
+        const scores = data.scores.filter((s) => {
+            if (s.id === userId) s.scores.splice(index, 1);
+            return s;
+        });
+        setData({ ...data, scores });
+    }
 
     function handleAddPerson(name: string) {
         const newId = uuidv4();
@@ -131,6 +139,7 @@ export default function App() {
                             <>
                                 {s.scores.map((score, index) => (
                                     <TableScoreCard
+                                        handleRemoveScore={handleRemoveScore}
                                         isOnTouchMode={isOnTouchMode}
                                         handleEditScore={handleEditScore}
                                         score={score}
