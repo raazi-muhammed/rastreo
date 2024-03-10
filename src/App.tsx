@@ -10,7 +10,8 @@ import AddScore from "./components/custom/AddScore";
 import { useId, useState } from "react";
 import { isDesktop } from "react-device-detect";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { PanelLeftClose, PanelRightClose } from "lucide-react";
+import { PanelLeftClose, PanelRightClose, Scale } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export type InitData = {
     players: {
@@ -138,35 +139,55 @@ export default function App() {
                 </section>
                 <section className="flex gap-1">
                     {data.scores.map((s) => (
-                        <section
-                            key={s.id}
-                            className="flex w-44 flex-shrink-0 flex-col gap-2">
-                            <>
-                                {s.scores.map((score, index) => (
-                                    <TableScoreCard
-                                        key={id + s.id + score}
-                                        handleRemoveScore={handleRemoveScore}
+                        <AnimatePresence>
+                            <motion.section
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1, originY: 0 }}
+                                key={s.id}
+                                className="flex w-44 flex-shrink-0 flex-col gap-2">
+                                <>
+                                    {s.scores.map((score, index) => (
+                                        <AnimatePresence>
+                                            <motion.div
+                                                initial={{ scale: 0.7 }}
+                                                animate={{
+                                                    scale: 1,
+                                                }}
+                                                exit={{ x: 300 }}
+                                                whileHover={{ scale: 1.05 }}
+                                                key={index + s.id}>
+                                                <TableScoreCard
+                                                    handleRemoveScore={
+                                                        handleRemoveScore
+                                                    }
+                                                    isOnTouchMode={
+                                                        isOnTouchMode
+                                                    }
+                                                    handleEditScore={
+                                                        handleEditScore
+                                                    }
+                                                    score={score}
+                                                    personId={s.id}
+                                                    index={index}
+                                                />
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    ))}
+                                    {s.scores.length === 0 && (
+                                        <div className="grid h-12 w-full place-items-center rounded-xs bg-card opacity-50">
+                                            <p className="my-auto text-xs text-indigo-300">
+                                                No score yet
+                                            </p>
+                                        </div>
+                                    )}
+                                    <AddScore
                                         isOnTouchMode={isOnTouchMode}
-                                        handleEditScore={handleEditScore}
-                                        score={score}
-                                        personId={s.id}
-                                        index={index}
+                                        playerId={s.id}
+                                        handleAddInput={handleAddInput}
                                     />
-                                ))}
-                                {s.scores.length === 0 && (
-                                    <div className="grid h-12 w-full place-items-center rounded-xs bg-card opacity-50">
-                                        <p className="my-auto text-xs text-indigo-300">
-                                            No score yet
-                                        </p>
-                                    </div>
-                                )}
-                                <AddScore
-                                    isOnTouchMode={isOnTouchMode}
-                                    playerId={s.id}
-                                    handleAddInput={handleAddInput}
-                                />
-                            </>
-                        </section>
+                                </>
+                            </motion.section>
+                        </AnimatePresence>
                     ))}
                 </section>
                 {data.players.length === 0 && (

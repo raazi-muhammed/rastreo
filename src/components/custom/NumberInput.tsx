@@ -1,6 +1,6 @@
 import { Delete } from "lucide-react";
 import { Button } from "../ui/button";
-
+import { motion } from "framer-motion";
 export default function NumberInput({
     setInputData,
 }: {
@@ -10,24 +10,29 @@ export default function NumberInput({
     return (
         <div className="grid grid-cols-3 gap-2">
             {numbers.map((n) => (
-                <Button
-                    key={n}
-                    type="button"
-                    className="bg-indigo-100"
-                    variant="secondary"
-                    onClick={() => setInputData((i) => Number(i + n))}>
-                    {n}
-                </Button>
+                <motion.div className="w-full" whileTap={{ scale: 1.3 }}>
+                    <Button
+                        key={n}
+                        type="button"
+                        className="w-full bg-indigo-100"
+                        variant="secondary"
+                        onClick={() => setInputData((i) => Number(i + n))}>
+                        {n}
+                    </Button>
+                </motion.div>
             ))}
-            <Button
-                type="button"
-                onDoubleClick={() => setInputData(0)}
-                onClick={() =>
-                    setInputData((e) => Number(e.toString().slice(0, -1)))
-                }
-                variant="destructive">
-                <Delete size="1.3em" />
-            </Button>
+            <motion.div className="w-full" whileTap={{ scale: 1.3 }}>
+                <Button
+                    type="button"
+                    className="w-full"
+                    onDoubleClick={() => setInputData(0)}
+                    onClick={() =>
+                        setInputData((e) => Number(e.toString().slice(0, -1)))
+                    }
+                    variant="destructive">
+                    <Delete size="1.3em" />
+                </Button>
+            </motion.div>
         </div>
     );
 }
