@@ -9,6 +9,15 @@ import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
 import { useState } from "react";
 import { isDesktop } from "react-device-detect";
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+import { PanelRightClose } from "lucide-react";
 
 export type InitData = {
     players: {
@@ -70,15 +79,31 @@ export default function App() {
 
     return (
         <main className="flex min-h-screen w-full bg-gradient-to-br from-purple-50 to-indigo-200">
-            <LeaderBoard
-                isOnTouchMode={isOnTouchMode}
-                setIsOnTouchMode={setIsOnTouchMode}
-                data={data}
-            />
+            <div className="hidden md:block">
+                <LeaderBoard
+                    isOnTouchMode={isOnTouchMode}
+                    setIsOnTouchMode={setIsOnTouchMode}
+                    data={data}
+                />
+            </div>
             <Container className="h-screen overflow-auto">
-                <h3 className="mt-8 text-3xl font-semibold text-primary">
-                    Scores
-                </h3>
+                <section className="mt-8 flex gap-4">
+                    <Sheet>
+                        <SheetTrigger className="md:hidden">
+                            <PanelRightClose className="text-primary" />
+                        </SheetTrigger>
+                        <SheetContent className="p-0" side="left">
+                            <LeaderBoard
+                                isOnTouchMode={isOnTouchMode}
+                                setIsOnTouchMode={setIsOnTouchMode}
+                                data={data}
+                            />
+                        </SheetContent>
+                    </Sheet>
+                    <h3 className="text-3xl font-semibold text-primary">
+                        Scores
+                    </h3>
+                </section>
                 <Separator className="my-2" />
                 <section className="flex gap-1 text-primary">
                     {data.players.map((player) => (
