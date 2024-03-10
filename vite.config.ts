@@ -7,9 +7,9 @@ const manifestForPlugIn = {
     registerType: "prompt",
     includeAssests: ["icons/favicon.ico", "icons/apple-touch-icon.png"],
     manifest: {
-        name: "Mindful Memos",
-        short_name: "Mindful Memos",
-        description: "A Memos app",
+        name: "Rastreo",
+        short_name: "Rastreo",
+        description: "Game tracker",
         icons: [
             {
                 src: "/icons/android-chrome-192x192.png",
@@ -42,8 +42,8 @@ const manifestForPlugIn = {
                 purpose: "any maskable",
             },
         ],
-        theme_color: "#26265F",
-        background_color: "#CED7E9",
+        theme_color: "#DADFFE",
+        background_color: "#DADFFE",
         display: "standalone",
         scope: "/",
         start_url: "/",
