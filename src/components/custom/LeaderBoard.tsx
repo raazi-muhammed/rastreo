@@ -11,7 +11,6 @@ import { AnimatePresence, motion } from "framer-motion";
 enum SortOptions {
     TOHIGH = "TOHIGH",
     TOLOW = "TOLOW",
-    NONE = "NONE",
 }
 type LeaderBoardItem = { player: string; sum: number; difference?: number };
 
@@ -24,14 +23,16 @@ export default function LeaderBoard({
     setIsOnTouchMode: React.Dispatch<React.SetStateAction<boolean>>;
     data: InitData;
 }) {
-    const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.NONE);
+    const [sortOption, setSortOption] = useState<SortOptions>(
+        SortOptions.TOHIGH
+    );
     const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
         []
     );
     function findSumOfPlayerWithId(id: string) {
         let sum = 0;
         data.scores.map((e) => {
-            if (e.id === id) sum = e.scores.reduce((a, e) => (a += e), 0);
+            if (e.id === id) sum = e.scores.reduce((a, e) => (a += e.val), 0);
         });
         return sum;
     }
@@ -60,7 +61,7 @@ export default function LeaderBoard({
         if (sortOption == SortOptions.TOHIGH) {
             lbData.sort((a, b) => a.sum - b.sum);
             withDifference = addDifferences(lbData);
-        } else if (sortOption == SortOptions.TOLOW) {
+        } else {
             lbData.sort((a, b) => b.sum - a.sum);
             withDifference = addDifferences(lbData);
         }
@@ -77,9 +78,12 @@ export default function LeaderBoard({
                 <Separator className="my-2" />
                 <AnimatePresence>
                     <motion.section
-                        initial={{ scale: 0.6 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0.4 }}>
+                        initial={{ x: -100 }}
+                        animate={{ x: 0 }}
+                        exit={{
+                            transition: { duration: 0 },
+                        }}
+                        key={sortOption}>
                         {leaderBoardData.map((l, index) => (
                             <motion.div
                                 className="rounded shadow-accent hover:shadow-lg"
@@ -87,8 +91,7 @@ export default function LeaderBoard({
                                 whileHover={{ scale: 1.05 }}
                                 animate={{ scale: 1 }}
                                 key={l.player}>
-                                {index === 0 &&
-                                sortOption != SortOptions.NONE ? (
+                                {index === 0 && sortOption ? (
                                     <section className="my-2 flex justify-between rounded border bg-indigo-50 px-4 py-2 shadow-md shadow-accent">
                                         <div>
                                             <WinnerIcon className="text-primary" />
@@ -140,14 +143,11 @@ export default function LeaderBoard({
                         onValueChange={(value) => {
                             setSortOption(value as SortOptions);
                         }}
-                        defaultValue={SortOptions.NONE}
+                        defaultValue={sortOption}
                         className="mx-auto flex h-fit w-fit">
                         <TabsList>
                             <TabsTrigger value={SortOptions.TOLOW}>
                                 Lowest
-                            </TabsTrigger>
-                            <TabsTrigger value={SortOptions.NONE}>
-                                None
                             </TabsTrigger>
                             <TabsTrigger value={SortOptions.TOHIGH}>
                                 Hightest

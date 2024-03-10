@@ -10,7 +10,7 @@ import AddScore from "./components/custom/AddScore";
 import { useId, useState } from "react";
 import { isDesktop } from "react-device-detect";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { PanelLeftClose, PanelRightClose, Scale } from "lucide-react";
+import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export type InitData = {
@@ -18,7 +18,7 @@ export type InitData = {
         id: string;
         name: string;
     }[];
-    scores: { id: string; scores: number[] }[];
+    scores: { id: string; scores: { id: string; val: number }[] }[];
 };
 
 const initData: InitData = {
@@ -34,7 +34,7 @@ export default function App() {
 
     function handleAddInput(userId: string, newScore: number) {
         const scores = data.scores.map((e) => {
-            if (e.id === userId) e.scores.push(newScore);
+            if (e.id === userId) e.scores.push({ id: uuidv4(), val: newScore });
             return e;
         });
         setData({ ...data, scores });
@@ -43,7 +43,7 @@ export default function App() {
     function handleEditScore(userId: string, index: number, newScore: number) {
         if (!data.scores) data.scores = [];
         const scores = data.scores.map((s) => {
-            if (s.id === userId) s.scores[index] = newScore;
+            if (s.id === userId) s.scores[index].val = newScore;
             return s;
         });
         setData({ ...data, scores });
@@ -83,20 +83,31 @@ export default function App() {
 
     return (
         <main className="flex min-h-screen w-full bg-gradient-to-br from-purple-50 to-indigo-200">
-            {showLeaderBoard ? (
-                <div className="relative hidden md:block">
-                    <PanelLeftClose
-                        onClick={() => setShowLeaderBoard(false)}
-                        size="1.2em"
-                        className="absolute right-4 top-4 my-auto ms-auto text-indigo-400"
-                    />
-                    <LeaderBoard
-                        isOnTouchMode={isOnTouchMode}
-                        setIsOnTouchMode={setIsOnTouchMode}
-                        data={data}
-                    />
-                </div>
-            ) : null}
+            <AnimatePresence>
+                {showLeaderBoard ? (
+                    <div className="relative hidden md:block">
+                        <PanelLeftClose
+                            onClick={() => setShowLeaderBoard(false)}
+                            size="1.2em"
+                            className="absolute right-4 top-4 my-auto ms-auto text-indigo-400"
+                        />
+                        <motion.div
+                            initial={{ x: -300 }}
+                            animate={{ x: 0 }}
+                            exit={{
+                                x: -300,
+                                position: "absolute",
+                            }}>
+                            <LeaderBoard
+                                isOnTouchMode={isOnTouchMode}
+                                setIsOnTouchMode={setIsOnTouchMode}
+                                data={data}
+                            />
+                        </motion.div>
+                    </div>
+                ) : null}
+            </AnimatePresence>
+
             <Container className="h-screen overflow-auto">
                 <section className="mt-8 flex gap-4">
                     {!showLeaderBoard ? (
@@ -138,24 +149,36 @@ export default function App() {
                     <AddPlayer handleAddPerson={handleAddPerson} />
                 </section>
                 <section className="flex gap-1">
-                    {data.scores.map((s) => (
-                        <AnimatePresence>
+                    <AnimatePresence>
+                        {data.scores.map((s) => (
                             <motion.section
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1, originY: 0 }}
+                                exit={{
+                                    scale: 0,
+                                    originY: 0,
+                                }}
                                 key={s.id}
                                 className="flex w-44 flex-shrink-0 flex-col gap-2">
                                 <>
-                                    {s.scores.map((score, index) => (
-                                        <AnimatePresence>
+                                    <AnimatePresence initial={false}>
+                                        {s.scores.map((score, index) => (
                                             <motion.div
-                                                initial={{ scale: 0.7 }}
+                                                initial={{
+                                                    scale: 0.7,
+                                                    height: 0,
+                                                }}
                                                 animate={{
                                                     scale: 1,
+                                                    height: "auto",
                                                 }}
-                                                exit={{ x: 300 }}
+                                                exit={{
+                                                    opacity: 0,
+                                                    scale: 0,
+                                                    height: 0,
+                                                }}
                                                 whileHover={{ scale: 1.05 }}
-                                                key={index + s.id}>
+                                                key={score.id}>
                                                 <TableScoreCard
                                                     handleRemoveScore={
                                                         handleRemoveScore
@@ -166,13 +189,13 @@ export default function App() {
                                                     handleEditScore={
                                                         handleEditScore
                                                     }
-                                                    score={score}
+                                                    score={score.val}
                                                     personId={s.id}
                                                     index={index}
                                                 />
                                             </motion.div>
-                                        </AnimatePresence>
-                                    ))}
+                                        ))}
+                                    </AnimatePresence>
                                     {s.scores.length === 0 && (
                                         <div className="grid h-12 w-full place-items-center rounded-xs bg-card opacity-50">
                                             <p className="my-auto text-xs text-indigo-300">
@@ -187,8 +210,8 @@ export default function App() {
                                     />
                                 </>
                             </motion.section>
-                        </AnimatePresence>
-                    ))}
+                        ))}
+                    </AnimatePresence>
                 </section>
                 {data.players.length === 0 && (
                     <div>
