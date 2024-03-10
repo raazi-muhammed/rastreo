@@ -67,7 +67,7 @@ export default function LeaderBoard({
     }, [data, sortOption]);
 
     return (
-        <aside className="h-svh min-w-80 bg-background">
+        <aside className="h-svh min-w-80 bg-background shadow-xl">
             <Container className="flex h-full flex-col justify-between align-middle">
                 <h3 className="mt-8 flex gap-1 text-3xl font-semibold text-primary">
                     <Award size="1.2em" />
@@ -78,7 +78,7 @@ export default function LeaderBoard({
                     {leaderBoardData.map((l, index) => (
                         <>
                             {index === 0 && sortOption != SortOptions.NONE ? (
-                                <section className="my-2 flex justify-between rounded border border-primary bg-indigo-50 px-4 py-2">
+                                <section className="my-2 flex justify-between rounded border bg-indigo-50 px-4 py-2 shadow-md shadow-accent">
                                     <div>
                                         <WinnerIcon className="text-primary" />
                                         <p className="my-auto text-lg">

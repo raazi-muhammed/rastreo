@@ -33,7 +33,7 @@ export default function TableScoreCard({
         <Popover open={open}>
             <PopoverTrigger asChild>
                 <Button
-                    className="h-12 w-full rounded-xs bg-card"
+                    className="h-12 w-full rounded-xs bg-card hover:bg-secondary hover:shadow-lg"
                     variant="ghost"
                     onClick={() => {
                         setInputData(score);
