@@ -10,7 +10,7 @@ import AddScore from "./components/custom/AddScore";
 import { useState } from "react";
 import { isDesktop } from "react-device-detect";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { PanelRightClose } from "lucide-react";
+import { PanelLeftClose, PanelRightClose } from "lucide-react";
 
 export type InitData = {
     players: {
@@ -28,6 +28,7 @@ const initData: InitData = {
 export default function App() {
     const [data, setData] = useLocalStorage("__rastreo", initData);
     const [isOnTouchMode, setIsOnTouchMode] = useState(!isDesktop);
+    const [showLeaderBoard, setShowLeaderBoard] = useState(true);
 
     function handleAddInput(userId: string, newScore: number) {
         const scores = data.scores.map((e) => {
@@ -72,27 +73,41 @@ export default function App() {
 
     return (
         <main className="flex min-h-screen w-full bg-gradient-to-br from-purple-50 to-indigo-200">
-            <div className="hidden md:block">
-                <LeaderBoard
-                    isOnTouchMode={isOnTouchMode}
-                    setIsOnTouchMode={setIsOnTouchMode}
-                    data={data}
-                />
-            </div>
+            {showLeaderBoard ? (
+                <div className="relative hidden md:block">
+                    <PanelLeftClose
+                        onClick={() => setShowLeaderBoard(false)}
+                        size="1.2em"
+                        className="absolute right-4 top-4 my-auto ms-auto text-indigo-400"
+                    />
+                    <LeaderBoard
+                        isOnTouchMode={isOnTouchMode}
+                        setIsOnTouchMode={setIsOnTouchMode}
+                        data={data}
+                    />
+                </div>
+            ) : null}
             <Container className="h-screen overflow-auto">
                 <section className="mt-8 flex gap-4">
-                    <Sheet>
-                        <SheetTrigger className="md:hidden">
-                            <PanelRightClose className="text-primary" />
-                        </SheetTrigger>
-                        <SheetContent className="p-0" side="left">
-                            <LeaderBoard
-                                isOnTouchMode={isOnTouchMode}
-                                setIsOnTouchMode={setIsOnTouchMode}
-                                data={data}
-                            />
-                        </SheetContent>
-                    </Sheet>
+                    {!showLeaderBoard ? (
+                        <PanelRightClose
+                            onClick={() => setShowLeaderBoard(true)}
+                            className="my-auto text-primary"
+                        />
+                    ) : (
+                        <Sheet>
+                            <SheetTrigger className="md:hidden">
+                                <PanelRightClose className="text-primary" />
+                            </SheetTrigger>
+                            <SheetContent className="p-0" side="left">
+                                <LeaderBoard
+                                    isOnTouchMode={isOnTouchMode}
+                                    setIsOnTouchMode={setIsOnTouchMode}
+                                    data={data}
+                                />
+                            </SheetContent>
+                        </Sheet>
+                    )}
                     <h3 className="text-3xl font-semibold text-primary">
                         Scores
                     </h3>
