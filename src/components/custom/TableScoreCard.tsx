@@ -6,6 +6,7 @@ import {
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
+import NumberInput from "./NumberInput";
 
 export default function TableScoreCard({
     score,
@@ -30,14 +31,16 @@ export default function TableScoreCard({
                     <p className="me-auto text-start">{score}</p>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent>
-                Place content for the popover here.
+            <PopoverContent onOpenAutoFocus={(e) => e.preventDefault()}>
                 <Input
                     value={inputData}
+                    className="mb-4"
                     onChange={(e) => setInputData(Number(e.target.value))}
                     type="number"
                 />
+                <NumberInput setInputData={setInputData} />
                 <Button
+                    className="mx-auto mt-3 flex"
                     onClick={() => handleEditScore(personId, index, inputData)}>
                     Save
                 </Button>

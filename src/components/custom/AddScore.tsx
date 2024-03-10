@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Plus as AddIcon } from "lucide-react";
+import NumberInput from "./NumberInput";
 
 export default function AddScore({
     handleAddInput,
@@ -32,10 +33,12 @@ export default function AddScore({
                     }}>
                     <Input
                         value={inputData}
+                        className="mb-4"
                         onChange={(e) => setInputData(Number(e.target.value))}
                         type="number"
                     />
-                    <Button size="sm" className="ms-auto mt-2 flex">
+                    <NumberInput setInputData={setInputData} />
+                    <Button size="sm" className="mx-auto mt-2 flex">
                         <AddIcon size="1.2em" className="me-1" />
                         Add
                     </Button>
