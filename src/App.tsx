@@ -7,7 +7,7 @@ import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
 import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
-import { useId, useState } from "react";
+import { useState } from "react";
 import { isDesktop } from "react-device-detect";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
@@ -30,7 +30,6 @@ export default function App() {
     const [data, setData] = useLocalStorage("__rastreo", initData);
     const [isOnTouchMode, setIsOnTouchMode] = useState(!isDesktop);
     const [showLeaderBoard, setShowLeaderBoard] = useState(true);
-    const id = useId();
 
     function handleAddInput(userId: string, newScore: number) {
         const scores = data.scores.map((e) => {
