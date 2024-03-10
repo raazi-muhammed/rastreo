@@ -1,0 +1,16 @@
+version: "3.4"
+services:
+    client:
+        build: ./
+        container_name: vite-react-app
+        ports:
+            - 8000:8000
+        develop:
+            watch:
+                - action: sync
+                  path: ./
+                  target: /vite_app
+                  ignore:
+                      - node_modules/
+                - action: rebuild
+                  path: ./package.json
