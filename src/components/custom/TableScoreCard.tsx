@@ -13,9 +13,11 @@ export default function TableScoreCard({
     index,
     personId,
     handleEditScore,
+    isOnTouchMode,
 }: {
     score: number;
     index: number;
+    isOnTouchMode: boolean;
     personId: string;
     handleEditScore: (userId: string, index: number, newScore: number) => void;
 }) {
@@ -31,14 +33,21 @@ export default function TableScoreCard({
                     <p className="me-auto text-start">{score}</p>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent onOpenAutoFocus={(e) => e.preventDefault()}>
+            <PopoverContent
+                onOpenAutoFocus={
+                    isOnTouchMode
+                        ? (e) => {
+                              e.preventDefault();
+                          }
+                        : () => {}
+                }>
                 <Input
                     value={inputData}
                     className="mb-4"
                     onChange={(e) => setInputData(Number(e.target.value))}
                     type="number"
                 />
-                <NumberInput setInputData={setInputData} />
+                {isOnTouchMode && <NumberInput setInputData={setInputData} />}
                 <Button
                     className="mx-auto mt-3 flex"
                     onClick={() => handleEditScore(personId, index, inputData)}>

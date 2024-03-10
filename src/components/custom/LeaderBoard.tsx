@@ -4,6 +4,7 @@ import { Separator } from "../ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { InitData } from "@/App";
+import { Switch } from "@/components/ui/switch";
 
 enum SortOptions {
     TOHIGH = "TOHIGH",
@@ -12,7 +13,15 @@ enum SortOptions {
 }
 type LeaderBoardItem = { player: string; sum: number; difference?: number };
 
-export default function LeaderBoard({ data }: { data: InitData }) {
+export default function LeaderBoard({
+    data,
+    isOnTouchMode,
+    setIsOnTouchMode,
+}: {
+    isOnTouchMode: boolean;
+    setIsOnTouchMode: React.Dispatch<React.SetStateAction<boolean>>;
+    data: InitData;
+}) {
     const [sortOption, setSortOption] = useState<SortOptions>(SortOptions.NONE);
     const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
         []
@@ -57,7 +66,7 @@ export default function LeaderBoard({ data }: { data: InitData }) {
     }, [data, sortOption]);
 
     return (
-        <aside className="h-screen min-w-80 bg-background">
+        <aside className="h-svh min-w-80 bg-background">
             <Container className="flex h-full flex-col justify-between align-middle">
                 <h3 className="mt-8 flex gap-1 text-3xl font-semibold text-primary">
                     <Award size="1.2em" />
@@ -98,22 +107,35 @@ export default function LeaderBoard({ data }: { data: InitData }) {
                         </>
                     ))}
                 </section>
-                <Tabs
-                    onValueChange={(value) => {
-                        setSortOption(value as SortOptions);
-                    }}
-                    defaultValue={SortOptions.NONE}
-                    className="mx-auto mb-8 mt-auto flex h-fit w-fit">
-                    <TabsList>
-                        <TabsTrigger value={SortOptions.TOLOW}>
-                            Lowest
-                        </TabsTrigger>
-                        <TabsTrigger value={SortOptions.NONE}>None</TabsTrigger>
-                        <TabsTrigger value={SortOptions.TOHIGH}>
-                            Hightest
-                        </TabsTrigger>
-                    </TabsList>
-                </Tabs>
+                <section className="mb-8 mt-auto space-y-4">
+                    <section className="flex justify-between gap-4 rounded bg-secondary p-3">
+                        <p>Touch Mode</p>
+                        <Switch
+                            defaultChecked={isOnTouchMode}
+                            onCheckedChange={(e) => {
+                                setIsOnTouchMode(e);
+                            }}
+                        />
+                    </section>
+                    <Tabs
+                        onValueChange={(value) => {
+                            setSortOption(value as SortOptions);
+                        }}
+                        defaultValue={SortOptions.NONE}
+                        className="mx-auto flex h-fit w-fit">
+                        <TabsList>
+                            <TabsTrigger value={SortOptions.TOLOW}>
+                                Lowest
+                            </TabsTrigger>
+                            <TabsTrigger value={SortOptions.NONE}>
+                                None
+                            </TabsTrigger>
+                            <TabsTrigger value={SortOptions.TOHIGH}>
+                                Hightest
+                            </TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                </section>
             </Container>
         </aside>
     );

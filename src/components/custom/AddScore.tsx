@@ -11,9 +11,11 @@ import NumberInput from "./NumberInput";
 
 export default function AddScore({
     handleAddInput,
+    isOnTouchMode,
     playerId,
 }: {
     playerId: string;
+    isOnTouchMode: boolean;
     handleAddInput: (userId: string, newScore: number) => void;
 }) {
     const [inputData, setInputData] = useState<number>(0);
@@ -25,7 +27,14 @@ export default function AddScore({
                     <AddIcon size="1.5em" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent
+                onOpenAutoFocus={
+                    isOnTouchMode
+                        ? (e) => {
+                              e.preventDefault();
+                          }
+                        : () => {}
+                }>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -37,7 +46,9 @@ export default function AddScore({
                         onChange={(e) => setInputData(Number(e.target.value))}
                         type="number"
                     />
-                    <NumberInput setInputData={setInputData} />
+                    {isOnTouchMode && (
+                        <NumberInput setInputData={setInputData} />
+                    )}
                     <Button size="sm" className="mx-auto mt-2 flex">
                         <AddIcon size="1.2em" className="me-1" />
                         Add

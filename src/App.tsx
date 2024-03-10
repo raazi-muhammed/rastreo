@@ -7,6 +7,8 @@ import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
 import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
+import { useState } from "react";
+import { isDesktop } from "react-device-detect";
 
 export type InitData = {
     players: {
@@ -23,6 +25,7 @@ const initData: InitData = {
 
 export default function App() {
     const [data, setData] = useLocalStorage("__rastreo", initData);
+    const [isOnTouchMode, setIsOnTouchMode] = useState(!isDesktop);
 
     function handleAddInput(userId: string, newScore: number) {
         const scores = data.scores.map((e) => {
@@ -67,7 +70,11 @@ export default function App() {
 
     return (
         <main className="flex min-h-screen w-full bg-gradient-to-br from-purple-50 to-indigo-200">
-            <LeaderBoard data={data} />
+            <LeaderBoard
+                isOnTouchMode={isOnTouchMode}
+                setIsOnTouchMode={setIsOnTouchMode}
+                data={data}
+            />
             <Container className="h-screen overflow-auto">
                 <h3 className="mt-8 text-3xl font-semibold text-primary">
                     Scores
@@ -91,6 +98,7 @@ export default function App() {
                             <>
                                 {s.scores.map((score, index) => (
                                     <TableScoreCard
+                                        isOnTouchMode={isOnTouchMode}
                                         handleEditScore={handleEditScore}
                                         score={score}
                                         personId={s.id}
@@ -105,6 +113,7 @@ export default function App() {
                                     </div>
                                 )}
                                 <AddScore
+                                    isOnTouchMode={isOnTouchMode}
                                     playerId={s.id}
                                     handleAddInput={handleAddInput}
                                 />
