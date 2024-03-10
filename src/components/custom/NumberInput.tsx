@@ -11,6 +11,7 @@ export default function NumberInput({
         <div className="grid grid-cols-3 gap-2">
             {numbers.map((n) => (
                 <Button
+                    key={n}
                     type="button"
                     className="bg-indigo-100"
                     variant="secondary"

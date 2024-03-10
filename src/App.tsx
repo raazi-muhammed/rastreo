@@ -7,7 +7,7 @@ import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
 import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { isDesktop } from "react-device-detect";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
@@ -29,6 +29,7 @@ export default function App() {
     const [data, setData] = useLocalStorage("__rastreo", initData);
     const [isOnTouchMode, setIsOnTouchMode] = useState(!isDesktop);
     const [showLeaderBoard, setShowLeaderBoard] = useState(true);
+    const id = useId();
 
     function handleAddInput(userId: string, newScore: number) {
         const scores = data.scores.map((e) => {
@@ -123,7 +124,9 @@ export default function App() {
                 <Separator className="my-2" />
                 <section className="flex gap-1 text-primary">
                     {data.players.map((player) => (
-                        <div className="flex w-44 flex-shrink-0 py-2">
+                        <div
+                            key={player.id}
+                            className="flex w-44 flex-shrink-0 py-2">
                             <TablePlayerCard
                                 player={player}
                                 handleChangePersonName={handleChangePersonName}
@@ -135,10 +138,13 @@ export default function App() {
                 </section>
                 <section className="flex gap-1">
                     {data.scores.map((s) => (
-                        <section className="flex w-44 flex-shrink-0 flex-col gap-2">
+                        <section
+                            key={s.id}
+                            className="flex w-44 flex-shrink-0 flex-col gap-2">
                             <>
                                 {s.scores.map((score, index) => (
                                     <TableScoreCard
+                                        key={id + s.id + score}
                                         handleRemoveScore={handleRemoveScore}
                                         isOnTouchMode={isOnTouchMode}
                                         handleEditScore={handleEditScore}

@@ -24,8 +24,11 @@ export default function AddScore({
 
     return (
         <Popover open={open}>
-            <PopoverTrigger onClick={() => setOpen(true)}>
-                <Button size="icon" className="shadow-md shadow-primary/80">
+            <PopoverTrigger asChild>
+                <Button
+                    onClick={() => setOpen(true)}
+                    size="icon"
+                    className="shadow-md shadow-primary/80">
                     <AddIcon size="1.5em" />
                 </Button>
             </PopoverTrigger>

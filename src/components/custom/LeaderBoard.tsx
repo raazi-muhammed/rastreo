@@ -2,7 +2,7 @@ import { Award, Crown as WinnerIcon } from "lucide-react";
 import Container from "../layout/Container";
 import { Separator } from "../ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { InitData } from "@/App";
 import { Switch } from "@/components/ui/switch";
 import { formatNumber } from "@/lib/utils";
@@ -76,7 +76,7 @@ export default function LeaderBoard({
                 <Separator className="my-2" />
                 <section>
                     {leaderBoardData.map((l, index) => (
-                        <>
+                        <Fragment key={l.player}>
                             {index === 0 && sortOption != SortOptions.NONE ? (
                                 <section className="my-2 flex justify-between rounded border bg-indigo-50 px-4 py-2 shadow-md shadow-accent">
                                     <div>
@@ -109,7 +109,7 @@ export default function LeaderBoard({
                                     </div>
                                 </section>
                             )}
-                        </>
+                        </Fragment>
                     ))}
                 </section>
                 <section className="mb-8 mt-auto space-y-4">

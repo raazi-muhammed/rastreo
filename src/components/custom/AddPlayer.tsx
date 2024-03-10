@@ -23,9 +23,9 @@ export default function AddPlayer({
 
     return (
         <AlertDialog>
-            <AlertDialogTrigger className="mx-2 my-auto flex">
+            <AlertDialogTrigger asChild>
                 <Button
-                    className="shadow-md shadow-accent"
+                    className="mx-2 my-auto flex shadow-md shadow-accent"
                     variant="accent"
                     size="icon"
                     onClick={() => setInputPerson("")}>

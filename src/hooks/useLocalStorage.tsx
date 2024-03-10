@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 function getSavedValues(key: string, initialData: any) {
     try {
         const data = window.localStorage.getItem(key);
-        console.log({ data });
 
         if (!data) return initialData;
         return JSON.parse(data);
