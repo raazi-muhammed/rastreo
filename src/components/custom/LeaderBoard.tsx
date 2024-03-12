@@ -76,59 +76,65 @@ export default function LeaderBoard({
                     Leaderboard
                 </h3>
                 <Separator className="my-2" />
-                <AnimatePresence>
-                    <motion.section
-                        initial={{ x: -100 }}
-                        animate={{ x: 0 }}
-                        exit={{
-                            transition: { duration: 0 },
-                        }}
-                        key={sortOption}>
-                        {leaderBoardData.map((l, index) => (
-                            <motion.div
-                                className="rounded shadow-accent hover:shadow-lg"
-                                initial={{ scale: 0.7 }}
-                                whileHover={{ scale: 1.05 }}
-                                animate={{ scale: 1 }}
-                                key={l.player}>
-                                {index === 0 && sortOption ? (
-                                    <section className="my-2 flex justify-between rounded border bg-indigo-50 px-4 py-2 shadow-md shadow-accent">
-                                        <div>
-                                            <WinnerIcon className="text-primary" />
-                                            <p className="my-auto text-lg">
-                                                {l.player}
-                                            </p>
-                                        </div>
-                                        <p className="-me-1 mt-auto font-semibold">
-                                            {formatNumber(l.sum)}
-                                        </p>
-                                    </section>
-                                ) : (
-                                    <section className="my-2 flex justify-between rounded bg-indigo-50 p-2">
-                                        <div className="flex gap-2">
-                                            <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
-                                                {index + 1}
-                                            </p>
-                                            <p className="my-auto">
-                                                {l.player}
-                                            </p>
-                                        </div>
-                                        <div className="me-1">
-                                            <p className="font-semibold">
+                {leaderBoardData.length > 0 ? (
+                    <AnimatePresence>
+                        <motion.section
+                            initial={{ x: -100 }}
+                            animate={{ x: 0 }}
+                            exit={{
+                                transition: { duration: 0 },
+                            }}
+                            key={sortOption}>
+                            {leaderBoardData.map((l, index) => (
+                                <motion.div
+                                    className="rounded shadow-accent hover:shadow-lg"
+                                    initial={{ scale: 0.7 }}
+                                    whileHover={{ scale: 1.05 }}
+                                    animate={{ scale: 1 }}
+                                    key={l.player}>
+                                    {index === 0 && sortOption ? (
+                                        <section className="my-2 flex justify-between rounded border bg-indigo-50 px-4 py-2 shadow-md shadow-accent">
+                                            <div>
+                                                <WinnerIcon className="text-primary" />
+                                                <p className="my-auto text-lg">
+                                                    {l.player}
+                                                </p>
+                                            </div>
+                                            <p className="-me-1 mt-auto font-semibold">
                                                 {formatNumber(l.sum)}
                                             </p>
-                                            {l.difference ? (
-                                                <small className="-mt-1 flex justify-end text-end text-indigo-400">
-                                                    {formatNumber(l.difference)}
-                                                </small>
-                                            ) : null}
-                                        </div>
-                                    </section>
-                                )}
-                            </motion.div>
-                        ))}
-                    </motion.section>
-                </AnimatePresence>
+                                        </section>
+                                    ) : (
+                                        <section className="my-2 flex justify-between rounded bg-indigo-50 p-2">
+                                            <div className="flex gap-2">
+                                                <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
+                                                    {index + 1}
+                                                </p>
+                                                <p className="my-auto">
+                                                    {l.player}
+                                                </p>
+                                            </div>
+                                            <div className="me-1">
+                                                <p className="font-semibold">
+                                                    {formatNumber(l.sum)}
+                                                </p>
+                                                {l.difference ? (
+                                                    <small className="-mt-1 flex justify-end text-end text-indigo-400">
+                                                        {formatNumber(
+                                                            l.difference
+                                                        )}
+                                                    </small>
+                                                ) : null}
+                                            </div>
+                                        </section>
+                                    )}
+                                </motion.div>
+                            ))}
+                        </motion.section>
+                    </AnimatePresence>
+                ) : (
+                    <p className="my-8 text-primary/50">No players</p>
+                )}
                 <section className="mb-8 mt-auto space-y-4">
                     <section className="flex justify-between gap-4 rounded bg-secondary p-3">
                         <p>Touch Mode</p>
@@ -146,10 +152,10 @@ export default function LeaderBoard({
                         defaultValue={sortOption}
                         className="mx-auto flex h-fit w-fit">
                         <TabsList>
-                            <TabsTrigger value={SortOptions.TOLOW}>
+                            <TabsTrigger value={SortOptions.TOHIGH}>
                                 Lowest
                             </TabsTrigger>
-                            <TabsTrigger value={SortOptions.TOHIGH}>
+                            <TabsTrigger value={SortOptions.TOLOW}>
                                 Hightest
                             </TabsTrigger>
                         </TabsList>
