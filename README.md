@@ -1,27 +1,53 @@
-# React TypeScript Vite Tailwind Docker Boilerplate
+# Rastreo
 
-This is a boilerplate setup for a web application using React, TypeScript, Vite, Tailwind CSS, and Docker.
+### Overview
 
-## Getting Started
+Rastreo is a sleek score-tracking app designed for mobile and iPad users, offering a seamless experience with its intuitive interface and diverse functionalities.
 
-Follow these steps to get the project up and running.
+### Features
 
-### Prerequisites
+-   **Mobile and iPad Optimization**: Enjoy the app's full functionality on your preferred devices.
+-   **Sortable Scoreboard**: Easily organize and view scores according to your preferences.
+-   **Touch Mode Accessibility**: Enhanced accessibility with touch mode feature for smoother interaction.
+-   **Offline Functionality**: Never miss a beat with uninterrupted app usage, even when offline.
 
-Make sure you have the following installed on your machine:
+### Tech Stack
 
+-   TypeScript
+-   React
+-   Framer Motion
+-   Tailwind
 -   Docker
--   Docker Compose
 
-### Clone the Repository
+## Getting Started (With Docker)
 
-```bash
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
-```
-
-### Start developing
+### Start Developing
 
 ```bash
 docker compose watch
 ```
+
+## Getting Started (Without Docker)
+
+1. **Clone the Repository**
+    ```bash
+    git clone https://github.com/raazi-muhammed/rastreo
+    ```
+2. **Install Dependencies**
+
+    ```bash
+    npm install
+    ```
+
+3. **Start Development Server**
+
+    ```bash
+    npm run dev
+    ```
+
+4. **Open Server at**
+    ```
+    http://localhost:8000/
+    ```
+
+Ensure you have Docker and Docker Compose installed for smooth development with Docker.
