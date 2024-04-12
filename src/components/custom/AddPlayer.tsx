@@ -10,9 +10,24 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 import { UserRoundPlus as AddPersonIcon } from "lucide-react";
-import { Input } from "../ui/input";
-import { useState } from "react";
-import { Label } from "../ui/label";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+const FormSchema = z.object({
+    username: z.string().min(2, {
+        message: "Username must be at least 2 characters.",
+    }),
+});
 
 export default function AddPlayer({
     handleAddPerson,
@@ -21,7 +36,15 @@ export default function AddPlayer({
     variant?: "default" | "lg";
     handleAddPerson: (name: string) => void;
 }) {
-    const [inputPerson, setInputPerson] = useState<string>("");
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            username: "",
+        },
+    });
+    function onSubmit(data: z.infer<typeof FormSchema>) {
+        handleAddPerson(data.username);
+    }
 
     return (
         <AlertDialog>
@@ -30,7 +53,10 @@ export default function AddPlayer({
                     <Button
                         className="mx-auto my-auto flex size-16 shadow-md"
                         size="icon"
-                        onClick={() => setInputPerson("")}>
+                        onClick={() => {
+                            form.reset();
+                            form.setFocus("username");
+                        }}>
                         <AddPersonIcon size="1.35em" />
                     </Button>
                 ) : (
@@ -38,31 +64,50 @@ export default function AddPlayer({
                         className="mx-auto my-auto flex shadow-md"
                         variant="accent"
                         size="icon"
-                        onClick={() => setInputPerson("")}>
+                        onClick={() => {
+                            form.reset();
+                            form.setFocus("username");
+                        }}>
                         <AddPersonIcon size="1.35em" />
                     </Button>
                 )}
             </AlertDialogTrigger>
             <AlertDialogContent className="max-w-screen flex h-svh w-full flex-col justify-center bg-white sm:h-fit sm:max-w-lg">
-                <AlertDialogHeader>
-                    <AlertDialogTitle>Add an player</AlertDialogTitle>
-                </AlertDialogHeader>
-                <div>
-                    <Label>Enter player name</Label>
-                    <Input
-                        value={inputPerson}
-                        onChange={(e) => setInputPerson(e.target.value)}
-                        placeholder="name"
-                    />
-                </div>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                        onClick={() => handleAddPerson(inputPerson)}>
-                        <AddPersonIcon size="1.25em" className="me-1" />
-                        Add person
-                    </AlertDialogAction>
-                </AlertDialogFooter>
+                <Form {...form}>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Add an player</AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="w-full space-y-6">
+                        <FormField
+                            control={form.control}
+                            name="username"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Enter player name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="name" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction asChild>
+                                <Button type="submit">
+                                    <AddPersonIcon
+                                        size="1.25em"
+                                        className="me-1"
+                                    />
+                                    Add person
+                                </Button>
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </form>
+                </Form>
             </AlertDialogContent>
         </AlertDialog>
     );
