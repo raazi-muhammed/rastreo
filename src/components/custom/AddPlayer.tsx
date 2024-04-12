@@ -62,13 +62,13 @@ export default function AddPlayer({
                 ) : (
                     <Button
                         className="mx-auto my-auto flex shadow-md"
-                        variant="accent"
-                        size="icon"
+                        variant="default"
                         onClick={() => {
                             form.reset();
                             form.setFocus("username");
                         }}>
-                        <AddPersonIcon size="1.35em" />
+                        <AddPersonIcon size="1.35em" className="me-2" />
+                        Add
                     </Button>
                 )}
             </AlertDialogTrigger>

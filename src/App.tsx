@@ -11,6 +11,8 @@ import { useState } from "react";
 import { isDesktop } from "react-device-detect";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "./components/ui/button";
+import { ClearAll } from "./components/custom/ClearAll";
 
 export type InitData = {
     players: {
@@ -80,6 +82,15 @@ export default function App() {
         setData({ ...newData });
     }
 
+    function handleClearAll() {
+        setData((d) => ({
+            players: d.players,
+            scores: d.scores.map((e) => {
+                e.scores = [];
+                return e;
+            }),
+        }));
+    }
     return (
         <main className="flex min-h-screen w-full bg-gradient-to-br from-purple-50 to-indigo-200">
             <AnimatePresence>
@@ -117,6 +128,10 @@ export default function App() {
                     <h3 className="text-3xl font-semibold text-primary">
                         Scores
                     </h3>
+                    <div className="ms-auto flex w-fit align-middle">
+                        <ClearAll handleClearAll={handleClearAll} />
+                        <AddPlayer handleAddPerson={handleAddPerson} />
+                    </div>
                 </section>
                 <Separator className="my-2" />
                 {data.players.length !== 0 ? (
@@ -135,7 +150,6 @@ export default function App() {
                                     />
                                 </div>
                             ))}
-                            <AddPlayer handleAddPerson={handleAddPerson} />
                         </section>
                         <section className="flex gap-1">
                             <AnimatePresence>
