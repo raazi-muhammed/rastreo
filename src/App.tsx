@@ -11,7 +11,6 @@ import { useState } from "react";
 import { isDesktop } from "react-device-detect";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "./components/ui/button";
 import { ClearAll } from "./components/custom/ClearAll";
 
 export type InitData = {
