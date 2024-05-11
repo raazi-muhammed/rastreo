@@ -33,6 +33,9 @@ export default function AddScore({
                 </Button>
             </PopoverTrigger>
             <PopoverContent
+                sideOffset={-20}
+                side="bottom"
+                align="center"
                 onInteractOutside={() => setOpen(false)}
                 onOpenAutoFocus={
                     isOnTouchMode
