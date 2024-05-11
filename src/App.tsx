@@ -91,7 +91,7 @@ export default function App() {
         }));
     }
     return (
-        <main className="flex min-h-screen w-full bg-gradient-to-br from-purple-50 to-indigo-200">
+        <main className="flex min-h-screen w-screen overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-200">
             <AnimatePresence>
                 {showLeaderBoard ? (
                     <div className="relative">
@@ -116,8 +116,11 @@ export default function App() {
                     </div>
                 ) : null}
             </AnimatePresence>
-            <Container className="h-screen overflow-auto">
-                <section className="mt-8 flex gap-4">
+            <section
+                className={`h-screen ${
+                    showLeaderBoard ? "w-[calc(100vw-20rem)]" : "w-[100vw]"
+                } `}>
+                <section className="mt-8 flex w-full gap-4 px-8">
                     {showLeaderBoard ? null : (
                         <PanelRightClose
                             onClick={() => setShowLeaderBoard(true)}
@@ -134,7 +137,7 @@ export default function App() {
                 </section>
                 <Separator className="my-2" />
                 {data.players.length !== 0 ? (
-                    <>
+                    <div className="h-screen w-full overflow-auto px-8 pb-44">
                         <section className="flex gap-1 text-primary">
                             {data.players.map((player) => (
                                 <div
@@ -221,7 +224,7 @@ export default function App() {
                                 ))}
                             </AnimatePresence>
                         </section>
-                    </>
+                    </div>
                 ) : (
                     <div className="grid min-h-64 place-content-center gap-4">
                         <AddPlayer
@@ -235,7 +238,7 @@ export default function App() {
                         </p>
                     </div>
                 )}
-            </Container>
+            </section>
         </main>
     );
 }

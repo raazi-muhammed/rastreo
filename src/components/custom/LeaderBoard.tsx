@@ -69,7 +69,7 @@ export default function LeaderBoard({
     }, [data, sortOption]);
 
     return (
-        <aside className="h-svh min-w-80 bg-background shadow-xl">
+        <aside className="h-svh w-[20rem] bg-background shadow-xl">
             <Container className="flex h-full flex-col justify-between align-middle">
                 <h3 className="mt-8 flex gap-1 text-3xl font-semibold text-primary">
                     <Award size="1.2em" />
