@@ -1,7 +1,4 @@
 import { Separator } from "@/components/ui/separator";
-import { v4 as uuidv4 } from "uuid";
-import Container from "./components/layout/Container";
-import useLocalStorage from "./hooks/useLocalStorage";
 import LeaderBoard from "./components/custom/LeaderBoard";
 import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
@@ -12,83 +9,58 @@ import { isDesktop } from "react-device-detect";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClearAll } from "./components/custom/ClearAll";
-
-export type InitData = {
-    players: {
-        id: string;
-        name: string;
-    }[];
-    scores: { id: string; scores: { id: string; val: number }[] }[];
-};
-
-const initData: InitData = {
-    players: [],
-    scores: [],
-};
+import { useAppDispatch, useAppSelector } from "./hooks/redux";
+import {
+    addScore,
+    deleteAllScores,
+    deletePersonScores,
+    deleteScore,
+    editScore,
+    initializePerson,
+} from "./store/features/scoreSlice";
+import {
+    addPerson,
+    deletePerson,
+    editPerson,
+} from "./store/features/playerSlice";
+import { v4 as uuidv4 } from "uuid";
 
 export default function App() {
-    const [data, setData] = useLocalStorage("__rastreo", initData);
+    const data = useAppSelector((state) => state);
     const [isOnTouchMode, setIsOnTouchMode] = useState(!isDesktop);
     const [showLeaderBoard, setShowLeaderBoard] = useState(isDesktop);
+    const dispatch = useAppDispatch();
 
     function handleAddInput(userId: string, newScore: number) {
-        const scores = data.scores.map((e) => {
-            if (e.id === userId) e.scores.push({ id: uuidv4(), val: newScore });
-            return e;
-        });
-        setData({ ...data, scores });
+        dispatch(addScore({ userId, newScore }));
     }
 
     function handleEditScore(userId: string, index: number, newScore: number) {
         if (!data.scores) data.scores = [];
-        const scores = data.scores.map((s) => {
-            if (s.id === userId) s.scores[index].val = newScore;
-            return s;
-        });
-        setData({ ...data, scores });
+        dispatch(editScore({ userId, index, newScore }));
     }
     function handleRemoveScore(userId: string, index: number) {
         if (!data.scores) data.scores = [];
-        const scores = data.scores.filter((s) => {
-            if (s.id === userId) s.scores.splice(index, 1);
-            return s;
-        });
-        setData({ ...data, scores });
+        dispatch(deleteScore({ userId, index }));
     }
 
     function handleAddPerson(name: string) {
         if (!name) return;
-        const newId = uuidv4();
-        const newData = data;
-        newData.players.push({ id: newId, name });
-        newData.scores.push({ id: newId, scores: [] });
-        // to cause a rerender (...)
-        setData({ ...newData });
+        const id = uuidv4();
+        dispatch(addPerson({ id, name }));
+        dispatch(initializePerson(id));
     }
 
     function handleDeletePerson(userId: string) {
-        const newData = data;
-        newData.players = newData.players.filter((p) => p.id !== userId);
-        newData.scores = newData.scores.filter((s) => s.id !== userId);
-        setData({ ...newData });
+        dispatch(deletePersonScores(userId));
+        dispatch(deletePerson(userId));
     }
     function handleChangePersonName(userId: string, name: string) {
-        const newData = data;
-        newData.players.map((p) => {
-            if (p.id == userId) p.name = name;
-            return p;
-        });
-        setData({ ...newData });
+        dispatch(editPerson({ id: userId, name: name }));
     }
 
     function handleClearAll() {
-        setData((d) => ({
-            players: d.players,
-            scores: d.scores.map((e) => {
-                e.scores = [];
-                return e;
-            }),
-        }));
+        dispatch(deleteAllScores());
     }
     return (
         <main className="flex min-h-screen w-screen overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-200">
