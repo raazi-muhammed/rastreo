@@ -130,7 +130,10 @@ export default function App() {
                                 {data.scores.map((s) => (
                                     <motion.section
                                         initial={{ scale: 0 }}
-                                        animate={{ scale: 1, originY: 0 }}
+                                        animate={{
+                                            scale: 1,
+                                            originY: 0,
+                                        }}
                                         exit={{
                                             scale: 0,
                                             originY: 0,
