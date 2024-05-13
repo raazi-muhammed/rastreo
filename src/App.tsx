@@ -9,59 +9,13 @@ import { isDesktop } from "react-device-detect";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClearAll } from "./components/custom/ClearAll";
-import { useAppDispatch, useAppSelector } from "./hooks/redux";
-import {
-    addScore,
-    deleteAllScores,
-    deletePersonScores,
-    deleteScore,
-    editScore,
-    initializePerson,
-} from "./store/features/scoreSlice";
-import {
-    addPerson,
-    deletePerson,
-    editPerson,
-} from "./store/features/playerSlice";
-import { v4 as uuidv4 } from "uuid";
+import { useAppSelector } from "./hooks/redux";
 
 export default function App() {
     const data = useAppSelector((state) => state);
     const [isOnTouchMode, setIsOnTouchMode] = useState(!isDesktop);
     const [showLeaderBoard, setShowLeaderBoard] = useState(isDesktop);
-    const dispatch = useAppDispatch();
 
-    function handleAddInput(userId: string, newScore: number) {
-        dispatch(addScore({ userId, newScore }));
-    }
-
-    function handleEditScore(userId: string, index: number, newScore: number) {
-        if (!data.scores) data.scores = [];
-        dispatch(editScore({ userId, index, newScore }));
-    }
-    function handleRemoveScore(userId: string, index: number) {
-        if (!data.scores) data.scores = [];
-        dispatch(deleteScore({ userId, index }));
-    }
-
-    function handleAddPerson(name: string) {
-        if (!name) return;
-        const id = uuidv4();
-        dispatch(addPerson({ id, name }));
-        dispatch(initializePerson(id));
-    }
-
-    function handleDeletePerson(userId: string) {
-        dispatch(deletePersonScores(userId));
-        dispatch(deletePerson(userId));
-    }
-    function handleChangePersonName(userId: string, name: string) {
-        dispatch(editPerson({ id: userId, name: name }));
-    }
-
-    function handleClearAll() {
-        dispatch(deleteAllScores());
-    }
     return (
         <main className="flex min-h-screen w-screen overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-200">
             <AnimatePresence>
@@ -103,8 +57,8 @@ export default function App() {
                         Scores
                     </h3>
                     <div className="ms-auto flex w-fit align-middle">
-                        <ClearAll handleClearAll={handleClearAll} />
-                        <AddPlayer handleAddPerson={handleAddPerson} />
+                        <ClearAll />
+                        <AddPlayer />
                     </div>
                 </section>
                 <Separator className="my-2" />
@@ -115,13 +69,7 @@ export default function App() {
                                 <div
                                     key={player.id}
                                     className="flex w-44 flex-shrink-0 py-2">
-                                    <TablePlayerCard
-                                        player={player}
-                                        handleChangePersonName={
-                                            handleChangePersonName
-                                        }
-                                        handleDeletePerson={handleDeletePerson}
-                                    />
+                                    <TablePlayerCard player={player} />
                                 </div>
                             ))}
                         </section>
@@ -163,14 +111,8 @@ export default function App() {
                                                             }}
                                                             key={score.id}>
                                                             <TableScoreCard
-                                                                handleRemoveScore={
-                                                                    handleRemoveScore
-                                                                }
                                                                 isOnTouchMode={
                                                                     isOnTouchMode
-                                                                }
-                                                                handleEditScore={
-                                                                    handleEditScore
                                                                 }
                                                                 score={
                                                                     score.val
@@ -192,7 +134,6 @@ export default function App() {
                                             <AddScore
                                                 isOnTouchMode={isOnTouchMode}
                                                 playerId={s.id}
-                                                handleAddInput={handleAddInput}
                                             />
                                         </>
                                     </motion.section>
@@ -202,10 +143,7 @@ export default function App() {
                     </div>
                 ) : (
                     <div className="grid min-h-64 place-content-center gap-4">
-                        <AddPlayer
-                            variant="lg"
-                            handleAddPerson={handleAddPerson}
-                        />
+                        <AddPlayer variant="lg" />
                         <p className="text-center text-xs text-primary/50">
                             No players yet,
                             <br />

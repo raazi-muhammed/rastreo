@@ -10,24 +10,32 @@ import NumberInput from "./NumberInput";
 import { Trash2 as DeleteIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { formatNumber } from "@/lib/utils";
+import { useAppDispatch } from "@/hooks/redux";
+import { deleteScore, editScore } from "@/store/features/scoreSlice";
 
 export default function TableScoreCard({
     score,
     index,
     personId,
-    handleEditScore,
-    handleRemoveScore,
+
     isOnTouchMode,
 }: {
     score: number;
     index: number;
     isOnTouchMode: boolean;
     personId: string;
-    handleRemoveScore: (userId: string, index: number) => void;
-    handleEditScore: (userId: string, index: number, newScore: number) => void;
 }) {
     const [inputData, setInputData] = useState<number>(0);
     const [open, setOpen] = useState(false);
+
+    const dispatch = useAppDispatch();
+
+    function handleEditScore(userId: string, index: number, newScore: number) {
+        dispatch(editScore({ userId, index, newScore }));
+    }
+    function handleRemoveScore(userId: string, index: number) {
+        dispatch(deleteScore({ userId, index }));
+    }
 
     return (
         <Popover open={open}>

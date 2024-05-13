@@ -9,18 +9,23 @@ import { Input } from "../ui/input";
 import { Plus as AddIcon } from "lucide-react";
 import NumberInput from "./NumberInput";
 import { Label } from "../ui/label";
+import { useAppDispatch } from "@/hooks/redux";
+import { addScore } from "@/store/features/scoreSlice";
 
 export default function AddScore({
-    handleAddInput,
     isOnTouchMode,
     playerId,
 }: {
     playerId: string;
     isOnTouchMode: boolean;
-    handleAddInput: (userId: string, newScore: number) => void;
 }) {
     const [inputData, setInputData] = useState<number>(0);
     const [open, setOpen] = useState(false);
+    const dispatch = useAppDispatch();
+
+    function handleAddInput(userId: string, newScore: number) {
+        dispatch(addScore({ userId, newScore }));
+    }
 
     return (
         <Popover open={open}>

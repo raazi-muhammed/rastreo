@@ -22,6 +22,10 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAppDispatch } from "@/hooks/redux";
+import { addPerson } from "@/store/features/playerSlice";
+import { initializePerson } from "@/store/features/scoreSlice";
+import { v4 as uuidv4 } from "uuid";
 
 const FormSchema = z.object({
     username: z.string().min(2, {
@@ -29,19 +33,22 @@ const FormSchema = z.object({
     }),
 });
 
-export default function AddPlayer({
-    handleAddPerson,
-    variant,
-}: {
-    variant?: "default" | "lg";
-    handleAddPerson: (name: string) => void;
-}) {
+export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
+    const dispatch = useAppDispatch();
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             username: "",
         },
     });
+    function handleAddPerson(name: string) {
+        if (!name) return;
+        const id = uuidv4();
+        dispatch(addPerson({ id, name }));
+        dispatch(initializePerson(id));
+    }
+
     function onSubmit(data: z.infer<typeof FormSchema>) {
         handleAddPerson(data.username);
     }

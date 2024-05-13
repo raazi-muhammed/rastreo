@@ -8,17 +8,25 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { Trash2 as DeleteIcon } from "lucide-react";
 import { Label } from "../ui/label";
+import { useAppDispatch } from "@/hooks/redux";
+import { deletePersonScores } from "@/store/features/scoreSlice";
+import { deletePerson, editPerson } from "@/store/features/playerSlice";
 
 export default function TablePlayerCard({
     player,
-    handleChangePersonName,
-    handleDeletePerson,
 }: {
     player: { id: string; name: string };
-    handleChangePersonName: (userId: string, name: string) => void;
-    handleDeletePerson: (userId: string) => void;
 }) {
     const [inputPerson, setInputPerson] = useState<string>("");
+    const dispatch = useAppDispatch();
+
+    function handleDeletePerson(userId: string) {
+        dispatch(deletePersonScores(userId));
+        dispatch(deletePerson(userId));
+    }
+    function handleChangePersonName(userId: string, name: string) {
+        dispatch(editPerson({ id: userId, name: name }));
+    }
 
     return (
         <Popover>

@@ -9,9 +9,16 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useAppDispatch } from "@/hooks/redux";
+import { deleteAllScores } from "@/store/features/scoreSlice";
 import { ListX } from "lucide-react";
 
-export function ClearAll({ handleClearAll }: { handleClearAll: () => void }) {
+export function ClearAll() {
+    const dispatch = useAppDispatch();
+
+    function handleClearAll() {
+        dispatch(deleteAllScores());
+    }
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
