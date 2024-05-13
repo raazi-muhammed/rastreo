@@ -4,17 +4,29 @@ import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
 import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isDesktop } from "react-device-detect";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClearAll } from "./components/custom/ClearAll";
 import { useAppSelector } from "./hooks/redux";
+import ReactGa from "react-ga";
+
+const TRACKING_ID = import.meta.env.VITE_GOOGLE_ANALYTICS_ID;
 
 export default function App() {
     const data = useAppSelector((state) => state);
     const [isOnTouchMode, setIsOnTouchMode] = useState(!isDesktop);
     const [showLeaderBoard, setShowLeaderBoard] = useState(isDesktop);
+
+    useEffect(() => {
+        try {
+            ReactGa.initialize(TRACKING_ID);
+            ReactGa.pageview("/");
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
 
     return (
         <main className="flex min-h-screen w-screen overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-200">
