@@ -3,10 +3,10 @@ import Container from "../layout/Container";
 import { Separator } from "../ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
-import { InitData } from "@/App";
 import { Switch } from "@/components/ui/switch";
 import { formatNumber } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAppSelector } from "@/hooks/redux";
 
 enum SortOptions {
     TOHIGH = "TOHIGH",
@@ -15,14 +15,14 @@ enum SortOptions {
 type LeaderBoardItem = { player: string; sum: number; difference?: number };
 
 export default function LeaderBoard({
-    data,
     isOnTouchMode,
     setIsOnTouchMode,
 }: {
     isOnTouchMode: boolean;
     setIsOnTouchMode: React.Dispatch<React.SetStateAction<boolean>>;
-    data: InitData;
 }) {
+    const data = useAppSelector((state) => state);
+
     const [sortOption, setSortOption] = useState<SortOptions>(
         SortOptions.TOHIGH
     );

@@ -36,7 +36,6 @@ export default function App() {
                             <LeaderBoard
                                 isOnTouchMode={isOnTouchMode}
                                 setIsOnTouchMode={setIsOnTouchMode}
-                                data={data}
                             />
                         </motion.div>
                     </div>
