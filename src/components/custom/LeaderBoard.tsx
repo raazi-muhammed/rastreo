@@ -40,7 +40,7 @@ export default function LeaderBoard({
     function addDifferences(lbData: LeaderBoardItem[]) {
         let lastSum = 0;
         return lbData.map((l, i) => {
-            l.difference = l.sum - lastSum;
+            l.difference = Math.abs(l.sum - lastSum);
             lastSum = l.sum;
             if (i === 0) l.difference = undefined;
             return l;
@@ -115,7 +115,7 @@ export default function LeaderBoard({
                                                 </p>
                                             </div>
                                             <div className="me-1">
-                                                <p className="font-semibold">
+                                                <p className="me-0 ms-auto w-fit font-semibold">
                                                     {formatNumber(l.sum)}
                                                 </p>
                                                 {l.difference ? (
