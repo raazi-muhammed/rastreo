@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { formatNumber } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppSelector } from "@/hooks/redux";
+import NextDealer from "./NextDealer";
 
 enum SortOptions {
     TOHIGH = "TOHIGH",
@@ -136,6 +137,7 @@ export default function LeaderBoard({
                     <p className="my-8 text-primary/50">No players</p>
                 )}
                 <section className="mb-8 mt-auto space-y-4">
+                    <NextDealer />
                     <section className="flex justify-between gap-4 rounded bg-secondary p-3">
                         <p>Touch Mode</p>
                         <Switch
