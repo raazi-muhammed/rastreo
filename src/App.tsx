@@ -83,7 +83,7 @@ export default function App() {
                             {players.map((player, i) => (
                                 <div
                                     key={player.id}
-                                    className={`flex flex-col gap-2 w-44 flex-1 ${
+                                    className={`flex flex-col gap-2 w-44 ${
                                         isFitEveryoneOn
                                             ? "flex-shrink"
                                             : "flex-shrink-0"
