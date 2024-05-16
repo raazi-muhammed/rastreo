@@ -6,33 +6,30 @@ import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { formatNumber } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAppSelector } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import NextDealer from "./NextDealer";
+import {
+    SortOptions,
+    changeSortOption,
+    toggleTouchMode,
+} from "@/store/features/settingsSlice";
 
-enum SortOptions {
-    TOHIGH = "TOHIGH",
-    TOLOW = "TOLOW",
-}
 type LeaderBoardItem = { player: string; sum: number; difference?: number };
 
-export default function LeaderBoard({
-    isOnTouchMode,
-    setIsOnTouchMode,
-}: {
-    isOnTouchMode: boolean;
-    setIsOnTouchMode: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-    const data = useAppSelector((state) => state);
+export default function LeaderBoard() {
+    const players = useAppSelector((state) => state.players);
+    const scores = useAppSelector((state) => state.scores);
 
-    const [sortOption, setSortOption] = useState<SortOptions>(
-        SortOptions.TOHIGH
-    );
+    const settings = useAppSelector((state) => state.settings);
+    const { sortOption, isTouchModeOn } = settings;
+    const dispatch = useAppDispatch();
+
     const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
         []
     );
     function findSumOfPlayerWithId(id: string) {
         let sum = 0;
-        data.scores.map((e) => {
+        scores.map((e) => {
             if (e.id === id) sum = e.scores.reduce((a, e) => (a += e.val), 0);
         });
         return sum;
@@ -50,16 +47,16 @@ export default function LeaderBoard({
 
     useEffect(() => {
         const lbData: LeaderBoardItem[] = [];
-        for (let i = 0; i < data.players.length; i++) {
-            const sum = findSumOfPlayerWithId(data.players[i].id);
+        for (let i = 0; i < players.length; i++) {
+            const sum = findSumOfPlayerWithId(players[i].id);
             lbData.push({
-                player: data.players[i].name,
+                player: players[i].name,
                 sum,
             });
         }
 
         let withDifference: LeaderBoardItem[] = lbData;
-        if (sortOption == SortOptions.TOHIGH) {
+        if (sortOption == SortOptions.TO_HIGH) {
             lbData.sort((a, b) => a.sum - b.sum);
             withDifference = addDifferences(lbData);
         } else {
@@ -67,7 +64,7 @@ export default function LeaderBoard({
             withDifference = addDifferences(lbData);
         }
         setLeaderBoardData(withDifference);
-    }, [data, sortOption]);
+    }, [players, scores, sortOption]);
 
     return (
         <aside className="h-svh w-[20rem] bg-background shadow-xl">
@@ -141,23 +138,23 @@ export default function LeaderBoard({
                     <section className="flex justify-between gap-4 rounded bg-secondary p-3">
                         <p>Touch Mode</p>
                         <Switch
-                            defaultChecked={isOnTouchMode}
-                            onCheckedChange={(e) => {
-                                setIsOnTouchMode(e);
+                            defaultChecked={isTouchModeOn}
+                            onCheckedChange={() => {
+                                dispatch(toggleTouchMode());
                             }}
                         />
                     </section>
                     <Tabs
                         onValueChange={(value) => {
-                            setSortOption(value as SortOptions);
+                            dispatch(changeSortOption(value as SortOptions));
                         }}
                         defaultValue={sortOption}
                         className="mx-auto flex h-fit w-fit">
                         <TabsList>
-                            <TabsTrigger value={SortOptions.TOHIGH}>
+                            <TabsTrigger value={SortOptions.TO_HIGH}>
                                 Lowest
                             </TabsTrigger>
-                            <TabsTrigger value={SortOptions.TOLOW}>
+                            <TabsTrigger value={SortOptions.TO_LOW}>
                                 Hightest
                             </TabsTrigger>
                         </TabsList>

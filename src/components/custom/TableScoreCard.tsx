@@ -10,23 +10,23 @@ import NumberInput from "./NumberInput";
 import { Trash2 as DeleteIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { formatNumber } from "@/lib/utils";
-import { useAppDispatch } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { deleteScore, editScore } from "@/store/features/scoreSlice";
 
 export default function TableScoreCard({
     score,
     index,
     personId,
-
-    isOnTouchMode,
 }: {
     score: number;
     index: number;
-    isOnTouchMode: boolean;
     personId: string;
 }) {
     const [inputData, setInputData] = useState<number>(0);
     const [open, setOpen] = useState(false);
+    const isTouchModeOn = useAppSelector(
+        (state) => state.settings.isTouchModeOn
+    );
 
     const dispatch = useAppDispatch();
 
@@ -53,7 +53,7 @@ export default function TableScoreCard({
             <PopoverContent
                 onInteractOutside={() => setOpen(false)}
                 onOpenAutoFocus={
-                    isOnTouchMode
+                    isTouchModeOn
                         ? (e) => {
                               e.preventDefault();
                           }
@@ -72,7 +72,7 @@ export default function TableScoreCard({
                         onChange={(e) => setInputData(Number(e.target.value))}
                         type="number"
                     />
-                    {isOnTouchMode && (
+                    {isTouchModeOn && (
                         <NumberInput setInputData={setInputData} />
                     )}
                     <div className="mt-3 flex justify-end gap-2">

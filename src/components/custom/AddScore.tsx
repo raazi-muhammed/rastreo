@@ -9,18 +9,15 @@ import { Input } from "../ui/input";
 import { Plus as AddIcon } from "lucide-react";
 import NumberInput from "./NumberInput";
 import { Label } from "../ui/label";
-import { useAppDispatch } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { addScore } from "@/store/features/scoreSlice";
 
-export default function AddScore({
-    isOnTouchMode,
-    playerId,
-}: {
-    playerId: string;
-    isOnTouchMode: boolean;
-}) {
+export default function AddScore({ playerId }: { playerId: string }) {
     const [inputData, setInputData] = useState<number>(0);
     const [open, setOpen] = useState(false);
+    const isTouchModeOn = useAppSelector(
+        (state) => state.settings.isTouchModeOn
+    );
     const dispatch = useAppDispatch();
 
     function handleAddInput(userId: string, newScore: number) {
@@ -43,7 +40,7 @@ export default function AddScore({
                 align="center"
                 onInteractOutside={() => setOpen(false)}
                 onOpenAutoFocus={
-                    isOnTouchMode
+                    isTouchModeOn
                         ? (e) => {
                               e.preventDefault();
                           }
@@ -63,7 +60,7 @@ export default function AddScore({
                         onChange={(e) => setInputData(Number(e.target.value))}
                         type="number"
                     />
-                    {isOnTouchMode && (
+                    {isTouchModeOn && (
                         <NumberInput setInputData={setInputData} />
                     )}
                     <Button size="sm" className="mx-auto mt-2 flex">

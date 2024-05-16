@@ -4,20 +4,23 @@ import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
 import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
-import { useEffect, useState } from "react";
-import { isDesktop } from "react-device-detect";
+import { useEffect } from "react";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClearAll } from "./components/custom/ClearAll";
-import { useAppSelector } from "./hooks/redux";
+import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import ReactGa from "react-ga";
+import { setShowLeaderBoard } from "./store/features/settingsSlice";
 
 const TRACKING_ID = import.meta.env.VITE_GOOGLE_ANALYTICS_ID;
 
 export default function App() {
-    const data = useAppSelector((state) => state);
-    const [isOnTouchMode, setIsOnTouchMode] = useState(!isDesktop);
-    const [showLeaderBoard, setShowLeaderBoard] = useState(isDesktop);
+    const players = useAppSelector((state) => state.players);
+    const scores = useAppSelector((state) => state.scores);
+    const dispatch = useAppDispatch();
+    const showLeaderBoard = useAppSelector(
+        (state) => state.settings.showLeaderBoard
+    );
 
     useEffect(() => {
         try {
@@ -34,7 +37,7 @@ export default function App() {
                 {showLeaderBoard ? (
                     <div className="relative">
                         <PanelLeftClose
-                            onClick={() => setShowLeaderBoard(false)}
+                            onClick={() => dispatch(setShowLeaderBoard(false))}
                             size="1.2em"
                             className="absolute right-4 top-4 my-auto ms-auto text-indigo-400"
                         />
@@ -45,10 +48,7 @@ export default function App() {
                                 x: -300,
                                 position: "absolute",
                             }}>
-                            <LeaderBoard
-                                isOnTouchMode={isOnTouchMode}
-                                setIsOnTouchMode={setIsOnTouchMode}
-                            />
+                            <LeaderBoard />
                         </motion.div>
                     </div>
                 ) : null}
@@ -60,7 +60,7 @@ export default function App() {
                 <section className="mt-8 flex w-full gap-4 px-8">
                     {showLeaderBoard ? null : (
                         <PanelRightClose
-                            onClick={() => setShowLeaderBoard(true)}
+                            onClick={() => dispatch(setShowLeaderBoard(true))}
                             className="my-auto text-primary"
                         />
                     )}
@@ -73,10 +73,10 @@ export default function App() {
                     </div>
                 </section>
                 <Separator className="my-2" />
-                {data.players.length !== 0 ? (
+                {players.length !== 0 ? (
                     <div className="h-screen w-full overflow-auto px-8 pb-44">
                         <section className="flex gap-1 text-primary">
-                            {data.players.map((player) => (
+                            {players.map((player) => (
                                 <div
                                     key={player.id}
                                     className="flex w-44 flex-shrink-0 py-2">
@@ -86,7 +86,7 @@ export default function App() {
                         </section>
                         <section className="flex gap-1">
                             <AnimatePresence>
-                                {data.scores.map((s) => (
+                                {scores.map((s) => (
                                     <motion.section
                                         initial={{ scale: 0 }}
                                         animate={{
@@ -122,9 +122,6 @@ export default function App() {
                                                             }}
                                                             key={score.id}>
                                                             <TableScoreCard
-                                                                isOnTouchMode={
-                                                                    isOnTouchMode
-                                                                }
                                                                 score={
                                                                     score.val
                                                                 }
@@ -142,10 +139,7 @@ export default function App() {
                                                     </p>
                                                 </div>
                                             )}
-                                            <AddScore
-                                                isOnTouchMode={isOnTouchMode}
-                                                playerId={s.id}
-                                            />
+                                            <AddScore playerId={s.id} />
                                         </>
                                     </motion.section>
                                 ))}
