@@ -17,18 +17,22 @@ export default function NextDealer() {
             },
             0
         );
-        setNext(players[maxGamesPlayed % players.length].name);
+        setNext(players[maxGamesPlayed % players.length]?.name);
     }, [players, scores]);
 
     return (
         <section>
-            <p className="ms-2 text-sm text-primary">Next Dealer</p>
-            <section className="flex flex-col justify-between rounded bg-secondary p-3">
-                <p className="text-lg">{next}</p>
-                <small className="opacity-30">
-                    Assumed that order of players is order of dealing
-                </small>
-            </section>
+            {next ? (
+                <>
+                    <p className="ms-2 text-sm text-primary">Next Dealer</p>
+                    <section className="flex flex-col justify-between rounded bg-secondary p-3">
+                        <p className="text-lg">{next}</p>
+                        <small className="opacity-30">
+                            Assumed that order of players is order of dealing
+                        </small>
+                    </section>
+                </>
+            ) : null}
         </section>
     );
 }
