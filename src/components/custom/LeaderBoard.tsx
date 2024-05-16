@@ -28,7 +28,7 @@ export default function LeaderBoard() {
     const scores = useAppSelector((state) => state.scores);
 
     const settings = useAppSelector((state) => state.settings);
-    const { sortOption, isTouchModeOn } = settings;
+    const { sortOption, isTouchModeOn, isFitEveryoneOn } = settings;
     const dispatch = useAppDispatch();
 
     const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
@@ -74,7 +74,7 @@ export default function LeaderBoard() {
     }, [players, scores, sortOption]);
 
     return (
-        <aside className="h-svh w-[20rem] bg-background shadow-xl">
+        <aside className="h-svh w-[20rem] overflow-scroll bg-background shadow-xl">
             <Container className="flex h-full flex-col justify-between align-middle">
                 <h3 className="mt-8 flex gap-1 text-3xl font-semibold text-primary">
                     <Award size="1.2em" />
@@ -145,7 +145,7 @@ export default function LeaderBoard() {
                     <section className="flex justify-between gap-4 rounded bg-secondary p-3">
                         <p>Fit everyone</p>
                         <Switch
-                            defaultChecked={isTouchModeOn}
+                            defaultChecked={isFitEveryoneOn}
                             onCheckedChange={() => {
                                 dispatch(toggleFitEveryone());
                             }}

@@ -80,83 +80,57 @@ export default function App() {
                 {players.length !== 0 ? (
                     <div className="h-screen w-full overflow-auto px-8 pb-44">
                         <section className="flex gap-1 text-primary">
-                            {players.map((player) => (
+                            {players.map((player, i) => (
                                 <div
                                     key={player.id}
-                                    className={`flex w-44 ${
+                                    className={`flex flex-col gap-2 w-44 flex-1 ${
                                         isFitEveryoneOn
                                             ? "flex-shrink"
                                             : "flex-shrink-0"
                                     } py-2`}>
                                     <TablePlayerCard player={player} />
+                                    <AnimatePresence initial={false}>
+                                        {scores[i].scores.map(
+                                            (score, index) => (
+                                                <motion.div
+                                                    initial={{
+                                                        scale: 0.7,
+                                                        height: 0,
+                                                    }}
+                                                    animate={{
+                                                        scale: 1,
+                                                        height: "auto",
+                                                    }}
+                                                    exit={{
+                                                        opacity: 0,
+                                                        scale: 0,
+                                                        height: 0,
+                                                    }}
+                                                    whileHover={{
+                                                        scale: 1.05,
+                                                    }}
+                                                    key={score.id}>
+                                                    <TableScoreCard
+                                                        score={score.val}
+                                                        personId={scores[i].id}
+                                                        index={index}
+                                                    />
+                                                </motion.div>
+                                            )
+                                        )}
+                                    </AnimatePresence>
+                                    {scores[i].scores.length === 0 && (
+                                        <div className="grid h-12 w-full place-items-center rounded-xs bg-card opacity-50">
+                                            <p className="my-auto text-xs text-indigo-300">
+                                                No score yet
+                                            </p>
+                                        </div>
+                                    )}
+                                    <AddScore playerId={scores[i].id} />
                                 </div>
                             ))}
                         </section>
-                        <section className="flex gap-1">
-                            <AnimatePresence>
-                                {scores.map((s) => (
-                                    <motion.section
-                                        initial={{ scale: 0 }}
-                                        animate={{
-                                            scale: 1,
-                                            originY: 0,
-                                        }}
-                                        exit={{
-                                            scale: 0,
-                                            originY: 0,
-                                        }}
-                                        key={s.id}
-                                        className={`flex w-44 ${
-                                            isFitEveryoneOn
-                                                ? "flex-shrink"
-                                                : "flex-shrink-0"
-                                        }  flex-col gap-2`}>
-                                        <>
-                                            <AnimatePresence initial={false}>
-                                                {s.scores.map(
-                                                    (score, index) => (
-                                                        <motion.div
-                                                            initial={{
-                                                                scale: 0.7,
-                                                                height: 0,
-                                                            }}
-                                                            animate={{
-                                                                scale: 1,
-                                                                height: "auto",
-                                                            }}
-                                                            exit={{
-                                                                opacity: 0,
-                                                                scale: 0,
-                                                                height: 0,
-                                                            }}
-                                                            whileHover={{
-                                                                scale: 1.05,
-                                                            }}
-                                                            key={score.id}>
-                                                            <TableScoreCard
-                                                                score={
-                                                                    score.val
-                                                                }
-                                                                personId={s.id}
-                                                                index={index}
-                                                            />
-                                                        </motion.div>
-                                                    )
-                                                )}
-                                            </AnimatePresence>
-                                            {s.scores.length === 0 && (
-                                                <div className="grid h-12 w-full place-items-center rounded-xs bg-card opacity-50">
-                                                    <p className="my-auto text-xs text-indigo-300">
-                                                        No score yet
-                                                    </p>
-                                                </div>
-                                            )}
-                                            <AddScore playerId={s.id} />
-                                        </>
-                                    </motion.section>
-                                ))}
-                            </AnimatePresence>
-                        </section>
+                        <section className="flex gap-1"></section>
                     </div>
                 ) : (
                     <div className="grid min-h-64 place-content-center gap-4">
