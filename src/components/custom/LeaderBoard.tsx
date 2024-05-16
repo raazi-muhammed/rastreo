@@ -1,7 +1,6 @@
 import { Award, Crown as WinnerIcon } from "lucide-react";
 import Container from "../layout/Container";
 import { Separator } from "../ui/separator";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { formatNumber } from "@/lib/utils";
@@ -13,6 +12,13 @@ import {
     changeSortOption,
     toggleTouchMode,
 } from "@/store/features/settingsSlice";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 type LeaderBoardItem = { player: string; sum: number; difference?: number };
 
@@ -144,21 +150,28 @@ export default function LeaderBoard() {
                             }}
                         />
                     </section>
-                    <Tabs
-                        onValueChange={(value) => {
-                            dispatch(changeSortOption(value as SortOptions));
-                        }}
-                        defaultValue={sortOption}
-                        className="mx-auto flex h-fit w-fit">
-                        <TabsList>
-                            <TabsTrigger value={SortOptions.TO_HIGH}>
-                                Lowest
-                            </TabsTrigger>
-                            <TabsTrigger value={SortOptions.TO_LOW}>
-                                Hightest
-                            </TabsTrigger>
-                        </TabsList>
-                    </Tabs>
+                    <section className="flex justify-between gap-4 rounded bg-secondary px-3 py-2">
+                        <p className="my-auto">Who wins</p>
+                        <Select
+                            defaultValue={sortOption}
+                            onValueChange={(value) => {
+                                dispatch(
+                                    changeSortOption(value as SortOptions)
+                                );
+                            }}>
+                            <SelectTrigger className="-me-1 h-8 w-fit bg-secondary">
+                                <SelectValue placeholder="none" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value={SortOptions.TO_HIGH}>
+                                    Lowest
+                                </SelectItem>
+                                <SelectItem value={SortOptions.TO_LOW}>
+                                    Highest
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </section>
                 </section>
             </Container>
         </aside>
