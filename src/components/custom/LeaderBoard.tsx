@@ -10,6 +10,7 @@ import NextDealer from "./NextDealer";
 import {
     SortOptions,
     changeSortOption,
+    toggleFitEveryone,
     toggleTouchMode,
 } from "@/store/features/settingsSlice";
 import {
@@ -141,6 +142,15 @@ export default function LeaderBoard() {
                 )}
                 <section className="mb-8 mt-auto space-y-4">
                     <NextDealer />
+                    <section className="flex justify-between gap-4 rounded bg-secondary p-3">
+                        <p>Fit everyone</p>
+                        <Switch
+                            defaultChecked={isTouchModeOn}
+                            onCheckedChange={() => {
+                                dispatch(toggleFitEveryone());
+                            }}
+                        />
+                    </section>
                     <section className="flex justify-between gap-4 rounded bg-secondary p-3">
                         <p>Touch Mode</p>
                         <Switch

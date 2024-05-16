@@ -22,6 +22,10 @@ export default function App() {
         (state) => state.settings.showLeaderBoard
     );
 
+    const isFitEveryoneOn = useAppSelector(
+        (state) => state.settings.isFitEveryoneOn
+    );
+
     useEffect(() => {
         try {
             ReactGa.initialize(TRACKING_ID);
@@ -79,7 +83,11 @@ export default function App() {
                             {players.map((player) => (
                                 <div
                                     key={player.id}
-                                    className="flex w-44 flex-shrink-0 py-2">
+                                    className={`flex w-44 ${
+                                        isFitEveryoneOn
+                                            ? "flex-shrink"
+                                            : "flex-shrink-0"
+                                    } py-2`}>
                                     <TablePlayerCard player={player} />
                                 </div>
                             ))}
@@ -98,7 +106,11 @@ export default function App() {
                                             originY: 0,
                                         }}
                                         key={s.id}
-                                        className="flex w-44 flex-shrink-0 flex-col gap-2">
+                                        className={`flex w-44 ${
+                                            isFitEveryoneOn
+                                                ? "flex-shrink"
+                                                : "flex-shrink-0"
+                                        }  flex-col gap-2`}>
                                         <>
                                             <AnimatePresence initial={false}>
                                                 {s.scores.map(
