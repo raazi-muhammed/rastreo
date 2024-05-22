@@ -79,7 +79,10 @@ export default function App() {
                 <Separator className="my-2" />
                 {players.length !== 0 ? (
                     <div className="h-screen w-full overflow-auto px-8 pb-44">
-                        <section className="flex gap-1 text-primary">
+                        <section
+                            className={`flex gap-1 text-primary min-w-full ${
+                                isFitEveryoneOn ? "" : "w-max"
+                            }`}>
                             {players.map((player, i) => (
                                 <div
                                     key={player.id}

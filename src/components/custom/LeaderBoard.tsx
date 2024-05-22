@@ -75,7 +75,7 @@ export default function LeaderBoard() {
 
     return (
         <aside className="h-svh w-[20rem] overflow-scroll bg-background shadow-xl">
-            <Container className="flex h-full flex-col justify-between align-middle">
+            <Container className="flex h-max min-h-full flex-col justify-between align-middle">
                 <h3 className="mt-8 flex gap-1 text-3xl font-semibold text-primary">
                     <Award size="1.2em" />
                     Leaderboard
@@ -84,6 +84,7 @@ export default function LeaderBoard() {
                 {leaderBoardData.length > 0 ? (
                     <AnimatePresence>
                         <motion.section
+                            className="mb-16"
                             initial={{ x: -100 }}
                             animate={{ x: 0 }}
                             exit={{
