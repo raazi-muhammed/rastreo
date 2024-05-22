@@ -79,7 +79,7 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                     </Button>
                 )}
             </AlertDialogTrigger>
-            <AlertDialogContent className="max-w-screen flex h-svh w-full flex-col justify-center bg-white sm:h-fit sm:max-w-lg">
+            <AlertDialogContent className="max-w-screen flex h-svh w-full flex-col justify-center bg-background sm:h-fit sm:max-w-lg">
                 <Form {...form}>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Add an player</AlertDialogTitle>

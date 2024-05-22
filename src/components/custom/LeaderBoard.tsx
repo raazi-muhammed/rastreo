@@ -20,6 +20,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { ThemeToggle } from "../theme/ThemeToggle";
 
 type LeaderBoardItem = { player: string; sum: number; difference?: number };
 
@@ -99,7 +100,7 @@ export default function LeaderBoard() {
                                     animate={{ scale: 1 }}
                                     key={l.player}>
                                     {index === 0 && sortOption ? (
-                                        <section className="my-2 flex justify-between rounded border bg-indigo-50 px-4 py-2 shadow-md shadow-accent">
+                                        <section className="my-2 flex justify-between rounded border bg-muted px-4 py-2 shadow-md shadow-accent">
                                             <div>
                                                 <WinnerIcon className="text-primary" />
                                                 <p className="my-auto text-lg">
@@ -111,7 +112,7 @@ export default function LeaderBoard() {
                                             </p>
                                         </section>
                                     ) : (
-                                        <section className="my-2 flex justify-between rounded bg-indigo-50 p-2">
+                                        <section className="my-2 flex justify-between rounded bg-muted p-2">
                                             <div className="flex gap-2">
                                                 <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
                                                     {index + 1}
@@ -161,6 +162,7 @@ export default function LeaderBoard() {
                             }}
                         />
                     </section>
+                    <ThemeToggle />
                     <section className="flex justify-between gap-4 rounded bg-secondary px-3 py-2">
                         <p className="my-auto">Who wins</p>
                         <Select

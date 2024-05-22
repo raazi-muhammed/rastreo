@@ -14,7 +14,7 @@ export default function NumberInput({
                     <Button
                         key={n}
                         type="button"
-                        className="w-full bg-indigo-100"
+                        className="w-full bg-muted"
                         variant="secondary"
                         onClick={() => setInputData((i) => Number(i + n))}>
                         {n}

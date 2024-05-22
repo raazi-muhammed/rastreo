@@ -36,14 +36,14 @@ export default function App() {
     }, []);
 
     return (
-        <main className="flex min-h-screen w-screen overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-200">
+        <main className="flex min-h-screen w-screen overflow-hidden bg-secondary">
             <AnimatePresence>
                 {showLeaderBoard ? (
                     <div className="relative">
                         <PanelLeftClose
                             onClick={() => dispatch(setShowLeaderBoard(false))}
                             size="1.2em"
-                            className="absolute right-4 top-4 my-auto ms-auto text-indigo-400"
+                            className="absolute right-4 top-4 my-auto ms-auto text-primary"
                         />
                         <motion.div
                             initial={{ x: -300 }}
@@ -124,7 +124,7 @@ export default function App() {
                                     </AnimatePresence>
                                     {scores[i].scores.length === 0 && (
                                         <div className="grid h-12 w-full place-items-center rounded-xs bg-card opacity-50">
-                                            <p className="my-auto text-xs text-indigo-300">
+                                            <p className="my-auto text-xs text-card-foreground">
                                                 No score yet
                                             </p>
                                         </div>
