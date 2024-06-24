@@ -6,11 +6,20 @@ import {
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { Trash2 as DeleteIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trash2 as DeleteIcon } from "lucide-react";
 import { Label } from "../ui/label";
 import { useAppDispatch } from "@/hooks/redux";
-import { deletePersonScores } from "@/store/features/scoreSlice";
-import { deletePerson, editPerson } from "@/store/features/playerSlice";
+import {
+    deletePersonScores,
+    movePersonScoresLeft,
+    movePersonScoresRight,
+} from "@/store/features/scoreSlice";
+import {
+    deletePerson,
+    editPerson,
+    movePersonLeft,
+    movePersonRight,
+} from "@/store/features/playerSlice";
 
 export default function TablePlayerCard({
     player,
@@ -53,6 +62,26 @@ export default function TablePlayerCard({
                         placeholder="name"
                     />
                     <div className="mt-3 flex justify-end gap-2">
+                        <div className="flex gap-1">
+                            <Button
+                                variant="secondary"
+                                type="button"
+                                onClick={() => {
+                                    dispatch(movePersonLeft(player.id));
+                                    dispatch(movePersonScoresLeft(player.id));
+                                }}>
+                                <ChevronLeft size="1.3em" />
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                onClick={() => {
+                                    dispatch(movePersonRight(player.id));
+                                    dispatch(movePersonScoresRight(player.id));
+                                }}>
+                                <ChevronRight size="1.3em" />
+                            </Button>
+                        </div>
                         <Button
                             variant="destructive"
                             type="button"
