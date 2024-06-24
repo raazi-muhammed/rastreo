@@ -47,7 +47,9 @@ export default function TableScoreCard({
                         setInputData(score);
                         setOpen(true);
                     }}>
-                    <p className="me-auto text-start">{formatNumber(score)}</p>
+                    <p className="me-auto text-start text-foreground">
+                        {formatNumber(score)}
+                    </p>
                 </Button>
             </PopoverTrigger>
             <PopoverContent
