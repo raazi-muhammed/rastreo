@@ -22,8 +22,8 @@ html {
         --muted-foreground: 262 0% 40%;
         --accent: 224 10% 90%;
         --accent-foreground: 262 0% 15%;
-        --destructive: 0 50% 50%;
-        --destructive-foreground: 262 0% 97%;
+        --destructive: 0 100% 50%;
+        --destructive-foreground: 0 100% 90%;
         --border: 262 20% 92%;
         --input: 262 20% 90%;
         --ring: 262 100% 50%;
@@ -45,8 +45,8 @@ html {
         --muted-foreground: 262 0% 60%;
         --accent: 224 10% 15%;
         --accent-foreground: 262 0% 90%;
-        --destructive: 0 90% 30%;
-        --destructive-foreground: 0 50% 9%;
+        --destructive: 0 100% 30%;
+        --destructive-foreground: 0 100% 9%;
         --border: 212 10% 10%;
         --input: 262 20% 10%;
         --ring: 262 100% 50%;
