@@ -58,18 +58,10 @@ export default function LeaderBoardData() {
         <>
             {leaderBoardData.length > 0 ? (
                 <AnimatePresence>
-                    <motion.section
-                        className="mb-16"
-                        initial={{ x: -100 }}
-                        animate={{ x: 0 }}
-                        exit={{
-                            transition: { duration: 0 },
-                        }}
-                        key={sortOption}>
+                    <section key={sortOption}>
                         {leaderBoardData.map((l, index) => (
                             <motion.div
                                 className="rounded shadow-accent hover:shadow-lg"
-                                initial={{ scale: 0.7 }}
                                 whileHover={{ scale: 1.05 }}
                                 animate={{ scale: 1 }}
                                 key={l.player}>
@@ -109,7 +101,7 @@ export default function LeaderBoardData() {
                                 )}
                             </motion.div>
                         ))}
-                    </motion.section>
+                    </section>
                 </AnimatePresence>
             ) : (
                 <p className="my-8 text-primary/50">No players</p>

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight, Trash2 as DeleteIcon } from "lucide-react";
 import { Label } from "../ui/label";
-import { useAppDispatch } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import {
     deletePersonScores,
     movePersonScoresLeft,
@@ -28,6 +28,9 @@ export default function TablePlayerCard({
 }) {
     const [inputPerson, setInputPerson] = useState<string>("");
     const dispatch = useAppDispatch();
+    const isTouchModeOn = useAppSelector(
+        (state) => state.settings.isTouchModeOn
+    );
 
     function handleDeletePerson(userId: string) {
         dispatch(deletePersonScores(userId));
@@ -49,7 +52,14 @@ export default function TablePlayerCard({
                     </p>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent
+                onOpenAutoFocus={
+                    isTouchModeOn
+                        ? (e) => {
+                              e.preventDefault();
+                          }
+                        : () => {}
+                }>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();

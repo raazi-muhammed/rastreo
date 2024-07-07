@@ -1,4 +1,4 @@
-import { Award } from "lucide-react";
+import { Award, Settings } from "lucide-react";
 import { ReactNode, useState } from "react";
 import NextDealer from "./NextDealer";
 import { ThemeToggle } from "../theme/ThemeToggle";
@@ -7,11 +7,11 @@ import TouchMode from "./TouchMode";
 import FitEveryone from "./FitEveryone";
 import SortOption from "./SortOption";
 import LeaderBoardData from "./LeaderBoardData";
+import { motion } from "framer-motion";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
         <h3 className="mb-4 mt-8 flex h-fit gap-1 text-3xl font-semibold text-primary">
-            <Award size="1.2em" />
             {children}
         </h3>
     );
@@ -25,16 +25,26 @@ export default function LeaderBoard() {
     const [currentTab, setCurrentTab] = useState(TabsState.LEADERBOARD);
 
     return (
-        <aside className="flex h-svh w-[20rem] flex-col justify-between gap-4 overflow-scroll bg-background p-4 shadow-xl">
-            <section className="h-full">
+        <aside className="flex h-svh w-[20rem] flex-col justify-between gap-4 bg-background p-4 shadow-xl">
+            <motion.section
+                className="h-full"
+                initial={{ scale: 0.85, originY: 0, originX: 0 }}
+                animate={{ scale: 1 }}
+                key={currentTab}>
                 {currentTab === TabsState.LEADERBOARD ? (
                     <>
-                        <Heading>Leaderboard</Heading>
+                        <Heading>
+                            <Award size="1.2em" />
+                            Leaderboard
+                        </Heading>
                         <LeaderBoardData />
                     </>
                 ) : (
                     <>
-                        <Heading>Settings</Heading>
+                        <Heading>
+                            <Settings size="1.2em" />
+                            Settings
+                        </Heading>
                         <section className="mb-8 mt-auto h-full space-y-4">
                             <FitEveryone />
                             <TouchMode />
@@ -43,18 +53,22 @@ export default function LeaderBoard() {
                         </section>
                     </>
                 )}
-            </section>
+            </motion.section>
             <NextDealer />
             <Tabs defaultValue="leaderboard" className="mx-auto">
                 <TabsList>
                     <TabsTrigger
                         onClick={() => setCurrentTab(TabsState.LEADERBOARD)}
-                        value="leaderboard">
+                        value="leaderboard"
+                        className="gap-1">
+                        <Award size="1.2em" />
                         Leaderboard
                     </TabsTrigger>
                     <TabsTrigger
                         onClick={() => setCurrentTab(TabsState.SETTINGS)}
-                        value="settings">
+                        value="settings"
+                        className="gap-1">
+                        <Settings size="1.2em" />
                         Settings
                     </TabsTrigger>
                 </TabsList>
