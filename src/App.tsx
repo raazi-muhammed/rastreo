@@ -4,7 +4,6 @@ import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
 import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
-import { useEffect } from "react";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClearAll } from "./components/custom/ClearAll";
@@ -25,15 +24,10 @@ export default function App() {
     const isFitEveryoneOn = useAppSelector(
         (state) => state.settings.isFitEveryoneOn
     );
+    console.log({ TRACKING_ID });
 
-    useEffect(() => {
-        try {
-            ReactGa.initialize(TRACKING_ID);
-            ReactGa.pageview("/");
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
+    ReactGa.initialize(TRACKING_ID);
+    ReactGa.pageview("/");
 
     return (
         <main className="flex min-h-screen w-screen overflow-hidden bg-secondary">
