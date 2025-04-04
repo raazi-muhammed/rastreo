@@ -40,7 +40,6 @@ export default function TableScoreCard({
     }
     const { isTop, isBottom } = usePlayInfo({
         index,
-        playerId: personId,
         score,
     });
 

@@ -8,6 +8,7 @@ import FitEveryone from "./FitEveryone";
 import SortOption from "./SortOption";
 import LeaderBoardData from "./LeaderBoardData";
 import { motion } from "framer-motion";
+import LockSetting from "./LockSetting";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
@@ -46,10 +47,11 @@ export default function LeaderBoard() {
                             Settings
                         </Heading>
                         <section className="mb-8 mt-auto h-full space-y-4">
+                            <SortOption />
                             <FitEveryone />
                             <TouchMode />
                             <ThemeToggle />
-                            <SortOption />
+                            <LockSetting />
                         </section>
                     </>
                 )}

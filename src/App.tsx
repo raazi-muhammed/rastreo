@@ -4,13 +4,12 @@ import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
 import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
-import { Lock, LockOpen, PanelLeftClose, PanelRightClose } from "lucide-react";
+import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClearAll } from "./components/custom/ClearAll";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import ReactGa from "react-ga";
-import { setShowLeaderBoard, toggleLock } from "./store/features/settingsSlice";
-import { Button } from "./components/ui/button";
+import { setShowLeaderBoard } from "./store/features/settingsSlice";
 
 export default function App() {
     const players = useAppSelector((state) => state.players);
@@ -19,7 +18,6 @@ export default function App() {
     const showLeaderBoard = useAppSelector(
         (state) => state.settings.showLeaderBoard
     );
-    const isLocked = useAppSelector((state) => state.settings.isLocked);
     const isFitEveryoneOn = useAppSelector(
         (state) => state.settings.isFitEveryoneOn
     );
@@ -64,19 +62,6 @@ export default function App() {
                     </h3>
                     <div className="ms-auto gap-2 flex w-fit align-middle">
                         <ClearAll />
-                        {isLocked ? (
-                            <Button
-                                variant="outline"
-                                onDoubleClick={() => dispatch(toggleLock())}>
-                                <LockOpen size="1em" />
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="outline"
-                                onClick={() => dispatch(toggleLock())}>
-                                <Lock size="1em" />
-                            </Button>
-                        )}
                         <AddPlayer />
                     </div>
                 </section>

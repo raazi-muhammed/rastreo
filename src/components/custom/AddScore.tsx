@@ -12,7 +12,7 @@ import { Label } from "../ui/label";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { addScore } from "@/store/features/scoreSlice";
 import { motion } from "framer-motion";
-import { calculateNumber, removeLeadingZeros } from "@/lib/utils";
+import { calculateNumber } from "@/lib/utils";
 
 export default function AddScore({ playerId }: { playerId: string }) {
     const [inputData, setInputData] = useState<string>("");

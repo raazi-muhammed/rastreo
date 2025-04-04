@@ -3,11 +3,9 @@ import { useAppSelector } from "./redux";
 
 export const usePlayInfo = ({
     index,
-    playerId,
     score,
 }: {
     index: number;
-    playerId: string;
     score: number;
 }) => {
     const scores = useAppSelector((state) => state.scores);
@@ -26,8 +24,9 @@ export const usePlayInfo = ({
             playerScoreSorted = playScores.sort((a, b) => b.score - a.score);
         }
 
-        const isTop = playScores[0].score === score;
-        const isBottom = playScores[playScores.length - 1].score === score;
+        const isTop = playerScoreSorted[0].score === score;
+        const isBottom =
+            playerScoreSorted[playerScoreSorted.length - 1].score === score;
 
         return { isTop, isBottom };
     } catch (error) {

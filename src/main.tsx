@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store/store.ts";
 import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider } from "@/components/theme/theme-provider.tsx";
+import { Toaster } from "@/components/ui/toaster";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                     defaultTheme="system"
                     storageKey="rastreo-ui-theme">
                     <App />
+                    <Toaster />
                 </ThemeProvider>
             </PersistGate>
         </Provider>
