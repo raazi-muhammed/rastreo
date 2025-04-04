@@ -9,6 +9,7 @@ export enum SortOptions {
 type Settings = {
     isTouchModeOn: boolean;
     isFitEveryoneOn: boolean;
+    isLocked: boolean;
     showLeaderBoard: boolean;
     sortOption: SortOptions;
 };
@@ -16,6 +17,7 @@ type Settings = {
 const initialState: Settings = {
     isTouchModeOn: !isDesktop,
     isFitEveryoneOn: false,
+    isLocked: false,
     showLeaderBoard: isDesktop,
     sortOption: SortOptions.TO_LOW,
 };
@@ -37,6 +39,10 @@ export const counterSlice = createSlice({
             state.isFitEveryoneOn = !state.isFitEveryoneOn;
             return state;
         },
+        toggleLock: (state) => {
+            state.isLocked = !state.isLocked;
+            return state;
+        },
         setShowLeaderBoard: (state, action: PayloadAction<boolean>) => {
             const showStatus = action.payload;
             state.showLeaderBoard = showStatus;
@@ -50,6 +56,7 @@ export const {
     toggleTouchMode,
     setShowLeaderBoard,
     toggleFitEveryone,
+    toggleLock,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

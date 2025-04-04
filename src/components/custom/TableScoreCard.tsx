@@ -28,7 +28,7 @@ export default function TableScoreCard({
     const isTouchModeOn = useAppSelector(
         (state) => state.settings.isTouchModeOn
     );
-
+    const isLocked = useAppSelector((state) => state.settings.isLocked);
     const dispatch = useAppDispatch();
 
     function handleEditScore(userId: string, index: number, newScore: number) {
@@ -45,6 +45,7 @@ export default function TableScoreCard({
                     className="h-12 w-full rounded-xs bg-card hover:bg-secondary hover:shadow-lg"
                     variant="ghost"
                     onClick={() => {
+                        if (isLocked) return;
                         setInputData(String(score));
                         setOpen(true);
                     }}>

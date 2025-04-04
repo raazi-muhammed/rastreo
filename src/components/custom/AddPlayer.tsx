@@ -22,7 +22,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useAppDispatch } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { addPerson } from "@/store/features/playerSlice";
 import { initializePerson } from "@/store/features/scoreSlice";
 import { v4 as uuidv4 } from "uuid";
@@ -35,6 +35,7 @@ const FormSchema = z.object({
 
 export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
     const dispatch = useAppDispatch();
+    const isLocked = useAppSelector((state) => state.settings.isLocked);
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -55,9 +56,10 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
 
     return (
         <AlertDialog>
-            <AlertDialogTrigger className="min-w-24">
+            <AlertDialogTrigger asChild>
                 {variant ? (
                     <Button
+                        disabled={isLocked}
                         className="mx-auto my-auto flex size-16 shadow-md"
                         size="icon"
                         onClick={() => {
@@ -68,14 +70,15 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                     </Button>
                 ) : (
                     <Button
+                        disabled={isLocked}
                         className="mx-auto my-auto flex shadow-md"
                         variant="default"
                         onClick={() => {
                             form.reset();
                             form.setFocus("username");
                         }}>
-                        <AddPersonIcon size="1.35em" className="me-2" />
-                        Add
+                        <AddPersonIcon size="1.35em" className="" />
+                        <span className="hidden sm:block ms-2">Add</span>
                     </Button>
                 )}
             </AlertDialogTrigger>

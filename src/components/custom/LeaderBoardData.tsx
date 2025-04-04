@@ -2,9 +2,15 @@ import { formatNumber } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { Crown as WinnerIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-type LeaderBoardItem = { player: string; sum: number; difference?: number };
 import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "@/hooks/redux";
+
+type LeaderBoardItem = {
+    player: string;
+    sum: number;
+    difference?: number;
+    totalDifference?: number;
+};
 
 export default function LeaderBoardData() {
     const players = useAppSelector((state) => state.players);
@@ -25,8 +31,10 @@ export default function LeaderBoardData() {
 
     function addDifferences(lbData: LeaderBoardItem[]) {
         let lastSum = 0;
+        let lastTotalDifference = lbData[0].sum;
         return lbData.map((l, i) => {
             l.difference = Math.abs(l.sum - lastSum);
+            l.totalDifference = Math.abs(l.sum - lastTotalDifference);
             lastSum = l.sum;
             if (i === 0) l.difference = undefined;
             return l;
@@ -91,8 +99,22 @@ export default function LeaderBoardData() {
                                             <p className="me-0 ms-auto w-fit font-semibold">
                                                 {formatNumber(l.sum)}
                                             </p>
+
+                                            {l.totalDifference ? (
+                                                <small className="-mt-1 justify-end text-end text-indigo-800">
+                                                    {formatNumber(
+                                                        l.totalDifference
+                                                    )}
+                                                </small>
+                                            ) : null}
+                                            {l.totalDifference &&
+                                            l.difference ? (
+                                                <small className="mx-1">
+                                                    •
+                                                </small>
+                                            ) : null}
                                             {l.difference ? (
-                                                <small className="-mt-1 flex justify-end text-end text-indigo-400">
+                                                <small className="-mt-1 justify-end text-end text-indigo-400">
                                                     {formatNumber(l.difference)}
                                                 </small>
                                             ) : null}

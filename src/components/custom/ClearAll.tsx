@@ -9,12 +9,13 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useAppDispatch } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { deleteAllScores } from "@/store/features/scoreSlice";
 import { ListX } from "lucide-react";
 
 export function ClearAll() {
     const dispatch = useAppDispatch();
+    const isLocked = useAppSelector((state) => state.settings.isLocked);
 
     function handleClearAll() {
         dispatch(deleteAllScores());
@@ -22,7 +23,10 @@ export function ClearAll() {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="outline" className="my-auto ms-auto">
+                <Button
+                    disabled={isLocked}
+                    variant="outline"
+                    className="my-auto ms-auto">
                     <ListX size="1em" />
                 </Button>
             </AlertDialogTrigger>

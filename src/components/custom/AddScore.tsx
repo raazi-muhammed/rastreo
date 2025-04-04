@@ -20,6 +20,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
     const isTouchModeOn = useAppSelector(
         (state) => state.settings.isTouchModeOn
     );
+    const isLocked = useAppSelector((state) => state.settings.isLocked);
     const dispatch = useAppDispatch();
 
     function handleAddInput(userId: string, newScore: number) {
@@ -30,6 +31,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
         <Popover open={open}>
             <PopoverTrigger asChild>
                 <Button
+                    disabled={isLocked}
                     onClick={() => setOpen(true)}
                     size="icon"
                     className="mx-auto flex shadow-md shadow-primary/80">
