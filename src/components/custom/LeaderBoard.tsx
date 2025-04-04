@@ -1,14 +1,20 @@
 import { Award, Settings } from "lucide-react";
 import { ReactNode, useState } from "react";
 import NextDealer from "./NextDealer";
-import { ThemeToggle } from "../theme/ThemeToggle";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import TouchMode from "./TouchMode";
-import FitEveryone from "./FitEveryone";
 import SortOption from "./SortOption";
 import LeaderBoardData from "./LeaderBoardData";
 import { motion } from "framer-motion";
-import LockSetting from "./LockSetting";
+import SettingIconTemplate from "../template/SettingIconTemplate";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import {
+    toggleFitEveryone,
+    toggleLock,
+    toggleTouchMode,
+} from "@/store/features/settingsSlice";
+import { Switch } from "../ui/switch";
+import { useTheme } from "../theme/theme-provider";
+import { toast } from "@/hooks/use-toast";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
@@ -24,6 +30,9 @@ enum TabsState {
 }
 export default function LeaderBoard() {
     const [currentTab, setCurrentTab] = useState(TabsState.LEADERBOARD);
+    const settings = useAppSelector((state) => state.settings);
+    const dispatch = useAppDispatch();
+    const { setTheme, theme } = useTheme();
 
     return (
         <aside className="flex h-svh w-[20rem] flex-col justify-between gap-4 bg-background p-4 shadow-xl">
@@ -48,10 +57,53 @@ export default function LeaderBoard() {
                         </Heading>
                         <section className="mb-8 mt-auto h-full space-y-4">
                             <SortOption />
-                            <FitEveryone />
-                            <TouchMode />
-                            <ThemeToggle />
-                            <LockSetting />
+                            <SettingIconTemplate label="Touch Mode">
+                                <Switch
+                                    checked={settings.isTouchModeOn}
+                                    onCheckedChange={() => {
+                                        dispatch(toggleTouchMode());
+                                    }}
+                                />
+                            </SettingIconTemplate>
+                            <SettingIconTemplate label="Fit Everyone">
+                                <Switch
+                                    checked={settings.isFitEveryoneOn}
+                                    onCheckedChange={() => {
+                                        dispatch(toggleFitEveryone());
+                                    }}
+                                />
+                            </SettingIconTemplate>
+                            <SettingIconTemplate label="Lock">
+                                <Switch
+                                    checked={settings.isLocked}
+                                    onDoubleClick={() => {
+                                        if (settings.isLocked)
+                                            dispatch(toggleLock());
+                                    }}
+                                    onClick={() => {
+                                        if (!settings.isLocked)
+                                            dispatch(toggleLock());
+                                        else
+                                            toast({
+                                                title: "Locked",
+                                                description:
+                                                    "Double click to unlock the game",
+                                            });
+                                    }}
+                                />
+                            </SettingIconTemplate>
+                            <SettingIconTemplate label="Theme">
+                                <Switch
+                                    checked={theme == "system"}
+                                    onCheckedChange={(data) => {
+                                        if (!data) {
+                                            setTheme("light");
+                                        } else {
+                                            setTheme("system");
+                                        }
+                                    }}
+                                />
+                            </SettingIconTemplate>
                         </section>
                     </>
                 )}

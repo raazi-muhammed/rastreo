@@ -95,29 +95,21 @@ export default function LeaderBoardData() {
                                                 {l.player}
                                             </p>
                                         </div>
-                                        <div className="me-1">
+                                        <div className="me-1 border-4">
                                             <p className="me-0 ms-auto w-fit font-semibold">
                                                 {formatNumber(l.sum)}
                                             </p>
-
-                                            {l.totalDifference ? (
-                                                <small className="-mt-1 justify-end text-end text-indigo-800">
+                                            <small className="-mt-1 flex justify-end text-end text-indigo-800">
+                                                {formatNumber(
+                                                    l.totalDifference ?? 0
+                                                )}
+                                                <span className="mx-1">•</span>
+                                                <span className="text-indigo-400">
                                                     {formatNumber(
-                                                        l.totalDifference
+                                                        l.difference ?? 0
                                                     )}
-                                                </small>
-                                            ) : null}
-                                            {l.totalDifference &&
-                                            l.difference ? (
-                                                <small className="mx-1">
-                                                    •
-                                                </small>
-                                            ) : null}
-                                            {l.difference ? (
-                                                <small className="-mt-1 justify-end text-end text-indigo-400">
-                                                    {formatNumber(l.difference)}
-                                                </small>
-                                            ) : null}
+                                                </span>
+                                            </small>
                                         </div>
                                     </section>
                                 )}

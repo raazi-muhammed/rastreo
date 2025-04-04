@@ -19,7 +19,7 @@ export function swapItems(array: any[], i: number, j: number) {
 }
 
 export function calculateNumber(number: string) {
-    return Number(removeLeadingZeros(number));
+    return Number(eval(removeLeadingZeros(number)));
 }
 
 export function removeLeadingZeros(number: string) {

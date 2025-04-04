@@ -82,13 +82,14 @@ export default function TableScoreCard({
                           }
                         : () => {}
                 }>
-                <div className="mb-4">
-                    <Label>Current Game Scores:</Label>
-                </div>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        handleEditScore(personId, index, Number(inputData));
+                        handleEditScore(
+                            personId,
+                            index,
+                            calculateNumber(inputData)
+                        );
                         setOpen(false);
                     }}>
                     <Label>Change your current score</Label>
@@ -97,7 +98,6 @@ export default function TableScoreCard({
                             value={inputData}
                             className="mb-4"
                             onChange={(e) => setInputData(e.target.value)}
-                            type="number"
                             placeholder="0"
                         />
                         <motion.div
