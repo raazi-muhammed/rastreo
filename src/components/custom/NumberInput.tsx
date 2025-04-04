@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export default function NumberInput({
     setInputData,
 }: {
-    setInputData: React.Dispatch<React.SetStateAction<number>>;
+    setInputData: React.Dispatch<React.SetStateAction<string>>;
 }) {
     const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00"];
     return (
@@ -16,7 +16,7 @@ export default function NumberInput({
                         type="button"
                         className="w-full bg-muted"
                         variant="secondary"
-                        onClick={() => setInputData((i) => Number(i + n))}>
+                        onClick={() => setInputData((i) => i + n)}>
                         {n}
                     </Button>
                 </motion.div>
@@ -25,9 +25,9 @@ export default function NumberInput({
                 <Button
                     type="button"
                     className="w-full"
-                    onDoubleClick={() => setInputData(0)}
+                    onDoubleClick={() => setInputData("")}
                     onClick={() =>
-                        setInputData((e) => Number(e.toString().slice(0, -1)))
+                        setInputData((e) => e.toString().slice(0, -1))
                     }
                     variant="destructive">
                     <Delete size="1.3em" />

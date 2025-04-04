@@ -6,14 +6,16 @@ import {
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
-import { Plus as AddIcon } from "lucide-react";
+import { Plus as AddIcon, X } from "lucide-react";
 import NumberInput from "./NumberInput";
 import { Label } from "../ui/label";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { addScore } from "@/store/features/scoreSlice";
+import { motion } from "framer-motion";
+import { calculateNumber, removeLeadingZeros } from "@/lib/utils";
 
 export default function AddScore({ playerId }: { playerId: string }) {
-    const [inputData, setInputData] = useState<number>(0);
+    const [inputData, setInputData] = useState<string>("");
     const [open, setOpen] = useState(false);
     const isTouchModeOn = useAppSelector(
         (state) => state.settings.isTouchModeOn
@@ -49,17 +51,42 @@ export default function AddScore({ playerId }: { playerId: string }) {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        handleAddInput(playerId, inputData);
+                        handleAddInput(
+                            playerId,
+                            eval(removeLeadingZeros(inputData))
+                        );
                         setOpen(false);
-                        setInputData(0);
+                        setInputData("");
                     }}>
                     <Label>Add a new score record</Label>
-                    <Input
-                        value={inputData}
-                        className="mb-4"
-                        onChange={(e) => setInputData(Number(e.target.value))}
-                        type="number"
-                    />
+                    <div className="flex gap-2 w-full">
+                        <Input
+                            value={inputData}
+                            placeholder="0"
+                            className="mb-4 w-full"
+                            onChange={(e) => setInputData(e.target.value)}
+                        />
+                        <motion.div
+                            className="w-fit flex"
+                            whileTap={{ scale: 1.3 }}>
+                            <Button
+                                type="button"
+                                className="w-fit"
+                                onClick={() =>
+                                    setInputData((e) =>
+                                        String(calculateNumber(e) * 2)
+                                    )
+                                }
+                                variant="secondary">
+                                <X
+                                    size=".8rem"
+                                    strokeWidth={2.5}
+                                    className="my-auto"
+                                />
+                                2
+                            </Button>
+                        </motion.div>
+                    </div>
                     {isTouchModeOn && (
                         <NumberInput setInputData={setInputData} />
                     )}

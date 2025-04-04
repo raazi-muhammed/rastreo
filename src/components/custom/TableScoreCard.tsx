@@ -7,11 +7,12 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import NumberInput from "./NumberInput";
-import { Trash2 as DeleteIcon } from "lucide-react";
+import { Trash2 as DeleteIcon, X } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { formatNumber } from "@/lib/utils";
+import { calculateNumber, formatNumber } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { deleteScore, editScore } from "@/store/features/scoreSlice";
+import { motion } from "framer-motion";
 
 export default function TableScoreCard({
     score,
@@ -22,7 +23,7 @@ export default function TableScoreCard({
     index: number;
     personId: string;
 }) {
-    const [inputData, setInputData] = useState<number>(0);
+    const [inputData, setInputData] = useState<string>("");
     const [open, setOpen] = useState(false);
     const isTouchModeOn = useAppSelector(
         (state) => state.settings.isTouchModeOn
@@ -44,11 +45,11 @@ export default function TableScoreCard({
                     className="h-12 w-full rounded-xs bg-card hover:bg-secondary hover:shadow-lg"
                     variant="ghost"
                     onClick={() => {
-                        setInputData(score);
+                        setInputData(String(score));
                         setOpen(true);
                     }}>
                     <p className="me-auto text-start text-foreground">
-                        {formatNumber(score)}
+                        {formatNumber(String(score))}
                     </p>
                 </Button>
             </PopoverTrigger>
@@ -64,16 +65,39 @@ export default function TableScoreCard({
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        handleEditScore(personId, index, inputData);
+                        handleEditScore(personId, index, Number(inputData));
                         setOpen(false);
                     }}>
                     <Label>Change your current score</Label>
-                    <Input
-                        value={inputData}
-                        className="mb-4"
-                        onChange={(e) => setInputData(Number(e.target.value))}
-                        type="number"
-                    />
+                    <div className="flex gap-2">
+                        <Input
+                            value={inputData}
+                            className="mb-4"
+                            onChange={(e) => setInputData(e.target.value)}
+                            type="number"
+                            placeholder="0"
+                        />
+                        <motion.div
+                            className="w-fit flex"
+                            whileTap={{ scale: 1.3 }}>
+                            <Button
+                                type="button"
+                                className="w-fit"
+                                onClick={() =>
+                                    setInputData((e) =>
+                                        String(calculateNumber(e) * 2)
+                                    )
+                                }
+                                variant="secondary">
+                                <X
+                                    size=".8rem"
+                                    strokeWidth={2.5}
+                                    className="my-auto"
+                                />
+                                2
+                            </Button>
+                        </motion.div>
+                    </div>
                     {isTouchModeOn && (
                         <NumberInput setInputData={setInputData} />
                     )}
