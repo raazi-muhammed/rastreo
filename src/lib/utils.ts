@@ -19,10 +19,18 @@ export function swapItems(array: any[], i: number, j: number) {
 }
 
 export function calculateNumber(number: string) {
-    return Number(eval(removeLeadingZeros(number)));
+    const sanitizedNumber = Number(
+        eval(removeTrailingOperators(removeLeadingZeros(number)))
+    );
+    if (isNaN(sanitizedNumber)) return 0;
+    return sanitizedNumber;
 }
 
 export function removeLeadingZeros(number: string) {
     if (number == "0") return "0";
     return number.replace(/^0+(?=\d)/, "");
+}
+
+export function removeTrailingOperators(number: string) {
+    return number.replace(/[+\-*/]+$/, "");
 }
