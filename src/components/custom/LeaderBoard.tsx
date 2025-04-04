@@ -73,6 +73,14 @@ export default function LeaderBoard() {
                     </TabsTrigger>
                 </TabsList>
             </Tabs>
+            <p className="text-center text-xs text-muted-foreground">
+                Created by
+                <a
+                    href="https://raazi.live/"
+                    className="ms-1 font-semibold text-primary underline">
+                    Raazi
+                </a>
+            </p>
         </aside>
     );
 }

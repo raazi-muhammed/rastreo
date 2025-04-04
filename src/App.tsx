@@ -11,8 +11,6 @@ import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import ReactGa from "react-ga";
 import { setShowLeaderBoard } from "./store/features/settingsSlice";
 
-const TRACKING_ID = import.meta.env.VITE_GOOGLE_ANALYTICS_ID;
-
 export default function App() {
     const players = useAppSelector((state) => state.players);
     const scores = useAppSelector((state) => state.scores);
@@ -24,9 +22,7 @@ export default function App() {
     const isFitEveryoneOn = useAppSelector(
         (state) => state.settings.isFitEveryoneOn
     );
-    console.log({ TRACKING_ID });
 
-    ReactGa.initialize(TRACKING_ID);
     ReactGa.pageview("/");
 
     return (
