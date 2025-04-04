@@ -55,6 +55,24 @@ html {
 }
 
 @layer base {
+    :root {
+        --chart-1: 262 76% 61%;
+        --chart-2: 262 58% 39%;
+        --chart-3: 262 37% 24%;
+        --chart-4: 262 74% 66%;
+        --chart-5: 262 87% 67%;
+    }
+
+    .dark {
+        --chart-1: 262 70% 50%;
+        --chart-2: 262 60% 45%;
+        --chart-3: 262 80% 55%;
+        --chart-4: 262 65% 60%;
+        --chart-5: 262 75% 55%;
+    }
+}
+
+@layer base {
     * {
         @apply border-border;
     }

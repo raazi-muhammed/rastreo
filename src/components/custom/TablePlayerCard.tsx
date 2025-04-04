@@ -20,6 +20,7 @@ import {
     movePersonLeft,
     movePersonRight,
 } from "@/store/features/playerSlice";
+import { PlayerChart } from "../charts/PlayerChart";
 
 export default function TablePlayerCard({
     player,
@@ -65,6 +66,7 @@ export default function TablePlayerCard({
                         e.preventDefault();
                         handleChangePersonName(player.id, inputPerson);
                     }}>
+                    <PlayerChart player={player} />
                     <Label>Change player name</Label>
                     <Input
                         value={inputPerson}
