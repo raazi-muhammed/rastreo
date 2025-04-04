@@ -31,7 +31,7 @@ export default function LeaderBoardData() {
 
     function addDifferences(lbData: LeaderBoardItem[]) {
         let lastSum = 0;
-        let lastTotalDifference = lbData[0].sum;
+        let lastTotalDifference = lbData?.[0]?.sum;
         return lbData.map((l, i) => {
             l.difference = Math.abs(l.sum - lastSum);
             l.totalDifference = Math.abs(l.sum - lastTotalDifference);

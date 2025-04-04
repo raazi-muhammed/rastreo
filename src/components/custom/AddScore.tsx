@@ -53,10 +53,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        handleAddInput(
-                            playerId,
-                            eval(removeLeadingZeros(inputData))
-                        );
+                        handleAddInput(playerId, calculateNumber(inputData));
                         setOpen(false);
                         setInputData("");
                     }}>

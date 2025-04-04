@@ -19,9 +19,10 @@ export function swapItems(array: any[], i: number, j: number) {
 }
 
 export function calculateNumber(number: string) {
-    return Number(number.replace(/^0+(?=\d)/, ""));
+    return Number(removeLeadingZeros(number));
 }
 
 export function removeLeadingZeros(number: string) {
+    if (number == "0") return "0";
     return number.replace(/^0+(?=\d)/, "");
 }

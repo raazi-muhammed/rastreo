@@ -7,12 +7,13 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import NumberInput from "./NumberInput";
-import { Trash2 as DeleteIcon, X } from "lucide-react";
+import { Crown, Trash2 as DeleteIcon, X, Frown } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { calculateNumber, formatNumber } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { deleteScore, editScore } from "@/store/features/scoreSlice";
 import { motion } from "framer-motion";
+import { usePlayInfo } from "@/hooks/usePlayInfo";
 
 export default function TableScoreCard({
     score,
@@ -37,12 +38,19 @@ export default function TableScoreCard({
     function handleRemoveScore(userId: string, index: number) {
         dispatch(deleteScore({ userId, index }));
     }
+    const { isTop, isBottom } = usePlayInfo({
+        index,
+        playerId: personId,
+        score,
+    });
 
     return (
         <Popover open={open}>
             <PopoverTrigger asChild>
                 <Button
-                    className="h-12 w-full rounded-xs bg-card hover:bg-secondary hover:shadow-lg"
+                    className={`h-12 w-full rounded-xs bg-card hover:bg-secondary relative hover:shadow-lg ${
+                        isTop ? "border-primary/30 border" : ""
+                    }`}
                     variant="ghost"
                     onClick={() => {
                         if (isLocked) return;
@@ -50,8 +58,20 @@ export default function TableScoreCard({
                         setOpen(true);
                     }}>
                     <p className="me-auto text-start text-foreground">
-                        {formatNumber(String(score))}
+                        {formatNumber(score)}
                     </p>
+                    {isTop ? (
+                        <Crown
+                            size="0.75em"
+                            className="absolute bottom-2 right-2"
+                        />
+                    ) : null}
+                    {isBottom ? (
+                        <Frown
+                            size="0.75em"
+                            className="absolute bottom-2 right-2 stroke-red-400"
+                        />
+                    ) : null}
                 </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -63,6 +83,9 @@ export default function TableScoreCard({
                           }
                         : () => {}
                 }>
+                <div className="mb-4">
+                    <Label>Current Game Scores:</Label>
+                </div>
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
