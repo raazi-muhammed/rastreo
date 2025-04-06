@@ -28,7 +28,7 @@ export const usePlayInfo = ({
         const isBottom =
             playerScoreSorted[playerScoreSorted.length - 1].score === score;
 
-        return { isTop, isBottom };
+        return { isTop, isBottom: isTop ? false : isBottom };
     } catch (error) {
         console.log(error);
         return { isTop: false, isBottom: false };

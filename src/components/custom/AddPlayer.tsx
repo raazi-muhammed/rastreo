@@ -52,6 +52,8 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         handleAddPerson(data.username);
+        form.reset();
+        form.setFocus("username");
     }
 
     return (
@@ -106,6 +108,10 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
 
                         <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <Button type="submit" variant="secondary">
+                                <AddPersonIcon size="1.25em" className="me-1" />
+                                Add another
+                            </Button>
                             <AlertDialogAction asChild>
                                 <Button type="submit">
                                     <AddPersonIcon

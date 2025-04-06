@@ -36,6 +36,10 @@ export function PlayerChart({
         mobile: s.val,
     }));
 
+    if (data?.length === 0) {
+        return null;
+    }
+
     return (
         <ChartContainer config={chartConfig}>
             <LineChart
