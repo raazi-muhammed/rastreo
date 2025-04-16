@@ -46,7 +46,7 @@ export default function TablePlayerCard({
             <PopoverTrigger asChild>
                 <Button
                     variant="ghost"
-                    className="h-10 w-full rounded"
+                    className="h-10 w-full rounded overflow-hidden text-ellipsis"
                     onClick={() => setInputPerson(player.name)}>
                     <p className="w-full text-start text-xl font-semibold">
                         {player.name}

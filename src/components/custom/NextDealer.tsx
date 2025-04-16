@@ -38,7 +38,7 @@ export default function NextDealer() {
                     <section className="flex flex-col justify-between rounded bg-secondary p-3 shadow-sm">
                         <p className="text-lg">
                             <span className="mr-2 rounded bg-background px-3 py-1 text-primary text-sm">
-                                {maxGamesPlayed}
+                                {maxGamesPlayed + 1}
                             </span>
                             {next}
                         </p>
