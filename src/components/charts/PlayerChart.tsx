@@ -1,6 +1,6 @@
 "use client";
 
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import {
     ChartConfig,
@@ -30,11 +30,17 @@ export function PlayerChart({
 
     const playerScores = scores.find((s) => s?.id == player?.id);
 
-    const data = playerScores?.scores.map((s, index) => ({
-        index: index + 1,
-        desktop: s.val,
-        mobile: s.val,
-    }));
+    let lastValue = 0;
+    const data = playerScores?.scores.map((s, index) => {
+        const toReturn = {
+            index: index + 1,
+            value: s.val + lastValue,
+        };
+
+        lastValue = s.val + lastValue;
+
+        return toReturn;
+    });
 
     if (data?.length === 0) {
         return null;
@@ -46,10 +52,17 @@ export function PlayerChart({
                 accessibilityLayer
                 data={data}
                 margin={{
-                    left: 12,
+                    left: 20,
                     right: 12,
                 }}>
                 <CartesianGrid vertical={false} />
+                <YAxis
+                    width={20}
+                    dataKey="value"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={12}
+                />
                 <XAxis
                     dataKey="index"
                     tickLine={false}
@@ -61,8 +74,8 @@ export function PlayerChart({
                     content={<ChartTooltipContent hideLabel />}
                 />
                 <Line
-                    dataKey="desktop"
-                    type="natural"
+                    dataKey="value"
+                    type="linear"
                     stroke="var(--color-desktop)"
                     strokeWidth={2}
                     dot={{

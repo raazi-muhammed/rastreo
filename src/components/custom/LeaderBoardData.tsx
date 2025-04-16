@@ -95,7 +95,7 @@ export default function LeaderBoardData() {
                                                 {l.player}
                                             </p>
                                         </div>
-                                        <div className="me-1 border-4">
+                                        <div className="me-1">
                                             <p className="me-0 ms-auto w-fit font-semibold">
                                                 {formatNumber(l.sum)}
                                             </p>
