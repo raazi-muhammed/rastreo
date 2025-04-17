@@ -1,4 +1,4 @@
-import { Award, Settings } from "lucide-react";
+import { Award, BarChart, Palette, Settings } from "lucide-react";
 import { ReactNode, useState } from "react";
 import NextDealer from "./NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,6 +15,8 @@ import {
 import { Switch } from "../ui/switch";
 import { useTheme } from "../theme/theme-provider";
 import { toast } from "@/hooks/use-toast";
+import { AllPlayersChart } from "../charts/AllPlayersChart";
+import { AllPlayersProgressChart } from "../charts/AllPlayersProgressChart";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
@@ -27,17 +29,19 @@ export function Heading({ children }: { children: ReactNode }) {
 enum TabsState {
     SETTINGS = "settings",
     LEADERBOARD = "leaderboard",
+    ANALYSIS = "analysis",
 }
 export default function LeaderBoard() {
     const [currentTab, setCurrentTab] = useState(TabsState.LEADERBOARD);
     const settings = useAppSelector((state) => state.settings);
     const dispatch = useAppDispatch();
     const { setTheme, theme } = useTheme();
+    const players = useAppSelector((state) => state.players);
 
     return (
-        <aside className="flex h-svh w-[20rem] flex-col justify-between gap-4 bg-background p-4 shadow-xl">
+        <aside className="flex h-svh w-[20rem] flex-col justify-between gap-4 bg-background shadow-xl overflow-auto no-scrollbar">
             <motion.section
-                className="h-full"
+                className="h-full mb-24 p-4"
                 initial={{ scale: 0.85, originY: 0, originX: 0 }}
                 animate={{ scale: 1 }}
                 key={currentTab}>
@@ -48,6 +52,15 @@ export default function LeaderBoard() {
                             Leaderboard
                         </Heading>
                         <LeaderBoardData />
+                    </>
+                ) : currentTab === TabsState.ANALYSIS ? (
+                    <>
+                        <Heading>
+                            <BarChart size="1.2em" />
+                            Analysis
+                        </Heading>
+                        <AllPlayersChart />
+                        <AllPlayersProgressChart />
                     </>
                 ) : (
                     <>
@@ -108,33 +121,40 @@ export default function LeaderBoard() {
                     </>
                 )}
             </motion.section>
-            <NextDealer />
-            <Tabs defaultValue="leaderboard" className="mx-auto">
-                <TabsList>
-                    <TabsTrigger
-                        onClick={() => setCurrentTab(TabsState.LEADERBOARD)}
-                        value="leaderboard"
-                        className="gap-1">
-                        <Award size="1.2em" />
-                        Leaderboard
-                    </TabsTrigger>
-                    <TabsTrigger
-                        onClick={() => setCurrentTab(TabsState.SETTINGS)}
-                        value="settings"
-                        className="gap-1">
-                        <Settings size="1.2em" />
-                        Settings
-                    </TabsTrigger>
-                </TabsList>
-            </Tabs>
-            <p className="text-center text-xs text-muted-foreground">
-                Created by
-                <a
-                    href="https://raazi.live/"
-                    className="ms-1 font-semibold text-primary underline">
-                    Raazi
-                </a>
-            </p>
+            <div className="sticky bottom-0 gap-4 flex flex-col align-middle bg-background p-4">
+                <NextDealer />
+                <Tabs defaultValue="leaderboard" className="mx-auto">
+                    <TabsList>
+                        <TabsTrigger
+                            onClick={() => setCurrentTab(TabsState.LEADERBOARD)}
+                            value="leaderboard"
+                            className="gap-1">
+                            <Award size="1.2em" />
+                            Leaderboard
+                        </TabsTrigger>
+                        <TabsTrigger
+                            onClick={() => setCurrentTab(TabsState.SETTINGS)}
+                            value="settings"
+                            className="gap-1">
+                            <Settings size="1.2em" />
+                        </TabsTrigger>
+                        <TabsTrigger
+                            onClick={() => setCurrentTab(TabsState.ANALYSIS)}
+                            value="analysis"
+                            className="gap-1">
+                            <BarChart size="1.2em" />
+                        </TabsTrigger>
+                    </TabsList>
+                </Tabs>
+                <p className="text-center text-xs text-muted-foreground">
+                    Created by
+                    <a
+                        href="https://raazi.live/"
+                        className="ms-1 font-semibold text-primary underline">
+                        Raazi
+                    </a>
+                </p>
+            </div>
         </aside>
     );
 }
