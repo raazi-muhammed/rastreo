@@ -1,4 +1,4 @@
-import { Award, BarChart, Palette, Settings } from "lucide-react";
+import { Award, BarChart, Settings } from "lucide-react";
 import { ReactNode, useState } from "react";
 import NextDealer from "./NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -36,7 +36,6 @@ export default function LeaderBoard() {
     const settings = useAppSelector((state) => state.settings);
     const dispatch = useAppDispatch();
     const { setTheme, theme } = useTheme();
-    const players = useAppSelector((state) => state.players);
 
     return (
         <aside className="flex h-svh w-[20rem] flex-col justify-between gap-4 bg-background shadow-xl overflow-auto no-scrollbar">
