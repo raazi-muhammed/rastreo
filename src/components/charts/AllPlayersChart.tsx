@@ -9,6 +9,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useAppSelector } from "@/hooks/redux";
+import { CHART_COLORS } from "@/lib/constants";
 
 const chartConfig = {
     desktop: {
@@ -76,21 +77,25 @@ export function AllPlayersChart() {
                     cursor={false}
                     content={<ChartTooltipContent />}
                 />
-                {players.map((player, index) => (
-                    <Line
-                        key={player.id}
-                        dataKey={player.name}
-                        type="linear"
-                        stroke={`hsl(var(--chart-${(index % 2) + 1}))`}
-                        strokeWidth={2}
-                        dot={{
-                            fill: `hsl(var(--chart-${(index % 2) + 1}))`,
-                        }}
-                        activeDot={{
-                            r: 6,
-                        }}
-                    />
-                ))}
+                {players.map((player, index) => {
+                    const color = CHART_COLORS[index % CHART_COLORS.length];
+
+                    return (
+                        <Line
+                            key={player.id}
+                            dataKey={player.name}
+                            type="linear"
+                            stroke={color}
+                            strokeWidth={2}
+                            dot={{
+                                fill: `hsl(var(--chart-${(index % 2) + 1}))`,
+                            }}
+                            activeDot={{
+                                r: 6,
+                            }}
+                        />
+                    );
+                })}
             </LineChart>
         </ChartContainer>
     );

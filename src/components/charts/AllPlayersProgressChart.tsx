@@ -9,6 +9,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useAppSelector } from "@/hooks/redux";
+import { CHART_COLORS } from "@/lib/constants";
 
 const chartConfig = {
     desktop: {
@@ -18,26 +19,6 @@ const chartConfig = {
     mobile: {
         label: "Mobile",
         color: "hsl(var(--chart-2))",
-    },
-    player1: {
-        label: "Player 1",
-        color: "#FF0000", // Red
-    },
-    player2: {
-        label: "Player 2",
-        color: "#0000FF", // Blue
-    },
-    player3: {
-        label: "Player 3",
-        color: "#00FF00", // Green
-    },
-    player4: {
-        label: "Player 4",
-        color: "#FFA500", // Orange
-    },
-    player5: {
-        label: "Player 5",
-        color: "#800080", // Purple
     },
 } satisfies ChartConfig;
 
@@ -100,14 +81,7 @@ export function AllPlayersProgressChart() {
                     content={<ChartTooltipContent />}
                 />
                 {players.map((player, index) => {
-                    const colors = [
-                        "#FF0000", // Red
-                        "#0000FF", // Blue
-                        "#00FF00", // Green
-                        "#FFA500", // Orange
-                        "#800080", // Purple
-                    ];
-                    const color = colors[index % colors.length];
+                    const color = CHART_COLORS[index % CHART_COLORS.length];
                     return (
                         <Line
                             key={player.id}
