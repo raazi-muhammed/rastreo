@@ -1,15 +1,17 @@
 import { Separator } from "@/components/ui/separator";
-import LeaderBoard from "./components/custom/LeaderBoard";
 import TablePlayerCard from "./components/custom/TablePlayerCard";
 import AddPlayer from "./components/custom/AddPlayer";
 import TableScoreCard from "./components/custom/TableScoreCard";
 import AddScore from "./components/custom/AddScore";
-import { PanelLeftClose, PanelRightClose } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { PanelRightClose } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 import { ClearAll } from "./components/custom/ClearAll";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import ReactGa from "react-ga";
 import { setShowLeaderBoard } from "./store/features/settingsSlice";
+import LeaderboardPage from "./components/pages/leaderboard";
+import ScoreAnimation from "./components/animations/ScoreAnimation";
+import useGamesStats from "./hooks/useGamesStats";
 
 export default function App() {
     const players = useAppSelector((state) => state.players);
@@ -23,28 +25,12 @@ export default function App() {
     );
 
     ReactGa.pageview("/");
+    const { maxGamesPlayed } = useGamesStats();
 
     return (
         <main className="flex min-h-screen w-screen overflow-hidden bg-secondary">
             <AnimatePresence>
-                {showLeaderBoard ? (
-                    <div className="relative">
-                        <PanelLeftClose
-                            onClick={() => dispatch(setShowLeaderBoard(false))}
-                            size="1.2em"
-                            className="absolute right-4 top-4 my-auto ms-auto text-primary"
-                        />
-                        <motion.div
-                            initial={{ x: -300 }}
-                            animate={{ x: 0 }}
-                            exit={{
-                                x: -300,
-                                position: "absolute",
-                            }}>
-                            <LeaderBoard />
-                        </motion.div>
-                    </div>
-                ) : null}
+                {showLeaderBoard && <LeaderboardPage />}
             </AnimatePresence>
             <section
                 className={`h-screen ${
@@ -67,11 +53,20 @@ export default function App() {
                 </section>
                 <Separator className="my-2" />
                 {players.length !== 0 ? (
-                    <div className="h-screen w-full overflow-auto px-8 pb-44">
+                    <div className="h-screen w-full overflow-auto px-2 pb-44">
                         <section
                             className={`flex gap-1 text-primary min-w-full ${
                                 isFitEveryoneOn ? "" : "w-max"
                             }`}>
+                            <div className="flex flex-col gap-2 mt-[3.75rem] p-2">
+                                {new Array(maxGamesPlayed)
+                                    .fill(0)
+                                    .map((_, index) => (
+                                        <p className="h-12 text-xs text-muted-foreground font-mono text-right">
+                                            {index + 1}
+                                        </p>
+                                    ))}
+                            </div>
                             {players.map((player, i) => (
                                 <div
                                     key={player.id}
@@ -84,30 +79,13 @@ export default function App() {
                                     <AnimatePresence initial={false}>
                                         {scores[i].scores.map(
                                             (score, index) => (
-                                                <motion.div
-                                                    initial={{
-                                                        scale: 0.7,
-                                                        height: 0,
-                                                    }}
-                                                    animate={{
-                                                        scale: 1,
-                                                        height: "auto",
-                                                    }}
-                                                    exit={{
-                                                        opacity: 0,
-                                                        scale: 0,
-                                                        height: 0,
-                                                    }}
-                                                    whileHover={{
-                                                        scale: 1.05,
-                                                    }}
-                                                    key={score.id}>
+                                                <ScoreAnimation>
                                                     <TableScoreCard
                                                         score={score.val}
                                                         personId={scores[i].id}
                                                         index={index}
                                                     />
-                                                </motion.div>
+                                                </ScoreAnimation>
                                             )
                                         )}
                                     </AnimatePresence>

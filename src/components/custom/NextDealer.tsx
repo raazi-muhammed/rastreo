@@ -1,32 +1,14 @@
-import { useAppSelector } from "@/hooks/redux";
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import useGamesStats from "@/hooks/useGamesStats";
 
 export default function NextDealer() {
-    const [next, setNext] = useState("raazi");
-
-    const players = useAppSelector((state) => state.players);
-    const scores = useAppSelector((state) => state.scores);
-
-    const maxGamesPlayed = useMemo(() => {
-        const maxGamesPlayed = scores.reduce(
-            (largestNumberOfGames, individualScores) => {
-                if (largestNumberOfGames < individualScores.scores.length) {
-                    largestNumberOfGames = individualScores.scores.length;
-                }
-                return largestNumberOfGames;
-            },
-            0
-        );
-        setNext(players[maxGamesPlayed % players.length]?.name);
-        return maxGamesPlayed;
-    }, [players, scores]);
+    const { nextGamePlayer, maxGamesPlayed } = useGamesStats();
 
     return (
         <section>
-            {next ? (
+            {nextGamePlayer ? (
                 <motion.div
-                    key={next}
+                    key={nextGamePlayer}
                     animate={{
                         scale: [1.1, 0.9, 1.5, 0.9, 1],
                     }}
@@ -40,7 +22,7 @@ export default function NextDealer() {
                             <span className="mr-2 rounded bg-background px-3 py-1 text-primary text-sm">
                                 {maxGamesPlayed + 1}
                             </span>
-                            {next}
+                            {nextGamePlayer}
                         </p>
                         <small className="opacity-30">
                             Assumed that order of players is order of dealing

@@ -4,9 +4,9 @@ import NextDealer from "./NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useAppSelector } from "@/hooks/redux";
-import SettingsPage from "../pages/settings";
-import AnalyticsPage from "../pages/analytics";
-import LeaderboardPage from "../pages/leaderboard";
+import LeaderboardTab from "../pages/leaderboard/tabs/leaderboard";
+import AnalyticsTab from "../pages/leaderboard/tabs/analytics";
+import SettingsTab from "../pages/leaderboard/tabs/settings";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
@@ -33,11 +33,11 @@ export default function LeaderBoard() {
                 animate={{ scale: 1 }}
                 key={currentTab}>
                 {currentTab === TabsState.LEADERBOARD ? (
-                    <LeaderboardPage />
+                    <LeaderboardTab />
                 ) : currentTab === TabsState.ANALYSIS ? (
-                    <AnalyticsPage />
+                    <AnalyticsTab />
                 ) : (
-                    <SettingsPage />
+                    <SettingsTab />
                 )}
                 <div className={settings.showNextDealer ? "h-56" : "h-24"} />
             </motion.section>

@@ -5,7 +5,7 @@ import { BarChart } from "lucide-react";
 import AnalyticsTemplate from "./AnalyticsTemplate";
 import { useAppSelector } from "@/hooks/redux";
 
-const AnalyticsPage = () => {
+const AnalyticsTab = () => {
     const scores = useAppSelector((state) => state.scores);
 
     const numberOfGamesPlayed = scores?.[0]?.scores?.length;
@@ -34,4 +34,4 @@ const AnalyticsPage = () => {
     );
 };
 
-export default AnalyticsPage;
+export default AnalyticsTab;

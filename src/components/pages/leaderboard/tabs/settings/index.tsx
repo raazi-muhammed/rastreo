@@ -22,7 +22,7 @@ import {
 } from "@/store/features/settingsSlice";
 import { Settings } from "lucide-react";
 
-const SettingsPage = () => {
+const SettingsTab = () => {
     const settings = useAppSelector((state) => state.settings);
     const dispatch = useAppDispatch();
     const { setTheme, theme } = useTheme();
@@ -116,4 +116,4 @@ const SettingsPage = () => {
     );
 };
 
-export default SettingsPage;
+export default SettingsTab;
