@@ -96,6 +96,11 @@ export default function LeaderBoard() {
                                                 !settings.isMobileModeOn
                                             )
                                         );
+                                        dispatch(
+                                            setShowNextDealer(
+                                                settings.isMobileModeOn
+                                            )
+                                        );
                                     }}
                                 />
                             </SettingIconTemplate>
