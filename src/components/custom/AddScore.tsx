@@ -17,10 +17,9 @@ import { calculateNumber } from "@/lib/utils";
 export default function AddScore({ playerId }: { playerId: string }) {
     const [inputData, setInputData] = useState<string>("");
     const [open, setOpen] = useState(false);
-    const isTouchModeOn = useAppSelector(
-        (state) => state.settings.isTouchModeOn
+    const { isLocked, isTouchModeOn, isMobileModeOn } = useAppSelector(
+        (state) => state.settings
     );
-    const isLocked = useAppSelector((state) => state.settings.isLocked);
     const dispatch = useAppDispatch();
 
     function handleAddInput(userId: string, newScore: number) {
@@ -40,7 +39,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
             </PopoverTrigger>
             <PopoverContent
                 sideOffset={-20}
-                side="bottom"
+                side={isMobileModeOn ? "right" : "bottom"}
                 align="center"
                 onInteractOutside={() => setOpen(false)}
                 onOpenAutoFocus={

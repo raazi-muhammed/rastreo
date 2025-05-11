@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import SettingIconTemplate from "../template/SettingIconTemplate";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import {
+    setMobileMode,
     setShowNextDealer,
     toggleFitEveryone,
     toggleLock,
@@ -83,6 +84,18 @@ export default function LeaderBoard() {
                                     checked={settings.isFitEveryoneOn}
                                     onCheckedChange={() => {
                                         dispatch(toggleFitEveryone());
+                                    }}
+                                />
+                            </SettingIconTemplate>
+                            <SettingIconTemplate label="Mobile Mode">
+                                <Switch
+                                    checked={settings.isMobileModeOn}
+                                    onCheckedChange={() => {
+                                        dispatch(
+                                            setMobileMode(
+                                                !settings.isMobileModeOn
+                                            )
+                                        );
                                     }}
                                 />
                             </SettingIconTemplate>

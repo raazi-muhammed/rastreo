@@ -13,6 +13,7 @@ type Settings = {
     showLeaderBoard: boolean;
     sortOption: SortOptions;
     showNextDealer: boolean;
+    isMobileModeOn: boolean;
 };
 
 const initialState: Settings = {
@@ -22,6 +23,7 @@ const initialState: Settings = {
     showLeaderBoard: isDesktop,
     sortOption: SortOptions.TO_LOW,
     showNextDealer: true,
+    isMobileModeOn: false,
 };
 
 export const counterSlice = createSlice({
@@ -55,6 +57,11 @@ export const counterSlice = createSlice({
             state.showNextDealer = showStatus;
             return state;
         },
+        setMobileMode: (state, action: PayloadAction<boolean>) => {
+            const mobileMode = action.payload;
+            state.isMobileModeOn = mobileMode;
+            return state;
+        },
     },
 });
 
@@ -65,6 +72,7 @@ export const {
     toggleFitEveryone,
     toggleLock,
     setShowNextDealer,
+    setMobileMode,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

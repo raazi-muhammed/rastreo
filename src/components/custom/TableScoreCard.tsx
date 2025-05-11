@@ -31,7 +31,7 @@ export default function TableScoreCard({
     );
     const isLocked = useAppSelector((state) => state.settings.isLocked);
     const dispatch = useAppDispatch();
-
+    const settings = useAppSelector((state) => state.settings);
     function handleEditScore(userId: string, index: number, newScore: number) {
         dispatch(editScore({ userId, index, newScore }));
     }
@@ -74,6 +74,7 @@ export default function TableScoreCard({
                 </Button>
             </PopoverTrigger>
             <PopoverContent
+                side={settings.isMobileModeOn ? "right" : "bottom"}
                 onInteractOutside={() => setOpen(false)}
                 onOpenAutoFocus={
                     isTouchModeOn
