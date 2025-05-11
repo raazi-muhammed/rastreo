@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 type ThemeProviderProps = {
     children: React.ReactNode;
-    defaultTheme?: ThemeOptions;
+    defaultTheme: ThemeOptions;
     storageKey?: string;
 };
 
@@ -34,12 +34,12 @@ export function ThemeProvider({
 
         root.classList.remove("light", "dark");
 
-        if (theme === "system") {
+        if (theme === ThemeOptions.SYSTEM) {
             const systemTheme = window.matchMedia(
                 "(prefers-color-scheme: dark)"
             ).matches
-                ? "dark"
-                : "light";
+                ? ThemeOptions.DARK
+                : ThemeOptions.LIGHT;
 
             root.classList.add(systemTheme);
             return;
