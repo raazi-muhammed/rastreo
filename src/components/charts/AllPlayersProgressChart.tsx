@@ -55,7 +55,7 @@ export function AllPlayersProgressChart() {
     }
 
     return (
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="max-h-[80vh]">
             <LineChart
                 accessibilityLayer
                 data={data}

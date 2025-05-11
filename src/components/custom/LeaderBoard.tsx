@@ -1,4 +1,4 @@
-import { Award, BarChart, Settings } from "lucide-react";
+import { Award, BarChart, ChevronRight, Settings } from "lucide-react";
 import { ReactNode, useState } from "react";
 import NextDealer from "./NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -27,6 +27,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "../ui/select";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
@@ -68,13 +69,35 @@ export default function LeaderBoard() {
                             <BarChart size="1.2em" />
                             Analysis
                         </Heading>
-                        <p className="text-lg font-semibold mb-2">
-                            Per game values
-                        </p>
+                        <Drawer>
+                            <DrawerTrigger>
+                                <p className="text-lg font-semibold mb-2 flex align-middle gap-1">
+                                    Per game values
+                                    <ChevronRight
+                                        className="my-auto"
+                                        size={20}
+                                    />
+                                </p>
+                            </DrawerTrigger>
+                            <DrawerContent className="p-6 max-h-[90vh]">
+                                <AllPlayersChart />
+                            </DrawerContent>
+                        </Drawer>
                         <AllPlayersChart />
-                        <p className="text-lg font-semibold mb-2">
-                            Leaderboard progress
-                        </p>
+                        <Drawer>
+                            <DrawerTrigger>
+                                <p className="text-lg font-semibold mb-2 flex align-middle gap-1">
+                                    Leaderboard progress
+                                    <ChevronRight
+                                        className="my-auto"
+                                        size={20}
+                                    />
+                                </p>
+                            </DrawerTrigger>
+                            <DrawerContent className="p-6">
+                                <AllPlayersProgressChart />
+                            </DrawerContent>
+                        </Drawer>
                         <AllPlayersProgressChart />
                     </>
                 ) : (
