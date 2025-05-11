@@ -69,7 +69,7 @@ export default function LeaderBoard() {
                             <Settings size="1.2em" />
                             Settings
                         </Heading>
-                        <section className="mb-8 mt-auto h-full space-y-4">
+                        <section className="mt-auto h-full space-y-4">
                             <SortOption />
                             <SettingIconTemplate label="Touch Mode">
                                 <Switch
@@ -145,8 +145,9 @@ export default function LeaderBoard() {
                         </section>
                     </>
                 )}
+                <div className={settings.showNextDealer ? "h-56" : "h-24"} />
             </motion.section>
-            <div className="sticky bottom-0 gap-4 flex flex-col align-middle bg-background p-4">
+            <div className="fixed w-[20rem] bottom-0 gap-4 flex flex-col align-middle bg-gradient-to-t from-background to-transparent p-4 from-30%">
                 {settings.showNextDealer ? <NextDealer /> : null}
                 <Tabs defaultValue="leaderboard" className="mx-auto">
                     <TabsList>
@@ -171,14 +172,16 @@ export default function LeaderBoard() {
                         </TabsTrigger>
                     </TabsList>
                 </Tabs>
-                <p className="text-center text-xs text-muted-foreground">
-                    Created by
-                    <a
-                        href="https://raazi.live/"
-                        className="ms-1 font-semibold text-primary underline">
-                        Raazi
-                    </a>
-                </p>
+                {!settings.isMobileModeOn ? (
+                    <p className="text-center text-xs text-muted-foreground">
+                        Created by
+                        <a
+                            href="https://raazi.live/"
+                            className="ms-1 font-semibold text-primary underline">
+                            Raazi
+                        </a>
+                    </p>
+                ) : null}
             </div>
         </aside>
     );
