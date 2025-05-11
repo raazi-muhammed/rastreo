@@ -5,6 +5,11 @@ export enum SortOptions {
     TO_LOW = "TO_LOW",
     TO_HIGH = "TO_HIGH",
 }
+export enum ThemeOptions {
+    SYSTEM = "system",
+    LIGHT = "light",
+    DARK = "dark",
+}
 
 type Settings = {
     isTouchModeOn: boolean;
@@ -14,6 +19,7 @@ type Settings = {
     sortOption: SortOptions;
     showNextDealer: boolean;
     isMobileModeOn: boolean;
+    theme: ThemeOptions;
 };
 
 const initialState: Settings = {
@@ -24,6 +30,7 @@ const initialState: Settings = {
     sortOption: SortOptions.TO_LOW,
     showNextDealer: true,
     isMobileModeOn: false,
+    theme: ThemeOptions.SYSTEM,
 };
 
 export const counterSlice = createSlice({

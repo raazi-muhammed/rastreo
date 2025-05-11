@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import {
     setMobileMode,
     setShowNextDealer,
+    ThemeOptions,
     toggleFitEveryone,
     toggleLock,
     toggleTouchMode,
@@ -19,6 +20,13 @@ import { useTheme } from "../theme/theme-provider";
 import { toast } from "@/hooks/use-toast";
 import { AllPlayersChart } from "../charts/AllPlayersChart";
 import { AllPlayersProgressChart } from "../charts/AllPlayersProgressChart";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../ui/select";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
@@ -136,16 +144,26 @@ export default function LeaderBoard() {
                                 />
                             </SettingIconTemplate>
                             <SettingIconTemplate label="Theme">
-                                <Switch
-                                    checked={theme == "system"}
-                                    onCheckedChange={(data) => {
-                                        if (!data) {
-                                            setTheme("light");
-                                        } else {
-                                            setTheme("system");
-                                        }
-                                    }}
-                                />
+                                <Select
+                                    defaultValue={theme}
+                                    onValueChange={(value) => {
+                                        setTheme(value as ThemeOptions);
+                                    }}>
+                                    <SelectTrigger className="-me-1 h-8 w-fit bg-secondary">
+                                        <SelectValue placeholder="none" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value={ThemeOptions.SYSTEM}>
+                                            System
+                                        </SelectItem>
+                                        <SelectItem value={ThemeOptions.LIGHT}>
+                                            Light
+                                        </SelectItem>
+                                        <SelectItem value={ThemeOptions.DARK}>
+                                            Dark
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </SettingIconTemplate>
                         </section>
                     </>

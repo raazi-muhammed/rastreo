@@ -7,7 +7,7 @@ import {
     SelectValue,
 } from "../ui/select";
 import { SortOptions, changeSortOption } from "@/store/features/settingsSlice";
-
+import SettingIconTemplate from "../template/SettingIconTemplate";
 export default function SortOption() {
     const settings = useAppSelector((state) => state.settings);
     const { sortOption } = settings;
@@ -15,8 +15,7 @@ export default function SortOption() {
 
     return (
         <>
-            <section className="flex justify-between gap-4 rounded bg-secondary px-3 py-2">
-                <p className="my-auto">Who wins</p>
+            <SettingIconTemplate label="Who wins">
                 <Select
                     defaultValue={sortOption}
                     onValueChange={(value) => {
@@ -34,7 +33,7 @@ export default function SortOption() {
                         </SelectItem>
                     </SelectContent>
                 </Select>
-            </section>
+            </SettingIconTemplate>
         </>
     );
 }

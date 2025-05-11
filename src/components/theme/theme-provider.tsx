@@ -1,20 +1,19 @@
+import { ThemeOptions } from "@/store/features/settingsSlice";
 import { createContext, useContext, useEffect, useState } from "react";
-
-type Theme = "dark" | "light" | "system";
 
 type ThemeProviderProps = {
     children: React.ReactNode;
-    defaultTheme?: Theme;
+    defaultTheme?: ThemeOptions;
     storageKey?: string;
 };
 
 type ThemeProviderState = {
-    theme: Theme;
-    setTheme: (theme: Theme) => void;
+    theme: ThemeOptions;
+    setTheme: (theme: ThemeOptions) => void;
 };
 
 const initialState: ThemeProviderState = {
-    theme: "system",
+    theme: ThemeOptions.SYSTEM,
     setTheme: () => null,
 };
 
@@ -22,12 +21,12 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
     children,
-    defaultTheme = "system",
+    defaultTheme = ThemeOptions.SYSTEM,
     storageKey = "vite-ui-theme",
     ...props
 }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<Theme>(
-        () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+    const [theme, setTheme] = useState<ThemeOptions>(
+        () => (localStorage.getItem(storageKey) as ThemeOptions) || defaultTheme
     );
 
     useEffect(() => {
@@ -51,7 +50,7 @@ export function ThemeProvider({
 
     const value = {
         theme,
-        setTheme: (theme: Theme) => {
+        setTheme: (theme: ThemeOptions) => {
             localStorage.setItem(storageKey, theme);
             setTheme(theme);
         },
