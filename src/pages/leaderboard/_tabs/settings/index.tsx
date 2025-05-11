@@ -1,4 +1,4 @@
-import { Heading } from "@/components/custom/LeaderBoard";
+import { Heading } from "@/pages/leaderboard/_components/LeaderBoard";
 import SortOption from "@/components/custom/SortOption";
 import SettingIconTemplate from "@/components/template/SettingIconTemplate";
 import { useTheme } from "@/components/theme/theme-provider";

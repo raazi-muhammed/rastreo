@@ -1,6 +1,6 @@
 import { AllPlayersChart } from "@/components/charts/AllPlayersChart";
 import { AllPlayersProgressChart } from "@/components/charts/AllPlayersProgressChart";
-import { Heading } from "@/components/custom/LeaderBoard";
+import { Heading } from "@/pages/leaderboard/_components/LeaderBoard";
 import { BarChart } from "lucide-react";
 import AnalyticsTemplate from "./AnalyticsTemplate";
 import { useAppSelector } from "@/hooks/redux";

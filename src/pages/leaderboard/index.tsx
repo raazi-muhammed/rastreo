@@ -1,4 +1,4 @@
-import LeaderBoard from "@/components/custom/LeaderBoard";
+import LeaderBoard from "@/pages/leaderboard/_components/LeaderBoard";
 import { setShowLeaderBoard } from "@/store/features/settingsSlice";
 import { motion } from "framer-motion";
 import { PanelLeftClose } from "lucide-react";
