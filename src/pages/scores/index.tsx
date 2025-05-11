@@ -4,6 +4,7 @@ import { useAppSelector } from "@/hooks/redux";
 import NumberOfGameIndex from "./_components/NumberOfGameIndex";
 import ScoresHeader from "./_components/ScoresHeader";
 import ScoresTable from "./_components/ScoresTable";
+import MessageTemplate from "@/components/template/MessageTemplate";
 
 export default function ScoresPage() {
     const players = useAppSelector((state) => state.players);
@@ -32,14 +33,14 @@ export default function ScoresPage() {
                     </section>
                 </div>
             ) : (
-                <div className="grid min-h-64 place-content-center gap-4">
-                    <AddPlayer variant="lg" />
-                    <p className="text-center text-xs text-primary/50">
-                        No players yet,
-                        <br />
-                        Add a player to start tracking
-                    </p>
-                </div>
+                <>
+                    <MessageTemplate
+                        className="mt-24"
+                        title="No player yet"
+                        description="Add a player to start tracking">
+                        <AddPlayer variant="lg" />
+                    </MessageTemplate>
+                </>
             )}
         </section>
     );

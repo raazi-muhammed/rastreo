@@ -4,6 +4,7 @@ import { Crown as WinnerIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "@/hooks/redux";
+import MessageTemplate from "@/components/template/MessageTemplate";
 
 type LeaderBoardItem = {
     player: string;
@@ -118,7 +119,10 @@ export default function LeaderBoardData() {
                     </section>
                 </AnimatePresence>
             ) : (
-                <p className="my-8 text-primary/50">No players</p>
+                <MessageTemplate
+                    title="No players yet"
+                    description="Add player to see leaderboard"
+                />
             )}
         </>
     );

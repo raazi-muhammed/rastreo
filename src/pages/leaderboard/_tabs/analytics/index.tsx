@@ -4,7 +4,7 @@ import { Heading } from "@/pages/leaderboard/_components/LeaderBoard";
 import { BarChart } from "lucide-react";
 import AnalyticsTemplate from "./AnalyticsTemplate";
 import { useAppSelector } from "@/hooks/redux";
-
+import MessageTemplate from "@/components/template/MessageTemplate";
 const AnalyticsTab = () => {
     const scores = useAppSelector((state) => state.scores);
 
@@ -26,9 +26,7 @@ const AnalyticsTab = () => {
                     </AnalyticsTemplate>
                 </>
             ) : (
-                <p className="text-left text-muted-foreground">
-                    You have to play at least 2 games to see the analytics
-                </p>
+                <MessageTemplate title="You have to play at least 2 games to see the analytics" />
             )}
         </>
     );
