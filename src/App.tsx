@@ -9,7 +9,7 @@ import { ClearAll } from "./components/custom/ClearAll";
 import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import ReactGa from "react-ga";
 import { setShowLeaderBoard } from "./store/features/settingsSlice";
-import LeaderboardPage from "./components/pages/leaderboard";
+import LeaderboardPage from "./pages/leaderboard";
 import ScoreAnimation from "./components/animations/ScoreAnimation";
 import useGamesStats from "./hooks/useGamesStats";
 

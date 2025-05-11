@@ -4,9 +4,9 @@ import NextDealer from "./NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useAppSelector } from "@/hooks/redux";
-import LeaderboardTab from "../pages/leaderboard/tabs/leaderboard";
-import AnalyticsTab from "../pages/leaderboard/tabs/analytics";
-import SettingsTab from "../pages/leaderboard/tabs/settings";
+import LeaderboardTab from "../../pages/leaderboard/tabs/leaderboard";
+import AnalyticsTab from "../../pages/leaderboard/tabs/analytics";
+import SettingsTab from "../../pages/leaderboard/tabs/settings";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
