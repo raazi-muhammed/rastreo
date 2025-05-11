@@ -3,12 +3,11 @@ import { AllPlayersProgressChart } from "@/components/charts/AllPlayersProgressC
 import { Heading } from "@/pages/leaderboard/_components/LeaderBoard";
 import { BarChart } from "lucide-react";
 import AnalyticsTemplate from "./AnalyticsTemplate";
-import { useAppSelector } from "@/hooks/redux";
 import MessageTemplate from "@/components/template/MessageTemplate";
-const AnalyticsTab = () => {
-    const scores = useAppSelector((state) => state.scores);
+import useGamesStats from "@/hooks/useGamesStats";
 
-    const numberOfGamesPlayed = scores?.[0]?.scores?.length;
+const AnalyticsTab = () => {
+    const { maxGamesPlayed } = useGamesStats();
 
     return (
         <>
@@ -16,7 +15,7 @@ const AnalyticsTab = () => {
                 <BarChart size="1.2em" />
                 Analysis
             </Heading>
-            {numberOfGamesPlayed > 1 ? (
+            {maxGamesPlayed > 1 ? (
                 <>
                     <AnalyticsTemplate title="Per game values">
                         <AllPlayersChart />
