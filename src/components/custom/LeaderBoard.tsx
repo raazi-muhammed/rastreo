@@ -68,7 +68,13 @@ export default function LeaderBoard() {
                             <BarChart size="1.2em" />
                             Analysis
                         </Heading>
+                        <p className="text-lg font-semibold mb-2">
+                            Per game values
+                        </p>
                         <AllPlayersChart />
+                        <p className="text-lg font-semibold mb-2">
+                            Leaderboard progress
+                        </p>
                         <AllPlayersProgressChart />
                     </>
                 ) : (
