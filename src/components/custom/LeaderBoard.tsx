@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import SettingIconTemplate from "../template/SettingIconTemplate";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import {
+    setShowNextDealer,
     toggleFitEveryone,
     toggleLock,
     toggleTouchMode,
@@ -85,6 +86,18 @@ export default function LeaderBoard() {
                                     }}
                                 />
                             </SettingIconTemplate>
+                            <SettingIconTemplate label="Show Next Dealer">
+                                <Switch
+                                    checked={settings.showNextDealer}
+                                    onCheckedChange={() => {
+                                        dispatch(
+                                            setShowNextDealer(
+                                                !settings.showNextDealer
+                                            )
+                                        );
+                                    }}
+                                />
+                            </SettingIconTemplate>
                             <SettingIconTemplate label="Lock">
                                 <Switch
                                     checked={settings.isLocked}
@@ -121,7 +134,7 @@ export default function LeaderBoard() {
                 )}
             </motion.section>
             <div className="sticky bottom-0 gap-4 flex flex-col align-middle bg-background p-4">
-                <NextDealer />
+                {settings.showNextDealer ? <NextDealer /> : null}
                 <Tabs defaultValue="leaderboard" className="mx-auto">
                     <TabsList>
                         <TabsTrigger

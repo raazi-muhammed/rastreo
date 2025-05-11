@@ -12,6 +12,7 @@ type Settings = {
     isLocked: boolean;
     showLeaderBoard: boolean;
     sortOption: SortOptions;
+    showNextDealer: boolean;
 };
 
 const initialState: Settings = {
@@ -20,6 +21,7 @@ const initialState: Settings = {
     isLocked: false,
     showLeaderBoard: isDesktop,
     sortOption: SortOptions.TO_LOW,
+    showNextDealer: true,
 };
 
 export const counterSlice = createSlice({
@@ -48,6 +50,11 @@ export const counterSlice = createSlice({
             state.showLeaderBoard = showStatus;
             return state;
         },
+        setShowNextDealer: (state, action: PayloadAction<boolean>) => {
+            const showStatus = action.payload;
+            state.showNextDealer = showStatus;
+            return state;
+        },
     },
 });
 
@@ -57,6 +64,7 @@ export const {
     setShowLeaderBoard,
     toggleFitEveryone,
     toggleLock,
+    setShowNextDealer,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
