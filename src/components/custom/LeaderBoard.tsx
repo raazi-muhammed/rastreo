@@ -1,33 +1,12 @@
-import { Award, BarChart, ChevronRight, Settings } from "lucide-react";
+import { Award, BarChart, Settings } from "lucide-react";
 import { ReactNode, useState } from "react";
 import NextDealer from "./NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SortOption from "./SortOption";
-import LeaderBoardData from "./LeaderBoardData";
 import { motion } from "framer-motion";
-import SettingIconTemplate from "../template/SettingIconTemplate";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import {
-    setMobileMode,
-    setShowNextDealer,
-    ThemeOptions,
-    toggleFitEveryone,
-    toggleLock,
-    toggleTouchMode,
-} from "@/store/features/settingsSlice";
-import { Switch } from "../ui/switch";
-import { useTheme } from "../theme/theme-provider";
-import { toast } from "@/hooks/use-toast";
-import { AllPlayersChart } from "../charts/AllPlayersChart";
-import { AllPlayersProgressChart } from "../charts/AllPlayersProgressChart";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "../ui/select";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { useAppSelector } from "@/hooks/redux";
+import SettingsPage from "../pages/settings";
+import AnalyticsPage from "../pages/analytics";
+import LeaderboardPage from "../pages/leaderboard";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
@@ -45,8 +24,6 @@ enum TabsState {
 export default function LeaderBoard() {
     const [currentTab, setCurrentTab] = useState(TabsState.LEADERBOARD);
     const settings = useAppSelector((state) => state.settings);
-    const dispatch = useAppDispatch();
-    const { setTheme, theme } = useTheme();
 
     return (
         <aside className="flex h-svh w-[20rem] flex-col justify-between gap-4 bg-background shadow-xl overflow-auto no-scrollbar">
@@ -56,146 +33,11 @@ export default function LeaderBoard() {
                 animate={{ scale: 1 }}
                 key={currentTab}>
                 {currentTab === TabsState.LEADERBOARD ? (
-                    <>
-                        <Heading>
-                            <Award size="1.2em" />
-                            Leaderboard
-                        </Heading>
-                        <LeaderBoardData />
-                    </>
+                    <LeaderboardPage />
                 ) : currentTab === TabsState.ANALYSIS ? (
-                    <>
-                        <Heading>
-                            <BarChart size="1.2em" />
-                            Analysis
-                        </Heading>
-                        <Drawer>
-                            <DrawerTrigger>
-                                <p className="text-lg font-semibold mb-2 flex align-middle gap-1">
-                                    Per game values
-                                    <ChevronRight
-                                        className="my-auto"
-                                        size={20}
-                                    />
-                                </p>
-                            </DrawerTrigger>
-                            <DrawerContent className="p-6 max-h-[90vh]">
-                                <AllPlayersChart />
-                            </DrawerContent>
-                        </Drawer>
-                        <AllPlayersChart />
-                        <Drawer>
-                            <DrawerTrigger>
-                                <p className="text-lg font-semibold mb-2 flex align-middle gap-1">
-                                    Leaderboard progress
-                                    <ChevronRight
-                                        className="my-auto"
-                                        size={20}
-                                    />
-                                </p>
-                            </DrawerTrigger>
-                            <DrawerContent className="p-6">
-                                <AllPlayersProgressChart />
-                            </DrawerContent>
-                        </Drawer>
-                        <AllPlayersProgressChart />
-                    </>
+                    <AnalyticsPage />
                 ) : (
-                    <>
-                        <Heading>
-                            <Settings size="1.2em" />
-                            Settings
-                        </Heading>
-                        <section className="mt-auto h-full space-y-4">
-                            <SortOption />
-                            <SettingIconTemplate label="Touch Mode">
-                                <Switch
-                                    checked={settings.isTouchModeOn}
-                                    onCheckedChange={() => {
-                                        dispatch(toggleTouchMode());
-                                    }}
-                                />
-                            </SettingIconTemplate>
-                            <SettingIconTemplate label="Fit Everyone">
-                                <Switch
-                                    checked={settings.isFitEveryoneOn}
-                                    onCheckedChange={() => {
-                                        dispatch(toggleFitEveryone());
-                                    }}
-                                />
-                            </SettingIconTemplate>
-                            <SettingIconTemplate label="Mobile Mode">
-                                <Switch
-                                    checked={settings.isMobileModeOn}
-                                    onCheckedChange={() => {
-                                        dispatch(
-                                            setMobileMode(
-                                                !settings.isMobileModeOn
-                                            )
-                                        );
-                                        dispatch(
-                                            setShowNextDealer(
-                                                settings.isMobileModeOn
-                                            )
-                                        );
-                                    }}
-                                />
-                            </SettingIconTemplate>
-                            <SettingIconTemplate label="Show Next Dealer">
-                                <Switch
-                                    checked={settings.showNextDealer}
-                                    onCheckedChange={() => {
-                                        dispatch(
-                                            setShowNextDealer(
-                                                !settings.showNextDealer
-                                            )
-                                        );
-                                    }}
-                                />
-                            </SettingIconTemplate>
-                            <SettingIconTemplate label="Lock">
-                                <Switch
-                                    checked={settings.isLocked}
-                                    onDoubleClick={() => {
-                                        if (settings.isLocked)
-                                            dispatch(toggleLock());
-                                    }}
-                                    onClick={() => {
-                                        if (!settings.isLocked)
-                                            dispatch(toggleLock());
-                                        else
-                                            toast({
-                                                title: "Locked",
-                                                description:
-                                                    "Double click to unlock the game",
-                                            });
-                                    }}
-                                />
-                            </SettingIconTemplate>
-                            <SettingIconTemplate label="Theme">
-                                <Select
-                                    defaultValue={theme}
-                                    onValueChange={(value) => {
-                                        setTheme(value as ThemeOptions);
-                                    }}>
-                                    <SelectTrigger className="-me-1 h-8 w-fit bg-secondary">
-                                        <SelectValue placeholder="none" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value={ThemeOptions.SYSTEM}>
-                                            System
-                                        </SelectItem>
-                                        <SelectItem value={ThemeOptions.LIGHT}>
-                                            Light
-                                        </SelectItem>
-                                        <SelectItem value={ThemeOptions.DARK}>
-                                            Dark
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </SettingIconTemplate>
-                        </section>
-                    </>
+                    <SettingsPage />
                 )}
                 <div className={settings.showNextDealer ? "h-56" : "h-24"} />
             </motion.section>
