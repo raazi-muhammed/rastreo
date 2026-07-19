@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 type ScoreTracker = {
     id: string;
-    scores: { id: string; val: number }[];
+    scores: { id: string; val: number; createdAt?: number }[];
 }[];
 
 const initialState: ScoreTracker = [];
@@ -20,7 +20,11 @@ export const counterSlice = createSlice({
             const { userId, newScore } = action.payload;
             state = state.map((e) => {
                 if (e.id === userId)
-                    e.scores.push({ id: uuidv4(), val: newScore });
+                    e.scores.push({
+                        id: uuidv4(),
+                        val: newScore,
+                        createdAt: Date.now(),
+                    });
                 return e;
             });
         },

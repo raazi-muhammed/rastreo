@@ -17,10 +17,14 @@ const AnalyticsTab = () => {
             </Heading>
             {maxGamesPlayed > 1 ? (
                 <>
-                    <AnalyticsTemplate title="Per game values">
+                    <AnalyticsTemplate
+                        title="Per game values"
+                        expanded={<AllPlayersChart showLegend />}>
                         <AllPlayersChart />
                     </AnalyticsTemplate>
-                    <AnalyticsTemplate title="Leaderboard progress">
+                    <AnalyticsTemplate
+                        title="Leaderboard progress"
+                        expanded={<AllPlayersProgressChart showLegend />}>
                         <AllPlayersProgressChart />
                     </AnalyticsTemplate>
                 </>

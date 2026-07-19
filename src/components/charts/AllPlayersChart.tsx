@@ -5,26 +5,32 @@ import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
     ChartConfig,
     ChartContainer,
+    ChartLegend,
+    ChartLegendContent,
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useAppSelector } from "@/hooks/redux";
 import { CHART_COLORS } from "@/lib/constants";
 
-const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "hsl(var(--chart-1))",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(var(--chart-2))",
-    },
-} satisfies ChartConfig;
-
-export function AllPlayersChart() {
+export function AllPlayersChart({
+    showLegend = false,
+}: {
+    showLegend?: boolean;
+}) {
     const scores = useAppSelector((state) => state.scores);
     const players = useAppSelector((state) => state.players);
+
+    const chartConfig = players.reduce<ChartConfig>(
+        (config, player, index) => {
+            config[player.name] = {
+                label: player.name,
+                color: CHART_COLORS[index % CHART_COLORS.length],
+            };
+            return config;
+        },
+        {}
+    );
 
     // Find the maximum number of scores among all players
     const maxScores = Math.max(
@@ -77,6 +83,9 @@ export function AllPlayersChart() {
                     cursor={false}
                     content={<ChartTooltipContent />}
                 />
+                {showLegend && (
+                    <ChartLegend content={<ChartLegendContent />} />
+                )}
                 {players.map((player, index) => {
                     const color = CHART_COLORS[index % CHART_COLORS.length];
 
