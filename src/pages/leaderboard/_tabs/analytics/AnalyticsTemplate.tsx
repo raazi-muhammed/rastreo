@@ -4,9 +4,11 @@ import { ReactNode } from "react";
 
 const AnalyticsTemplate = ({
     children,
+    expanded,
     title,
 }: {
     children: ReactNode;
+    expanded?: ReactNode;
     title: string;
 }) => {
     return (
@@ -19,7 +21,7 @@ const AnalyticsTemplate = ({
                     </p>
                 </DrawerTrigger>
                 <DrawerContent className="p-6 max-h-[90vh]">
-                    {children}
+                    {expanded ?? children}
                 </DrawerContent>
             </Drawer>
             {children}
