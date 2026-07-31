@@ -7,7 +7,7 @@ import { useAppSelector } from "@/hooks/redux";
 import MessageTemplate from "@/components/template/MessageTemplate";
 
 type LeaderBoardItem = {
-    player: string;
+    players: string[];
     sum: number;
     difference?: number;
     totalDifference?: number;
@@ -42,24 +42,38 @@ export default function LeaderBoardData() {
         });
     }
 
+    function mergeDraws(
+        rawData: { player: string; sum: number }[]
+    ): LeaderBoardItem[] {
+        const merged: LeaderBoardItem[] = [];
+        for (const entry of rawData) {
+            const last = merged[merged.length - 1];
+            if (last && last.sum === entry.sum) {
+                last.players.push(entry.player);
+            } else {
+                merged.push({ players: [entry.player], sum: entry.sum });
+            }
+        }
+        return merged;
+    }
+
     useEffect(() => {
-        const lbData: LeaderBoardItem[] = [];
+        const rawData: { player: string; sum: number }[] = [];
         for (let i = 0; i < players.length; i++) {
             const sum = findSumOfPlayerWithId(players[i].id);
-            lbData.push({
+            rawData.push({
                 player: players[i].name,
                 sum,
             });
         }
 
-        let withDifference: LeaderBoardItem[] = lbData;
         if (sortOption == SortOptions.TO_HIGH) {
-            lbData.sort((a, b) => a.sum - b.sum);
-            withDifference = addDifferences(lbData);
+            rawData.sort((a, b) => a.sum - b.sum);
         } else {
-            lbData.sort((a, b) => b.sum - a.sum);
-            withDifference = addDifferences(lbData);
+            rawData.sort((a, b) => b.sum - a.sum);
         }
+
+        const withDifference = addDifferences(mergeDraws(rawData));
         setLeaderBoardData(withDifference);
     }, [players, scores, sortOption]);
 
@@ -73,14 +87,18 @@ export default function LeaderBoardData() {
                                 className="rounded shadow-accent hover:shadow-lg"
                                 whileHover={{ scale: 1.05 }}
                                 animate={{ scale: 1 }}
-                                key={l.player}>
+                                key={l.players.join("-")}>
                                 {index === 0 && sortOption ? (
                                     <section className="my-2 flex justify-between rounded border bg-muted px-4 py-2 shadow-md shadow-accent">
                                         <div>
                                             <WinnerIcon className="text-primary" />
-                                            <p className="my-auto text-lg">
-                                                {l.player}
-                                            </p>
+                                            {l.players.map((p) => (
+                                                <p
+                                                    key={p}
+                                                    className="my-auto text-lg">
+                                                    {p}
+                                                </p>
+                                            ))}
                                         </div>
                                         <p className="-me-1 mt-auto font-semibold">
                                             {formatNumber(l.sum)}
@@ -92,9 +110,11 @@ export default function LeaderBoardData() {
                                             <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
                                                 {index + 1}
                                             </p>
-                                            <p className="my-auto">
-                                                {l.player}
-                                            </p>
+                                            <div className="my-auto">
+                                                {l.players.map((p) => (
+                                                    <p key={p}>{p}</p>
+                                                ))}
+                                            </div>
                                         </div>
                                         <div className="me-1">
                                             <p className="me-0 ms-auto w-fit font-semibold">
