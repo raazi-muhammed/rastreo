@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "@/hooks/redux";
 import MessageTemplate from "@/components/template/MessageTemplate";
+import useGamesStats from "@/hooks/useGamesStats";
 
 type LeaderBoardItem = {
     players: string[];
@@ -19,6 +20,7 @@ export default function LeaderBoardData() {
 
     const settings = useAppSelector((state) => state.settings);
     const { sortOption } = settings;
+    const { maxGamesPlayed } = useGamesStats();
     const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
         []
     );
@@ -79,7 +81,14 @@ export default function LeaderBoardData() {
 
     return (
         <>
-            {leaderBoardData.length > 0 ? (
+            {leaderBoardData.length === 0 ? (
+                <MessageTemplate
+                    title="No players yet"
+                    description="Add player to see leaderboard"
+                />
+            ) : maxGamesPlayed === 0 ? (
+                <MessageTemplate title="Add a score to see the leaderboard" />
+            ) : (
                 <AnimatePresence>
                     <section key={sortOption}>
                         {leaderBoardData.map((l, index) => (
@@ -88,17 +97,21 @@ export default function LeaderBoardData() {
                                 whileHover={{ scale: 1.05 }}
                                 animate={{ scale: 1 }}
                                 key={l.players.join("-")}>
-                                {index === 0 && sortOption ? (
+                                {index === 0 &&
+                                sortOption &&
+                                leaderBoardData.length > 1 ? (
                                     <section className="my-2 flex justify-between rounded border bg-muted px-4 py-2 shadow-md shadow-accent">
-                                        <div>
+                                        <div className="flex-1">
                                             <WinnerIcon className="text-primary" />
-                                            {l.players.map((p) => (
-                                                <p
-                                                    key={p}
-                                                    className="my-auto text-lg">
-                                                    {p}
-                                                </p>
-                                            ))}
+                                            <div className="divide-y divide-muted-foreground/20 pr-3">
+                                                {l.players.map((p) => (
+                                                    <p
+                                                        key={p}
+                                                        className="my-auto py-2 text-lg">
+                                                        {p}
+                                                    </p>
+                                                ))}
+                                            </div>
                                         </div>
                                         <p className="-me-1 mt-auto font-semibold">
                                             {formatNumber(l.sum)}
@@ -106,13 +119,15 @@ export default function LeaderBoardData() {
                                     </section>
                                 ) : (
                                     <section className="my-2 flex justify-between rounded bg-muted p-2">
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-1 gap-2">
                                             <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
                                                 {index + 1}
                                             </p>
-                                            <div className="my-auto">
+                                            <div className="my-auto flex-1 divide-y divide-muted-foreground/20 pr-3">
                                                 {l.players.map((p) => (
-                                                    <p key={p}>{p}</p>
+                                                    <p key={p} className="py-2">
+                                                        {p}
+                                                    </p>
                                                 ))}
                                             </div>
                                         </div>
@@ -138,11 +153,6 @@ export default function LeaderBoardData() {
                         ))}
                     </section>
                 </AnimatePresence>
-            ) : (
-                <MessageTemplate
-                    title="No players yet"
-                    description="Add player to see leaderboard"
-                />
             )}
         </>
     );
