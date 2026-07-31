@@ -1,11 +1,12 @@
 import { formatNumber } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { Crown as WinnerIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "@/hooks/redux";
 import MessageTemplate from "@/components/template/MessageTemplate";
 import useGamesStats from "@/hooks/useGamesStats";
+import { Separator } from "@/components/ui/separator";
 
 type LeaderBoardItem = {
     players: string[];
@@ -101,17 +102,18 @@ export default function LeaderBoardData() {
                                 sortOption &&
                                 leaderBoardData.length > 1 ? (
                                     <section className="my-2 flex justify-between rounded border bg-muted px-4 py-2 shadow-md shadow-accent">
-                                        <div className="flex-1">
+                                        <div className="flex-1 pr-3">
                                             <WinnerIcon className="text-primary" />
-                                            <div className="divide-y divide-muted-foreground/20 pr-3">
-                                                {l.players.map((p) => (
-                                                    <p
-                                                        key={p}
-                                                        className="my-auto py-2 text-lg">
+                                            {l.players.map((p, i) => (
+                                                <Fragment key={p}>
+                                                    {i > 0 && (
+                                                        <Separator className="my-2 bg-muted-foreground/20" />
+                                                    )}
+                                                    <p className="my-auto text-lg">
                                                         {p}
                                                     </p>
-                                                ))}
-                                            </div>
+                                                </Fragment>
+                                            ))}
                                         </div>
                                         <p className="-me-1 mt-auto font-semibold">
                                             {formatNumber(l.sum)}
@@ -123,11 +125,14 @@ export default function LeaderBoardData() {
                                             <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
                                                 {index + 1}
                                             </p>
-                                            <div className="my-auto flex-1 divide-y divide-muted-foreground/20 pr-3">
-                                                {l.players.map((p) => (
-                                                    <p key={p} className="py-2">
-                                                        {p}
-                                                    </p>
+                                            <div className="my-auto flex-1 pr-3">
+                                                {l.players.map((p, i) => (
+                                                    <Fragment key={p}>
+                                                        {i > 0 && (
+                                                            <Separator className="my-2 bg-muted-foreground/20" />
+                                                        )}
+                                                        <p>{p}</p>
+                                                    </Fragment>
                                                 ))}
                                             </div>
                                         </div>
