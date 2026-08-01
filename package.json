@@ -4,6 +4,9 @@
     "version": "0.1.0",
     "description": "a simple score tracking app",
     "type": "module",
+    "engines": {
+        "node": ">=22"
+    },
     "scripts": {
         "dev": "vite",
         "build": "rm -rf dist && tsc && vite build",
