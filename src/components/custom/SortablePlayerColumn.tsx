@@ -1,0 +1,60 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { GripVertical } from "lucide-react";
+import { ReactNode } from "react";
+import { useAppSelector } from "@/hooks/redux";
+import TablePlayerCard from "./TablePlayerCard";
+
+export default function SortablePlayerColumn({
+    player,
+    children,
+}: {
+    player: { id: string; name: string };
+    children: ReactNode;
+}) {
+    const isFitEveryoneOn = useAppSelector(
+        (state) => state.settings.isFitEveryoneOn
+    );
+    const showDragHandle = useAppSelector(
+        (state) => state.settings.showDragHandle
+    );
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({ id: player.id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <div
+            ref={setNodeRef}
+            style={style}
+            className={`flex flex-col gap-2 w-44 ${
+                isFitEveryoneOn ? "flex-shrink" : "flex-shrink-0"
+            } py-2 ${isDragging ? "z-10 opacity-80" : ""}`}>
+            <div className="flex h-10 items-center gap-1">
+                {showDragHandle && (
+                    <button
+                        type="button"
+                        aria-label="Drag to reorder player"
+                        className="shrink-0 cursor-grab touch-none text-muted-foreground active:cursor-grabbing"
+                        {...attributes}
+                        {...listeners}>
+                        <GripVertical size="1.1em" />
+                    </button>
+                )}
+                <div className="min-w-0 flex-1">
+                    <TablePlayerCard player={player} />
+                </div>
+            </div>
+            {children}
+        </div>
+    );
+}

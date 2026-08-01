@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
-import { useAppSelector } from "./redux";
+import useVisiblePlayers from "./useVisiblePlayers";
 
 const useGamesStats = () => {
-    const players = useAppSelector((state) => state.players);
-    const scores = useAppSelector((state) => state.scores);
+    const { players, scores } = useVisiblePlayers();
     const [nextGamePlayer, setNextGamePlayer] = useState("");
 
     const maxGamesPlayed = useMemo(() => {

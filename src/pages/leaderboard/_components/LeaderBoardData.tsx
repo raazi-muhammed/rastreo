@@ -1,24 +1,27 @@
 import { formatNumber } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { Crown as WinnerIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "@/hooks/redux";
 import MessageTemplate from "@/components/template/MessageTemplate";
+import useGamesStats from "@/hooks/useGamesStats";
+import useVisiblePlayers from "@/hooks/useVisiblePlayers";
+import { Separator } from "@/components/ui/separator";
 
 type LeaderBoardItem = {
-    player: string;
+    players: string[];
     sum: number;
     difference?: number;
     totalDifference?: number;
 };
 
 export default function LeaderBoardData() {
-    const players = useAppSelector((state) => state.players);
-    const scores = useAppSelector((state) => state.scores);
+    const { players, scores } = useVisiblePlayers();
 
     const settings = useAppSelector((state) => state.settings);
     const { sortOption } = settings;
+    const { maxGamesPlayed } = useGamesStats();
     const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
         []
     );
@@ -42,30 +45,51 @@ export default function LeaderBoardData() {
         });
     }
 
+    function mergeDraws(
+        rawData: { player: string; sum: number }[]
+    ): LeaderBoardItem[] {
+        const merged: LeaderBoardItem[] = [];
+        for (const entry of rawData) {
+            const last = merged[merged.length - 1];
+            if (last && last.sum === entry.sum) {
+                last.players.push(entry.player);
+            } else {
+                merged.push({ players: [entry.player], sum: entry.sum });
+            }
+        }
+        return merged;
+    }
+
     useEffect(() => {
-        const lbData: LeaderBoardItem[] = [];
+        const rawData: { player: string; sum: number }[] = [];
         for (let i = 0; i < players.length; i++) {
             const sum = findSumOfPlayerWithId(players[i].id);
-            lbData.push({
+            rawData.push({
                 player: players[i].name,
                 sum,
             });
         }
 
-        let withDifference: LeaderBoardItem[] = lbData;
         if (sortOption == SortOptions.TO_HIGH) {
-            lbData.sort((a, b) => a.sum - b.sum);
-            withDifference = addDifferences(lbData);
+            rawData.sort((a, b) => a.sum - b.sum);
         } else {
-            lbData.sort((a, b) => b.sum - a.sum);
-            withDifference = addDifferences(lbData);
+            rawData.sort((a, b) => b.sum - a.sum);
         }
+
+        const withDifference = addDifferences(mergeDraws(rawData));
         setLeaderBoardData(withDifference);
     }, [players, scores, sortOption]);
 
     return (
         <>
-            {leaderBoardData.length > 0 ? (
+            {leaderBoardData.length === 0 ? (
+                <MessageTemplate
+                    title="No players yet"
+                    description="Add player to see leaderboard"
+                />
+            ) : maxGamesPlayed === 0 ? (
+                <MessageTemplate title="Add a score to see the leaderboard" />
+            ) : (
                 <AnimatePresence>
                     <section key={sortOption}>
                         {leaderBoardData.map((l, index) => (
@@ -73,14 +97,23 @@ export default function LeaderBoardData() {
                                 className="rounded shadow-accent hover:shadow-lg"
                                 whileHover={{ scale: 1.05 }}
                                 animate={{ scale: 1 }}
-                                key={l.player}>
-                                {index === 0 && sortOption ? (
+                                key={l.players.join("-")}>
+                                {index === 0 &&
+                                sortOption &&
+                                leaderBoardData.length > 1 ? (
                                     <section className="my-2 flex justify-between rounded border bg-muted px-4 py-2 shadow-md shadow-accent">
-                                        <div>
+                                        <div className="flex-1 pr-3">
                                             <WinnerIcon className="text-primary" />
-                                            <p className="my-auto text-lg">
-                                                {l.player}
-                                            </p>
+                                            {l.players.map((p, i) => (
+                                                <Fragment key={p}>
+                                                    {i > 0 && (
+                                                        <Separator className="my-2 bg-muted-foreground/20" />
+                                                    )}
+                                                    <p className="my-auto text-lg">
+                                                        {p}
+                                                    </p>
+                                                </Fragment>
+                                            ))}
                                         </div>
                                         <p className="-me-1 mt-auto font-semibold">
                                             {formatNumber(l.sum)}
@@ -88,13 +121,20 @@ export default function LeaderBoardData() {
                                     </section>
                                 ) : (
                                     <section className="my-2 flex justify-between rounded bg-muted p-2">
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-1 gap-2">
                                             <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
                                                 {index + 1}
                                             </p>
-                                            <p className="my-auto">
-                                                {l.player}
-                                            </p>
+                                            <div className="my-auto flex-1 pr-3">
+                                                {l.players.map((p, i) => (
+                                                    <Fragment key={p}>
+                                                        {i > 0 && (
+                                                            <Separator className="my-2 bg-muted-foreground/20" />
+                                                        )}
+                                                        <p>{p}</p>
+                                                    </Fragment>
+                                                ))}
+                                            </div>
                                         </div>
                                         <div className="me-1">
                                             <p className="me-0 ms-auto w-fit font-semibold">
@@ -118,11 +158,6 @@ export default function LeaderBoardData() {
                         ))}
                     </section>
                 </AnimatePresence>
-            ) : (
-                <MessageTemplate
-                    title="No players yet"
-                    description="Add player to see leaderboard"
-                />
             )}
         </>
     );

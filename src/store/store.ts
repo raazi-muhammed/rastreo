@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import scoreReducer from "./features/scoreSlice";
 import playerReducer from "./features/playerSlice";
 import settingsReducer from "./features/settingsSlice";
+import playersMetaReducer from "./features/playersMetaSlice";
 
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
@@ -16,6 +17,7 @@ const reducer = combineReducers({
     scores: scoreReducer,
     players: playerReducer,
     settings: settingsReducer,
+    playersMeta: playersMetaReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

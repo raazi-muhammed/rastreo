@@ -1,5 +1,6 @@
 import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "./redux";
+import useVisiblePlayers from "./useVisiblePlayers";
 
 export const usePlayInfo = ({
     index,
@@ -8,7 +9,7 @@ export const usePlayInfo = ({
     index: number;
     score: number;
 }) => {
-    const scores = useAppSelector((state) => state.scores);
+    const { scores } = useVisiblePlayers();
     const sortOption = useAppSelector((state) => state.settings.sortOption);
 
     try {

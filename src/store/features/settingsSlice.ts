@@ -20,6 +20,8 @@ type Settings = {
     showNextDealer: boolean;
     isMobileModeOn: boolean;
     theme: ThemeOptions;
+    keepScreenOn: boolean;
+    showDragHandle: boolean;
 };
 
 const initialState: Settings = {
@@ -31,6 +33,8 @@ const initialState: Settings = {
     showNextDealer: true,
     isMobileModeOn: false,
     theme: ThemeOptions.SYSTEM,
+    keepScreenOn: false,
+    showDragHandle: true,
 };
 
 export const counterSlice = createSlice({
@@ -69,6 +73,14 @@ export const counterSlice = createSlice({
             state.isMobileModeOn = mobileMode;
             return state;
         },
+        setKeepScreenOn: (state, action: PayloadAction<boolean>) => {
+            state.keepScreenOn = action.payload;
+            return state;
+        },
+        setShowDragHandle: (state, action: PayloadAction<boolean>) => {
+            state.showDragHandle = action.payload;
+            return state;
+        },
     },
 });
 
@@ -80,6 +92,8 @@ export const {
     toggleLock,
     setShowNextDealer,
     setMobileMode,
+    setKeepScreenOn,
+    setShowDragHandle,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
