@@ -1,4 +1,4 @@
-import { swapItems } from "@/lib/utils";
+import { arrayMove } from "@/lib/utils";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type ScoreTracker = {
@@ -34,35 +34,17 @@ export const counterSlice = createSlice({
             state = state.filter((p) => p.id !== id);
             return state;
         },
-        movePersonLeft: (state, action: PayloadAction<string>) => {
-            const id = action.payload;
-            state.map((p, i) => {
-                if (p.id === id) {
-                    if (i - 1 < 0) return;
-                    return swapItems(state, i, i - 1);
-                }
-            });
-            return state;
-        },
-        movePersonRight: (state, action: PayloadAction<string>) => {
-            const id = action.payload;
-            for (let i = 0; i < state.length; i++) {
-                if (state[i].id === id) {
-                    if (i + 1 > state.length - 1) return;
-                    return swapItems(state, i, i + 1);
-                }
-            }
-            return state;
+        reorderPersons: (
+            state,
+            action: PayloadAction<{ oldIndex: number; newIndex: number }>
+        ) => {
+            const { oldIndex, newIndex } = action.payload;
+            return arrayMove(state, oldIndex, newIndex);
         },
     },
 });
 
-export const {
-    addPerson,
-    editPerson,
-    deletePerson,
-    movePersonLeft,
-    movePersonRight,
-} = counterSlice.actions;
+export const { addPerson, editPerson, deletePerson, reorderPersons } =
+    counterSlice.actions;
 
 export default counterSlice.reducer;

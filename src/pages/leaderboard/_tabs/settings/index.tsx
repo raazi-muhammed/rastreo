@@ -15,6 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import {
     setKeepScreenOn,
     setMobileMode,
+    setShowDragHandle,
     setShowNextDealer,
     ThemeOptions,
     toggleFitEveryone,
@@ -95,6 +96,20 @@ const SettingsTab = () => {
                                     dispatch(
                                         setKeepScreenOn(
                                             !settings.keepScreenOn
+                                        )
+                                    );
+                                }}
+                            />
+                        </SettingIconTemplate>,
+                        <SettingIconTemplate
+                            label="Drag Handle"
+                            key="drag-handle">
+                            <Switch
+                                checked={settings.showDragHandle}
+                                onCheckedChange={() => {
+                                    dispatch(
+                                        setShowDragHandle(
+                                            !settings.showDragHandle
                                         )
                                     );
                                 }}

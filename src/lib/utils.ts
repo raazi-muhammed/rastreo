@@ -11,11 +11,11 @@ export function formatNumber(number: string | number) {
     return Number(number).toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
 
-export function swapItems(array: any[], i: number, j: number) {
-    let temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-    return array;
+export function arrayMove<T>(array: T[], from: number, to: number): T[] {
+    const updated = array.slice();
+    const [moved] = updated.splice(from, 1);
+    updated.splice(to, 0, moved);
+    return updated;
 }
 
 export function calculateNumber(number: string) {
