@@ -1,5 +1,6 @@
 import { AllPlayersChart } from "@/components/charts/AllPlayersChart";
 import { AllPlayersProgressChart } from "@/components/charts/AllPlayersProgressChart";
+import { GameDurationsChart } from "@/components/charts/GameDurationsChart";
 import { Heading } from "@/pages/leaderboard/_components/LeaderBoard";
 import { BarChart } from "lucide-react";
 import AnalyticsTemplate from "./AnalyticsTemplate";
@@ -26,6 +27,9 @@ const AnalyticsTab = () => {
                         title="Leaderboard progress"
                         expanded={<AllPlayersProgressChart showLegend />}>
                         <AllPlayersProgressChart />
+                    </AnalyticsTemplate>
+                    <AnalyticsTemplate title="Game durations">
+                        <GameDurationsChart />
                     </AnalyticsTemplate>
                 </>
             ) : (

@@ -15,7 +15,7 @@ import {
     editPerson,
     setPlayerHidden,
 } from "@/store/features/playerSlice";
-import { touchPlayersChanged } from "@/store/features/playersMetaSlice";
+import { touchPlayersChangedIfNotStarted } from "@/store/features/playersMetaSlice";
 import { PlayerChart } from "../charts/PlayerChart";
 
 export default function TablePlayerCard({
@@ -38,7 +38,7 @@ export default function TablePlayerCard({
     }
     function handleChangePersonName(userId: string, name: string) {
         dispatch(editPerson({ id: userId, name: name }));
-        dispatch(touchPlayersChanged());
+        dispatch(touchPlayersChangedIfNotStarted());
     }
 
     return (

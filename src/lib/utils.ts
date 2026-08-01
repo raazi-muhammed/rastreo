@@ -11,6 +11,16 @@ export function formatNumber(number: string | number) {
     return Number(number).toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
 
+export function formatDuration(milliseconds: number) {
+    const totalSeconds = Math.round(milliseconds / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    if (hours) return `${hours}h ${minutes}m`;
+    if (minutes) return `${minutes}m ${seconds}s`;
+    return `${seconds}s`;
+}
+
 export function arrayMove<T>(array: T[], from: number, to: number): T[] {
     const updated = array.slice();
     const [moved] = updated.splice(from, 1);

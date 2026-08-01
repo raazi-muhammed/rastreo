@@ -9,7 +9,7 @@ import {
     initializePerson,
     reorderPersonScores,
 } from "@/store/features/scoreSlice";
-import { touchPlayersChanged } from "@/store/features/playersMetaSlice";
+import { touchPlayersChangedIfNotStarted } from "@/store/features/playersMetaSlice";
 import { UserRoundPlus as AddPersonIcon, Users } from "lucide-react";
 import {
     DndContext,
@@ -53,7 +53,7 @@ const PlayersTab = () => {
 
         dispatch(reorderPersons({ oldIndex, newIndex }));
         dispatch(reorderPersonScores({ oldIndex, newIndex }));
-        dispatch(touchPlayersChanged());
+        dispatch(touchPlayersChangedIfNotStarted());
     }
 
     function handleAddPlayer() {
