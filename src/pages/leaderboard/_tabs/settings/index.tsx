@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toast } from "@/hooks/use-toast";
 import {
+    setKeepScreenOn,
     setMobileMode,
     setShowNextDealer,
     ThemeOptions,
@@ -82,6 +83,20 @@ const SettingsTab = () => {
                                 checked={settings.isTouchModeOn}
                                 onCheckedChange={() => {
                                     dispatch(toggleTouchMode());
+                                }}
+                            />
+                        </SettingIconTemplate>,
+                        <SettingIconTemplate
+                            label="Keep Screen On"
+                            key="keep-screen-on">
+                            <Switch
+                                checked={settings.keepScreenOn}
+                                onCheckedChange={() => {
+                                    dispatch(
+                                        setKeepScreenOn(
+                                            !settings.keepScreenOn
+                                        )
+                                    );
                                 }}
                             />
                         </SettingIconTemplate>,
