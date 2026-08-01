@@ -12,7 +12,6 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toast } from "@/hooks/use-toast";
-import { setPlayerHidden } from "@/store/features/playerSlice";
 import {
     setKeepScreenOn,
     setMobileMode,
@@ -28,7 +27,6 @@ import SectionWrapper from "./_components/SectionWrapper";
 
 const SettingsTab = () => {
     const settings = useAppSelector((state) => state.settings);
-    const players = useAppSelector((state) => state.players);
     const dispatch = useAppDispatch();
     const { setTheme, theme } = useTheme();
 
@@ -39,28 +37,6 @@ const SettingsTab = () => {
                 Settings
             </Heading>
             <section className="mt-auto h-full space-y-4">
-                {players.length > 0 && (
-                    <SectionWrapper
-                        title="Players"
-                        settings={players.map((player) => (
-                            <SettingIconTemplate
-                                label={player.name}
-                                key={player.id}>
-                                <Switch
-                                    checked={!player.hidden}
-                                    onCheckedChange={(checked) => {
-                                        dispatch(
-                                            setPlayerHidden({
-                                                id: player.id,
-                                                hidden: !checked,
-                                            })
-                                        );
-                                    }}
-                                />
-                            </SettingIconTemplate>
-                        ))}
-                    />
-                )}
                 <SectionWrapper
                     title="Game"
                     settings={[

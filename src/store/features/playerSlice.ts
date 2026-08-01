@@ -34,6 +34,14 @@ export const counterSlice = createSlice({
             const player = state.find((p) => p.id === id);
             if (player) player.hidden = hidden;
         },
+        setAllPlayersHidden: (state, action: PayloadAction<boolean>) => {
+            state.forEach((player) => {
+                player.hidden = action.payload;
+            });
+        },
+        deleteAllPersons: () => {
+            return [];
+        },
         editPerson: (
             state,
             action: PayloadAction<{ id: string; name: string }>
@@ -63,6 +71,8 @@ export const {
     addPerson,
     addPersons,
     setPlayerHidden,
+    setAllPlayersHidden,
+    deleteAllPersons,
     editPerson,
     deletePerson,
     reorderPersons,

@@ -75,6 +75,9 @@ export const counterSlice = createSlice({
             state = state.map((s) => ({ id: s.id, scores: [] }));
             return state;
         },
+        deleteAllPersonScores: () => {
+            return [];
+        },
     },
 });
 
@@ -86,6 +89,7 @@ export const {
     editScore,
     deletePersonScores,
     deleteAllScores,
+    deleteAllPersonScores,
     reorderPersonScores,
 } = counterSlice.actions;
 

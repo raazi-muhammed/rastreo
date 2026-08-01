@@ -1,4 +1,4 @@
-import { Award, BarChart, Settings } from "lucide-react";
+import { Award, BarChart, Settings, Users } from "lucide-react";
 import { ReactNode, useState } from "react";
 import NextDealer from "../../../components/custom/NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,6 +7,7 @@ import { useAppSelector } from "@/hooks/redux";
 import LeaderboardTab from "../_tabs/leaderboard";
 import AnalyticsTab from "../_tabs/analytics";
 import SettingsTab from "../_tabs/settings";
+import PlayersTab from "../_tabs/players";
 
 export function Heading({ children }: { children: ReactNode }) {
     return (
@@ -20,6 +21,7 @@ enum TabsState {
     SETTINGS = "settings",
     LEADERBOARD = "leaderboard",
     ANALYSIS = "analysis",
+    PLAYERS = "players",
 }
 export default function LeaderBoard() {
     const [currentTab, setCurrentTab] = useState(TabsState.LEADERBOARD);
@@ -36,6 +38,8 @@ export default function LeaderBoard() {
                     <LeaderboardTab />
                 ) : currentTab === TabsState.ANALYSIS ? (
                     <AnalyticsTab />
+                ) : currentTab === TabsState.PLAYERS ? (
+                    <PlayersTab />
                 ) : (
                     <SettingsTab />
                 )}
@@ -51,6 +55,12 @@ export default function LeaderBoard() {
                             className="gap-1">
                             <Award size="1.2em" />
                             Leaderboard
+                        </TabsTrigger>
+                        <TabsTrigger
+                            onClick={() => setCurrentTab(TabsState.PLAYERS)}
+                            value="players"
+                            className="gap-1">
+                            <Users size="1.2em" />
                         </TabsTrigger>
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.SETTINGS)}
