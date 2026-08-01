@@ -6,6 +6,7 @@ import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "@/hooks/redux";
 import MessageTemplate from "@/components/template/MessageTemplate";
 import useGamesStats from "@/hooks/useGamesStats";
+import useVisiblePlayers from "@/hooks/useVisiblePlayers";
 import { Separator } from "@/components/ui/separator";
 
 type LeaderBoardItem = {
@@ -16,8 +17,7 @@ type LeaderBoardItem = {
 };
 
 export default function LeaderBoardData() {
-    const players = useAppSelector((state) => state.players);
-    const scores = useAppSelector((state) => state.scores);
+    const { players, scores } = useVisiblePlayers();
 
     const settings = useAppSelector((state) => state.settings);
     const { sortOption } = settings;

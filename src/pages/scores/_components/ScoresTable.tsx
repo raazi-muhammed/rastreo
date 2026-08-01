@@ -2,8 +2,10 @@ import ScoreAnimation from "@/components/animations/ScoreAnimation";
 import AddScore from "@/components/custom/AddScore";
 import SortablePlayerColumn from "@/components/custom/SortablePlayerColumn";
 import TableScoreCard from "@/components/custom/TableScoreCard";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { useAppDispatch } from "@/hooks/redux";
+import useVisiblePlayers from "@/hooks/useVisiblePlayers";
 import { reorderPersons } from "@/store/features/playerSlice";
+import { touchPlayersChanged } from "@/store/features/playersMetaSlice";
 import { reorderPersonScores } from "@/store/features/scoreSlice";
 import { AnimatePresence } from "framer-motion";
 import {
@@ -23,8 +25,7 @@ import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 
 const ScoresTable = () => {
     const dispatch = useAppDispatch();
-    const players = useAppSelector((state) => state.players);
-    const scores = useAppSelector((state) => state.scores);
+    const { players, scores, allPlayers } = useVisiblePlayers();
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -39,12 +40,13 @@ const ScoresTable = () => {
         const { active, over } = event;
         if (!over || active.id === over.id) return;
 
-        const oldIndex = players.findIndex((p) => p.id === active.id);
-        const newIndex = players.findIndex((p) => p.id === over.id);
+        const oldIndex = allPlayers.findIndex((p) => p.id === active.id);
+        const newIndex = allPlayers.findIndex((p) => p.id === over.id);
         if (oldIndex === -1 || newIndex === -1) return;
 
         dispatch(reorderPersons({ oldIndex, newIndex }));
         dispatch(reorderPersonScores({ oldIndex, newIndex }));
+        dispatch(touchPlayersChanged());
     }
 
     return (

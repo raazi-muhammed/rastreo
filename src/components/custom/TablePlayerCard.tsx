@@ -6,11 +6,16 @@ import {
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { Trash2 as DeleteIcon } from "lucide-react";
+import { EyeOff as HideIcon, Trash2 as DeleteIcon } from "lucide-react";
 import { Label } from "../ui/label";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { deletePersonScores } from "@/store/features/scoreSlice";
-import { deletePerson, editPerson } from "@/store/features/playerSlice";
+import {
+    deletePerson,
+    editPerson,
+    setPlayerHidden,
+} from "@/store/features/playerSlice";
+import { touchPlayersChanged } from "@/store/features/playersMetaSlice";
 import { PlayerChart } from "../charts/PlayerChart";
 
 export default function TablePlayerCard({
@@ -28,8 +33,12 @@ export default function TablePlayerCard({
         dispatch(deletePersonScores(userId));
         dispatch(deletePerson(userId));
     }
+    function handleHidePerson(userId: string) {
+        dispatch(setPlayerHidden({ id: userId, hidden: true }));
+    }
     function handleChangePersonName(userId: string, name: string) {
         dispatch(editPerson({ id: userId, name: name }));
+        dispatch(touchPlayersChanged());
     }
 
     return (
@@ -65,6 +74,12 @@ export default function TablePlayerCard({
                         placeholder="name"
                     />
                     <div className="mt-3 flex justify-end gap-2">
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={() => handleHidePerson(player.id)}>
+                            <HideIcon size="1.2em" />
+                        </Button>
                         <Button
                             variant="destructive"
                             type="button"

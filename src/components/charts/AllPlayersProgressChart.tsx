@@ -16,7 +16,7 @@ import {
     ChartLegendContent,
     ChartTooltip,
 } from "@/components/ui/chart";
-import { useAppSelector } from "@/hooks/redux";
+import useVisiblePlayers from "@/hooks/useVisiblePlayers";
 import { CHART_COLORS } from "@/lib/constants";
 import { ActivePointLabels } from "./ActivePointLabels";
 
@@ -25,8 +25,7 @@ export function AllPlayersProgressChart({
 }: {
     showLegend?: boolean;
 }) {
-    const scores = useAppSelector((state) => state.scores);
-    const players = useAppSelector((state) => state.players);
+    const { players, scores } = useVisiblePlayers();
 
     const chartConfig = players.reduce<ChartConfig>(
         (config, player, index) => {

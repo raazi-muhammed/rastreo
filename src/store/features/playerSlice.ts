@@ -4,6 +4,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 type ScoreTracker = {
     id: string;
     name: string;
+    hidden?: boolean;
 }[];
 
 const initialState: ScoreTracker = [];
@@ -18,6 +19,20 @@ export const counterSlice = createSlice({
         ) => {
             const data = action.payload;
             state.push(data);
+        },
+        addPersons: (
+            state,
+            action: PayloadAction<{ id: string; name: string }[]>
+        ) => {
+            state.push(...action.payload);
+        },
+        setPlayerHidden: (
+            state,
+            action: PayloadAction<{ id: string; hidden: boolean }>
+        ) => {
+            const { id, hidden } = action.payload;
+            const player = state.find((p) => p.id === id);
+            if (player) player.hidden = hidden;
         },
         editPerson: (
             state,
@@ -44,7 +59,13 @@ export const counterSlice = createSlice({
     },
 });
 
-export const { addPerson, editPerson, deletePerson, reorderPersons } =
-    counterSlice.actions;
+export const {
+    addPerson,
+    addPersons,
+    setPlayerHidden,
+    editPerson,
+    deletePerson,
+    reorderPersons,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;

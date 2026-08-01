@@ -21,15 +21,15 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { addPerson } from "@/store/features/playerSlice";
-import { initializePerson } from "@/store/features/scoreSlice";
+import { addPersons } from "@/store/features/playerSlice";
+import { initializePersons } from "@/store/features/scoreSlice";
 import { v4 as uuidv4 } from "uuid";
 
 const FormSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+    playerNames: z.string().min(2, {
+        message: "Enter at least one player name.",
     }),
 });
 
@@ -40,20 +40,25 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            username: "",
+            playerNames: "",
         },
     });
-    function handleAddPerson(name: string) {
-        if (!name) return;
-        const id = uuidv4();
-        dispatch(addPerson({ id, name }));
-        dispatch(initializePerson(id));
+
+    function handleAddPersons(namesText: string) {
+        const names = namesText
+            .split("\n")
+            .map((name) => name.trim())
+            .filter((name) => name.length >= 2);
+        if (names.length === 0) return;
+
+        const newPlayers = names.map((name) => ({ id: uuidv4(), name }));
+        dispatch(addPersons(newPlayers));
+        dispatch(initializePersons(newPlayers.map((p) => p.id)));
     }
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        handleAddPerson(data.username);
+        handleAddPersons(data.playerNames);
         form.reset();
-        form.setFocus("username");
     }
 
     return (
@@ -66,7 +71,6 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                         size="icon"
                         onClick={() => {
                             form.reset();
-                            form.setFocus("username");
                         }}>
                         <AddPersonIcon size="1.35em" />
                     </Button>
@@ -77,7 +81,6 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                         variant="default"
                         onClick={() => {
                             form.reset();
-                            form.setFocus("username");
                         }}>
                         <AddPersonIcon size="1.35em" className="" />
                         <span className="hidden sm:block ms-2">Add</span>
@@ -87,19 +90,27 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
             <AlertDialogContent className="max-w-screen flex h-svh w-full flex-col justify-center bg-background sm:h-fit sm:max-w-lg">
                 <Form {...form}>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Add an player</AlertDialogTitle>
+                        <AlertDialogTitle>Add players</AlertDialogTitle>
                     </AlertDialogHeader>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="w-full space-y-6">
                         <FormField
                             control={form.control}
-                            name="username"
+                            name="playerNames"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Enter player name</FormLabel>
+                                    <FormLabel>
+                                        Enter player names, one per line
+                                    </FormLabel>
                                     <FormControl>
-                                        <Input placeholder="name" {...field} />
+                                        <Textarea
+                                            placeholder={
+                                                "Alice\nBob\nCharlie"
+                                            }
+                                            rows={6}
+                                            {...field}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -108,17 +119,13 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
 
                         <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <Button type="submit" variant="secondary">
-                                <AddPersonIcon size="1.25em" className="me-1" />
-                                Add another
-                            </Button>
                             <AlertDialogAction asChild>
                                 <Button type="submit">
                                     <AddPersonIcon
                                         size="1.25em"
                                         className="me-1"
                                     />
-                                    Add person
+                                    Add players
                                 </Button>
                             </AlertDialogAction>
                         </AlertDialogFooter>

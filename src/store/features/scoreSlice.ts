@@ -32,6 +32,9 @@ export const counterSlice = createSlice({
             const id = action.payload;
             state.push({ id, scores: [] });
         },
+        initializePersons: (state, action: PayloadAction<string[]>) => {
+            action.payload.forEach((id) => state.push({ id, scores: [] }));
+        },
         deletePersonScores: (state, action: PayloadAction<string>) => {
             const id = action.payload;
             state = state.filter((s) => s.id !== id);
@@ -78,6 +81,7 @@ export const counterSlice = createSlice({
 export const {
     addScore,
     initializePerson,
+    initializePersons,
     deleteScore,
     editScore,
     deletePersonScores,

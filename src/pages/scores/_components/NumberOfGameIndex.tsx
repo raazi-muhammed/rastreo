@@ -42,12 +42,17 @@ function getEntryTimes(
 
 const GameIndexItem = ({ index }: { index: number }) => {
     const scores = useAppSelector((state) => state.scores);
+    const lastPlayersChangedAt = useAppSelector(
+        (state) => state.playersMeta.lastPlayersChangedAt
+    );
 
     const { firstEntry, lastEntry } = getEntryTimes(scores, index);
-    const { lastEntry: previousGameLastEntry } =
-        index > 0 ? getEntryTimes(scores, index - 1) : { lastEntry: undefined };
+    const previousGameLastEntry =
+        index > 0
+            ? getEntryTimes(scores, index - 1).lastEntry
+            : lastPlayersChangedAt;
 
-    const durationFromLastGame =
+    const duration =
         lastEntry && previousGameLastEntry
             ? lastEntry - previousGameLastEntry
             : undefined;
@@ -64,10 +69,12 @@ const GameIndexItem = ({ index }: { index: number }) => {
                 <div className="flex flex-col gap-1 text-xs text-muted-foreground">
                     <p>First entry: {formatEntryTime(firstEntry)}</p>
                     <p>Last entry: {formatEntryTime(lastEntry)}</p>
-                    {durationFromLastGame !== undefined && (
+                    {duration !== undefined && (
                         <p>
-                            Duration from last game:{" "}
-                            {formatDuration(durationFromLastGame)}
+                            {index > 0
+                                ? "Duration from last game: "
+                                : "Duration: "}
+                            {formatDuration(duration)}
                         </p>
                     )}
                 </div>
