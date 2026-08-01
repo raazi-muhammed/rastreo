@@ -1,6 +1,13 @@
 "use client";
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import {
+    CartesianGrid,
+    Customized,
+    Line,
+    LineChart,
+    XAxis,
+    YAxis,
+} from "recharts";
 
 import {
     ChartConfig,
@@ -8,10 +15,10 @@ import {
     ChartLegend,
     ChartLegendContent,
     ChartTooltip,
-    ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useAppSelector } from "@/hooks/redux";
 import { CHART_COLORS } from "@/lib/constants";
+import { ActivePointLabels } from "./ActivePointLabels";
 
 export function AllPlayersChart({
     showLegend = false,
@@ -64,7 +71,7 @@ export function AllPlayersChart({
                 data={data}
                 margin={{
                     left: 20,
-                    right: 12,
+                    right: 60,
                 }}>
                 <CartesianGrid vertical={false} />
                 <YAxis
@@ -79,10 +86,7 @@ export function AllPlayersChart({
                     axisLine={false}
                     tickMargin={8}
                 />
-                <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent />}
-                />
+                <ChartTooltip cursor={false} content={() => null} />
                 {showLegend && (
                     <ChartLegend content={<ChartLegendContent />} />
                 )}
@@ -99,12 +103,11 @@ export function AllPlayersChart({
                             dot={{
                                 fill: `hsl(var(--chart-${(index % 2) + 1}))`,
                             }}
-                            activeDot={{
-                                r: 6,
-                            }}
+                            activeDot={false}
                         />
                     );
                 })}
+                <Customized component={<ActivePointLabels />} />
             </LineChart>
         </ChartContainer>
     );

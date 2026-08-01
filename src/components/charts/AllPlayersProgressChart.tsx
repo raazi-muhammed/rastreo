@@ -1,6 +1,13 @@
 "use client";
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import {
+    CartesianGrid,
+    Customized,
+    Line,
+    LineChart,
+    XAxis,
+    YAxis,
+} from "recharts";
 
 import {
     ChartConfig,
@@ -8,10 +15,10 @@ import {
     ChartLegend,
     ChartLegendContent,
     ChartTooltip,
-    ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useAppSelector } from "@/hooks/redux";
 import { CHART_COLORS } from "@/lib/constants";
+import { ActivePointLabels } from "./ActivePointLabels";
 
 export function AllPlayersProgressChart({
     showLegend = false,
@@ -67,7 +74,7 @@ export function AllPlayersProgressChart({
                 data={data}
                 margin={{
                     left: 20,
-                    right: 12,
+                    right: 60,
                 }}>
                 <CartesianGrid vertical={false} />
                 <YAxis
@@ -82,10 +89,7 @@ export function AllPlayersProgressChart({
                     axisLine={false}
                     tickMargin={8}
                 />
-                <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent />}
-                />
+                <ChartTooltip cursor={false} content={() => null} />
                 {showLegend && (
                     <ChartLegend content={<ChartLegendContent />} />
                 )}
@@ -101,12 +105,11 @@ export function AllPlayersProgressChart({
                             dot={{
                                 fill: color,
                             }}
-                            activeDot={{
-                                r: 6,
-                            }}
+                            activeDot={false}
                         />
                     );
                 })}
+                <Customized component={<ActivePointLabels />} />
             </LineChart>
         </ChartContainer>
     );
