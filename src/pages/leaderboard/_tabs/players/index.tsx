@@ -92,10 +92,7 @@ const PlayersTab = () => {
 
     return (
         <>
-            <Heading>
-                <Users size="1.2em" />
-                Players
-            </Heading>
+            <Heading icon={Users}>Players</Heading>
             <form
                 onSubmit={(e) => {
                     e.preventDefault();

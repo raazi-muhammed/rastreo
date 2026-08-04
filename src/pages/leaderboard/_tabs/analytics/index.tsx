@@ -12,10 +12,7 @@ const AnalyticsTab = () => {
 
     return (
         <>
-            <Heading>
-                <BarChart size="1.2em" />
-                Analysis
-            </Heading>
+            <Heading icon={BarChart}>Analysis</Heading>
             {maxGamesPlayed > 1 ? (
                 <>
                     <AnalyticsTemplate

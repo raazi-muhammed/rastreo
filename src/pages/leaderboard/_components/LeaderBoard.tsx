@@ -1,4 +1,4 @@
-import { Award, BarChart, Settings, Users } from "lucide-react";
+import { Award, BarChart, LucideIcon, Settings, Users } from "lucide-react";
 import { ReactNode, useState } from "react";
 import NextDealer from "../../../components/custom/NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,9 +10,16 @@ import AnalyticsTab from "../_tabs/analytics";
 import SettingsTab from "../_tabs/settings";
 import PlayersTab from "../_tabs/players";
 
-export function Heading({ children }: { children: ReactNode }) {
+export function Heading({
+    icon: Icon,
+    children,
+}: {
+    icon: LucideIcon;
+    children: ReactNode;
+}) {
     return (
-        <h3 className="mb-4 mt-8 flex h-fit gap-1 text-3xl font-semibold text-primary">
+        <h3 className="mb-4 flex h-fit items-center gap-1 text-2xl font-semibold text-primary">
+            <Icon size="1.5rem" />
             {children}
         </h3>
     );
@@ -99,18 +106,6 @@ export default function LeaderBoard() {
                         </TabsTrigger>
                     </TabsList>
                 </Tabs>
-                {!settings.isMobileModeOn ? (
-                    <p className="text-center text-xs text-muted-foreground">
-                        Created by
-                        <a
-                            href="https://www.linkedin.com/in/raazimuhammed/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="ms-1 font-semibold text-primary underline">
-                            Raazi
-                        </a>
-                    </p>
-                ) : null}
             </div>
         </aside>
     );
