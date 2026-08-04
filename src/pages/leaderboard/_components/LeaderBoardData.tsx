@@ -1,6 +1,10 @@
 import { formatNumber } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { Crown as WinnerIcon } from "lucide-react";
+import {
+    ChevronsDown,
+    ChevronsUp,
+    Crown as WinnerIcon,
+} from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
 import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "@/hooks/redux";
@@ -14,6 +18,7 @@ type LeaderBoardItem = {
     sum: number;
     difference?: number;
     totalDifference?: number;
+    differenceFromLast?: number;
 };
 
 export default function LeaderBoardData() {
@@ -36,11 +41,14 @@ export default function LeaderBoardData() {
     function addDifferences(lbData: LeaderBoardItem[]) {
         let lastSum = 0;
         let lastTotalDifference = lbData?.[0]?.sum;
+        const lastPlaceSum = lbData?.[lbData.length - 1]?.sum;
         return lbData.map((l, i) => {
             l.difference = Math.abs(l.sum - lastSum);
             l.totalDifference = Math.abs(l.sum - lastTotalDifference);
+            l.differenceFromLast = Math.abs(l.sum - lastPlaceSum);
             lastSum = l.sum;
             if (i === 0) l.difference = undefined;
+            if (i === lbData.length - 1) l.differenceFromLast = undefined;
             return l;
         });
     }
@@ -115,9 +123,23 @@ export default function LeaderBoardData() {
                                                 </Fragment>
                                             ))}
                                         </div>
-                                        <p className="-me-1 mt-auto font-semibold">
-                                            {formatNumber(l.sum)}
-                                        </p>
+                                        <div className="-me-1 mt-auto text-right">
+                                            <p className="font-semibold">
+                                                {formatNumber(l.sum)}
+                                            </p>
+                                            {l.differenceFromLast !==
+                                            undefined ? (
+                                                <small className="flex items-center justify-end gap-0.5 text-end text-indigo-800">
+                                                    <ChevronsDown
+                                                        className="text-green-800/60"
+                                                        size="0.9em"
+                                                    />
+                                                    {formatNumber(
+                                                        l.differenceFromLast
+                                                    )}
+                                                </small>
+                                            ) : null}
+                                        </div>
                                     </section>
                                 ) : (
                                     <section className="my-2 flex justify-between rounded bg-muted p-2">
@@ -140,10 +162,31 @@ export default function LeaderBoardData() {
                                             <p className="me-0 ms-auto w-fit font-semibold">
                                                 {formatNumber(l.sum)}
                                             </p>
-                                            <small className="-mt-1 flex justify-end text-end text-indigo-800">
+                                            <small className="-mt-1 flex items-center justify-end text-end text-indigo-800">
+                                                <ChevronsUp
+                                                    className="text-red-800/60"
+                                                    size="0.9em"
+                                                />
                                                 {formatNumber(
                                                     l.totalDifference ?? 0
                                                 )}
+                                                {l.differenceFromLast !==
+                                                undefined ? (
+                                                    <>
+                                                        <span className="mx-1">
+                                                            •
+                                                        </span>
+                                                        <span className="flex items-center gap-0.5">
+                                                            <ChevronsDown
+                                                                className="text-green-800/60"
+                                                                size="0.9em"
+                                                            />
+                                                            {formatNumber(
+                                                                l.differenceFromLast
+                                                            )}
+                                                        </span>
+                                                    </>
+                                                ) : null}
                                                 <span className="mx-1">•</span>
                                                 <span className="text-indigo-400">
                                                     {formatNumber(
