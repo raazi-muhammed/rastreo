@@ -32,49 +32,65 @@ export function GameDurationsChart() {
         return null;
     }
 
+    const totalDuration = data.reduce((sum, game) => sum + game.duration, 0);
+
     return (
-        <ChartContainer config={chartConfig} className="max-h-[80vh]">
-            <BarChart
-                accessibilityLayer
-                data={data}
-                margin={{
-                    left: 20,
-                    right: 12,
-                }}>
-                <CartesianGrid vertical={false} />
-                <YAxis
-                    width={20}
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={12}
-                    tickFormatter={(value) => formatDuration(value * 1000)}
-                />
-                <XAxis
-                    dataKey="index"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                />
-                <ChartTooltip
-                    cursor={false}
-                    content={
-                        <ChartTooltipContent
-                            hideLabel
-                            formatter={(value) => (
-                                <div className="flex w-full items-center justify-between gap-4">
-                                    <span className="text-muted-foreground">
-                                        Duration
-                                    </span>
-                                    <span className="font-mono font-medium tabular-nums text-foreground">
-                                        {formatDuration(Number(value) * 1000)}
-                                    </span>
-                                </div>
-                            )}
-                        />
-                    }
-                />
-                <Bar dataKey="duration" fill="var(--color-duration)" radius={4} />
-            </BarChart>
-        </ChartContainer>
+        <>
+            <p className="mb-2 text-sm text-muted-foreground">
+                Total:{" "}
+                <span className="font-medium text-foreground">
+                    {formatDuration(totalDuration * 1000)}
+                </span>
+            </p>
+            <ChartContainer config={chartConfig} className="max-h-[80vh]">
+                <BarChart
+                    accessibilityLayer
+                    data={data}
+                    margin={{
+                        left: 20,
+                        right: 12,
+                    }}>
+                    <CartesianGrid vertical={false} />
+                    <YAxis
+                        width={20}
+                        tickLine={false}
+                        axisLine={false}
+                        tickMargin={12}
+                        tickFormatter={(value) => formatDuration(value * 1000)}
+                    />
+                    <XAxis
+                        dataKey="index"
+                        tickLine={false}
+                        axisLine={false}
+                        tickMargin={8}
+                    />
+                    <ChartTooltip
+                        cursor={false}
+                        content={
+                            <ChartTooltipContent
+                                hideLabel
+                                formatter={(value) => (
+                                    <div className="flex w-full items-center justify-between gap-4">
+                                        <span className="text-muted-foreground">
+                                            Duration
+                                        </span>
+                                        <span className="font-mono font-medium tabular-nums text-foreground">
+                                            {formatDuration(
+                                                Number(value) * 1000
+                                            )}
+                                        </span>
+                                    </div>
+                                )}
+                            />
+                        }
+                    />
+                    <Bar
+                        dataKey="duration"
+                        fill="var(--color-duration)"
+                        radius={4}
+                    />
+                </BarChart>
+            </ChartContainer>
+        </>
     );
 }
