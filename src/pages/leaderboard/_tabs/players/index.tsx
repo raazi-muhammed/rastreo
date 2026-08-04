@@ -9,8 +9,12 @@ import {
     initializePerson,
     reorderPersonScores,
 } from "@/store/features/scoreSlice";
-import { touchPlayersChangedIfNotStarted } from "@/store/features/playersMetaSlice";
-import { UserRoundPlus as AddPersonIcon, Users } from "lucide-react";
+import {
+    setLastPlayersChangedAt,
+    touchPlayersChangedIfNotStarted,
+} from "@/store/features/playersMetaSlice";
+import { formatEntryTime, toDatetimeLocalValue } from "@/lib/utils";
+import { Pencil, UserRoundPlus as AddPersonIcon, Users } from "lucide-react";
 import {
     DndContext,
     DragEndEvent,
@@ -32,7 +36,12 @@ const PlayersTab = () => {
     const dispatch = useAppDispatch();
     const players = useAppSelector((state) => state.players);
     const isLocked = useAppSelector((state) => state.settings.isLocked);
+    const lastPlayersChangedAt = useAppSelector(
+        (state) => state.playersMeta.lastPlayersChangedAt
+    );
     const [newPlayerName, setNewPlayerName] = useState("");
+    const [isEditingStartTime, setIsEditingStartTime] = useState(false);
+    const [startTimeInput, setStartTimeInput] = useState("");
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -64,6 +73,21 @@ const PlayersTab = () => {
         dispatch(addPerson({ id, name }));
         dispatch(initializePerson(id));
         setNewPlayerName("");
+    }
+
+    function beginEditStartTime() {
+        setStartTimeInput(
+            toDatetimeLocalValue(lastPlayersChangedAt ?? Date.now())
+        );
+        setIsEditingStartTime(true);
+    }
+
+    function saveStartTime() {
+        const timestamp = new Date(startTimeInput).getTime();
+        if (!isNaN(timestamp)) {
+            dispatch(setLastPlayersChangedAt(timestamp));
+        }
+        setIsEditingStartTime(false);
     }
 
     return (
@@ -113,6 +137,37 @@ const PlayersTab = () => {
                     </SortableContext>
                 </DndContext>
             )}
+            <div className="mt-4 flex justify-center text-xs text-muted-foreground">
+                {isEditingStartTime ? (
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="datetime-local"
+                            value={startTimeInput}
+                            onChange={(e) => setStartTimeInput(e.target.value)}
+                            className="rounded border border-input bg-background px-2 py-1 text-foreground"
+                        />
+                        <Button size="sm" onClick={saveStartTime}>
+                            Save
+                        </Button>
+                        <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setIsEditingStartTime(false)}>
+                            Cancel
+                        </Button>
+                    </div>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={beginEditStartTime}
+                        className="inline-flex items-center gap-1 hover:text-foreground">
+                        {lastPlayersChangedAt
+                            ? `First game started: ${formatEntryTime(lastPlayersChangedAt)}`
+                            : "First game start time not recorded — tap to set"}
+                        <Pencil size="0.9em" />
+                    </button>
+                )}
+            </div>
         </>
     );
 };

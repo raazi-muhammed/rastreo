@@ -4,17 +4,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import useGameDurations, { GameDuration } from "@/hooks/useGameDurations";
-import { formatDuration } from "@/lib/utils";
-
-function formatEntryTime(timestamp?: number) {
-    if (!timestamp) return "No time recorded";
-    return new Date(timestamp).toLocaleString([], {
-        day: "numeric",
-        month: "short",
-        hour: "numeric",
-        minute: "2-digit",
-    });
-}
+import { formatDuration, formatEntryTime } from "@/lib/utils";
 
 const GameIndexItem = ({ game }: { game: GameDuration }) => {
     const { index, startedAt, finishedAt, duration } = game;

@@ -11,6 +11,24 @@ export function formatNumber(number: string | number) {
     return Number(number).toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
 
+export function formatEntryTime(timestamp?: number) {
+    if (!timestamp) return "No time recorded";
+    return new Date(timestamp).toLocaleString([], {
+        day: "numeric",
+        month: "short",
+        hour: "numeric",
+        minute: "2-digit",
+    });
+}
+
+export function toDatetimeLocalValue(timestamp: number) {
+    const date = new Date(timestamp);
+    const localTime = new Date(
+        date.getTime() - date.getTimezoneOffset() * 60000
+    );
+    return localTime.toISOString().slice(0, 16);
+}
+
 export function formatDuration(milliseconds: number) {
     const totalSeconds = Math.round(milliseconds / 1000);
     const hours = Math.floor(totalSeconds / 3600);

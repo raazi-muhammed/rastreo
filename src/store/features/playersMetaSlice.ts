@@ -18,10 +18,17 @@ export const playersMetaSlice = createSlice({
             },
             prepare: () => ({ payload: Date.now() }),
         },
+        // Manual override for when lastPlayersChangedAt was never recorded
+        // (e.g. game 1 already had scores before this tracking existed).
+        // Unlike touchPlayersChanged, this is not guarded by hasStarted.
+        setLastPlayersChangedAt: (state, action: PayloadAction<number>) => {
+            state.lastPlayersChangedAt = action.payload;
+        },
     },
 });
 
-export const { touchPlayersChanged } = playersMetaSlice.actions;
+export const { touchPlayersChanged, setLastPlayersChangedAt } =
+    playersMetaSlice.actions;
 
 // Only bump lastPlayersChangedAt while game 1 hasn't started yet. It's used
 // as game 1's start time in duration calculations, so once scores exist, a
