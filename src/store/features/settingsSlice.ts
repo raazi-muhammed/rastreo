@@ -26,6 +26,7 @@ type Settings = {
     keepScreenOn: boolean;
     showDragHandle: boolean;
     sidebarWidth: number;
+    isCompactViewOn: boolean;
 };
 
 const initialState: Settings = {
@@ -40,6 +41,7 @@ const initialState: Settings = {
     keepScreenOn: false,
     showDragHandle: true,
     sidebarWidth: 320,
+    isCompactViewOn: false,
 };
 
 export const counterSlice = createSlice({
@@ -97,6 +99,10 @@ export const counterSlice = createSlice({
             );
             return state;
         },
+        toggleCompactView: (state) => {
+            state.isCompactViewOn = !state.isCompactViewOn;
+            return state;
+        },
     },
 });
 
@@ -112,6 +118,7 @@ export const {
     setKeepScreenOn,
     setShowDragHandle,
     setSidebarWidth,
+    toggleCompactView,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

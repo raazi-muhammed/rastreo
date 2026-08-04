@@ -7,7 +7,7 @@ const LeaderboardTab = () => {
         <>
             <Heading>
                 <Award size="1.2em" />
-                Leaderboard
+                Ranks
             </Heading>
             <LeaderBoardData />
         </>

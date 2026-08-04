@@ -1,4 +1,4 @@
-import { formatNumber } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import {
     ChevronsDown,
@@ -25,7 +25,7 @@ export default function LeaderBoardData() {
     const { players, scores } = useVisiblePlayers();
 
     const settings = useAppSelector((state) => state.settings);
-    const { sortOption } = settings;
+    const { sortOption, isCompactViewOn: isCompact } = settings;
     const { maxGamesPlayed } = useGamesStats();
     const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
         []
@@ -109,21 +109,48 @@ export default function LeaderBoardData() {
                                 {index === 0 &&
                                 sortOption &&
                                 leaderBoardData.length > 1 ? (
-                                    <section className="my-2 flex justify-between rounded border bg-muted px-4 py-2 shadow-md shadow-accent">
-                                        <div className="flex-1 pr-3">
-                                            <WinnerIcon className="text-primary" />
-                                            {l.players.map((p, i) => (
-                                                <Fragment key={p}>
-                                                    {i > 0 && (
-                                                        <Separator className="my-2 bg-muted-foreground/20" />
-                                                    )}
-                                                    <p className="my-auto text-lg">
-                                                        {p}
-                                                    </p>
-                                                </Fragment>
-                                            ))}
+                                    <section
+                                        className={cn(
+                                            "flex justify-between rounded border bg-muted shadow-md shadow-accent",
+                                            isCompact
+                                                ? "my-1 items-center gap-2 px-2 py-1"
+                                                : "my-2 px-4 py-2"
+                                        )}>
+                                        <div
+                                            className={cn(
+                                                "flex-1",
+                                                isCompact
+                                                    ? "flex items-center gap-1.5 overflow-hidden"
+                                                    : "pr-3"
+                                            )}>
+                                            <WinnerIcon
+                                                className="shrink-0 text-primary"
+                                                size={isCompact ? "1em" : undefined}
+                                            />
+                                            {isCompact ? (
+                                                <p className="truncate text-lg">
+                                                    {l.players.join(", ")}
+                                                </p>
+                                            ) : (
+                                                l.players.map((p, i) => (
+                                                    <Fragment key={p}>
+                                                        {i > 0 && (
+                                                            <Separator className="my-2 bg-muted-foreground/20" />
+                                                        )}
+                                                        <p className="my-auto text-lg">
+                                                            {p}
+                                                        </p>
+                                                    </Fragment>
+                                                ))
+                                            )}
                                         </div>
-                                        <div className="-me-1 mt-auto text-right">
+                                        <div
+                                            className={cn(
+                                                "text-right",
+                                                isCompact
+                                                    ? "shrink-0"
+                                                    : "-me-1 mt-auto"
+                                            )}>
                                             <p className="font-semibold">
                                                 {formatNumber(l.sum)}
                                             </p>
@@ -142,27 +169,57 @@ export default function LeaderBoardData() {
                                         </div>
                                     </section>
                                 ) : (
-                                    <section className="my-2 flex justify-between rounded bg-muted p-2">
-                                        <div className="flex flex-1 gap-2">
-                                            <p className="my-auto w-6 rounded bg-accent p-1 text-center text-xs text-primary">
+                                    <section
+                                        className={cn(
+                                            "flex justify-between rounded bg-muted",
+                                            isCompact
+                                                ? "my-1 items-center gap-2 px-2 py-1"
+                                                : "my-2 p-2"
+                                        )}>
+                                        <div
+                                            className={cn(
+                                                "flex flex-1",
+                                                isCompact
+                                                    ? "items-center gap-1.5 overflow-hidden"
+                                                    : "gap-2"
+                                            )}>
+                                            <p
+                                                className={cn(
+                                                    "my-auto shrink-0 rounded bg-accent text-center text-xs text-primary",
+                                                    isCompact ? "w-4" : "w-6 p-1"
+                                                )}>
                                                 {index + 1}
                                             </p>
-                                            <div className="my-auto flex-1 pr-3">
-                                                {l.players.map((p, i) => (
-                                                    <Fragment key={p}>
-                                                        {i > 0 && (
-                                                            <Separator className="my-2 bg-muted-foreground/20" />
-                                                        )}
-                                                        <p>{p}</p>
-                                                    </Fragment>
-                                                ))}
-                                            </div>
+                                            {isCompact ? (
+                                                <p className="truncate">
+                                                    {l.players.join(", ")}
+                                                </p>
+                                            ) : (
+                                                <div className="my-auto flex-1 pr-3">
+                                                    {l.players.map((p, i) => (
+                                                        <Fragment key={p}>
+                                                            {i > 0 && (
+                                                                <Separator className="my-2 bg-muted-foreground/20" />
+                                                            )}
+                                                            <p>{p}</p>
+                                                        </Fragment>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="me-1">
+                                        <div
+                                            className={cn(
+                                                "shrink-0",
+                                                !isCompact && "me-1"
+                                            )}>
                                             <p className="me-0 ms-auto w-fit font-semibold">
                                                 {formatNumber(l.sum)}
                                             </p>
-                                            <small className="-mt-1 flex items-center justify-end text-end text-indigo-800">
+                                            <small
+                                                className={cn(
+                                                    "flex items-center justify-end text-end text-indigo-800",
+                                                    !isCompact && "-mt-1"
+                                                )}>
                                                 <ChevronsUp
                                                     className="text-red-800/60"
                                                     size="0.9em"

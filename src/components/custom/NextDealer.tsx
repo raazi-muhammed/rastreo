@@ -1,8 +1,12 @@
 import { motion } from "framer-motion";
 import useGamesStats from "@/hooks/useGamesStats";
+import { useAppSelector } from "@/hooks/redux";
 
 export default function NextDealer() {
     const { nextGamePlayer, maxGamesPlayed } = useGamesStats();
+    const isCompact = useAppSelector(
+        (state) => state.settings.isCompactViewOn
+    );
 
     return (
         <section>
@@ -24,9 +28,12 @@ export default function NextDealer() {
                             </span>
                             {nextGamePlayer}
                         </p>
-                        <small className="opacity-30">
-                            Assumed that order of players is order of dealing
-                        </small>
+                        {!isCompact ? (
+                            <small className="opacity-30">
+                                Assumed that order of players is order of
+                                dealing
+                            </small>
+                        ) : null}
                     </section>
                 </motion.div>
             ) : null}

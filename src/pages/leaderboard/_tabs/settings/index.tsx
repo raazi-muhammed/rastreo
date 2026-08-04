@@ -18,6 +18,7 @@ import {
     setShowDragHandle,
     setShowNextDealer,
     ThemeOptions,
+    toggleCompactView,
     toggleFitEveryone,
     toggleLock,
     toggleTouchMode,
@@ -168,6 +169,16 @@ const SettingsTab = () => {
                                 checked={settings.isFitEveryoneOn}
                                 onCheckedChange={() => {
                                     dispatch(toggleFitEveryone());
+                                }}
+                            />
+                        </SettingIconTemplate>,
+                        <SettingIconTemplate
+                            label="Compact View"
+                            key="compact-view">
+                            <Switch
+                                checked={settings.isCompactViewOn}
+                                onCheckedChange={() => {
+                                    dispatch(toggleCompactView());
                                 }}
                             />
                         </SettingIconTemplate>,

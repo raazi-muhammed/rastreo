@@ -4,6 +4,7 @@ import NextDealer from "../../../components/custom/NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useAppSelector } from "@/hooks/redux";
+import { cn } from "@/lib/utils";
 import LeaderboardTab from "../_tabs/leaderboard";
 import AnalyticsTab from "../_tabs/analytics";
 import SettingsTab from "../_tabs/settings";
@@ -51,30 +52,50 @@ export default function LeaderBoard() {
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.LEADERBOARD)}
                             value="leaderboard"
-                            className="w-16 flex-col gap-0 rounded-2xl px-2">
-                            <Award size="1.4em" />
-                            <span className="text-[10px]">Ranks</span>
+                            className={cn(
+                                "flex-col gap-0 rounded-2xl px-2",
+                                settings.isCompactViewOn ? "w-10" : "w-16"
+                            )}>
+                            <Award size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
+                            {!settings.isCompactViewOn && (
+                                <span className="text-[10px]">Ranks</span>
+                            )}
                         </TabsTrigger>
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.PLAYERS)}
                             value="players"
-                            className="w-16 flex-col gap-0 rounded-2xl px-2">
-                            <Users size="1.4em" />
-                            <span className="text-[10px]">Players</span>
+                            className={cn(
+                                "flex-col gap-0 rounded-2xl px-2",
+                                settings.isCompactViewOn ? "w-10" : "w-16"
+                            )}>
+                            <Users size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
+                            {!settings.isCompactViewOn && (
+                                <span className="text-[10px]">Players</span>
+                            )}
                         </TabsTrigger>
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.SETTINGS)}
                             value="settings"
-                            className="w-16 flex-col gap-0 rounded-2xl px-2">
-                            <Settings size="1.4em" />
-                            <span className="text-[10px]">Settings</span>
+                            className={cn(
+                                "flex-col gap-0 rounded-2xl px-2",
+                                settings.isCompactViewOn ? "w-10" : "w-16"
+                            )}>
+                            <Settings size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
+                            {!settings.isCompactViewOn && (
+                                <span className="text-[10px]">Settings</span>
+                            )}
                         </TabsTrigger>
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.ANALYSIS)}
                             value="analysis"
-                            className="w-16 flex-col gap-0 rounded-2xl px-2">
-                            <BarChart size="1.4em" />
-                            <span className="text-[10px]">Analysis</span>
+                            className={cn(
+                                "flex-col gap-0 rounded-2xl px-2",
+                                settings.isCompactViewOn ? "w-10" : "w-16"
+                            )}>
+                            <BarChart size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
+                            {!settings.isCompactViewOn && (
+                                <span className="text-[10px]">Analysis</span>
+                            )}
                         </TabsTrigger>
                     </TabsList>
                 </Tabs>
