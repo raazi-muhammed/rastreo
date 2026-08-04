@@ -20,15 +20,19 @@ const AnalyticsTab = () => {
                 <>
                     <AnalyticsTemplate
                         title="Per game values"
-                        expanded={<AllPlayersChart showLegend />}>
+                        expanded={<AllPlayersChart showLegend expanded />}>
                         <AllPlayersChart />
                     </AnalyticsTemplate>
                     <AnalyticsTemplate
                         title="Leaderboard progress"
-                        expanded={<AllPlayersProgressChart showLegend />}>
+                        expanded={
+                            <AllPlayersProgressChart showLegend expanded />
+                        }>
                         <AllPlayersProgressChart />
                     </AnalyticsTemplate>
-                    <AnalyticsTemplate title="Game durations">
+                    <AnalyticsTemplate
+                        title="Game durations"
+                        expanded={<GameDurationsChart expanded />}>
                         <GameDurationsChart />
                     </AnalyticsTemplate>
                 </>

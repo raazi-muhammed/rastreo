@@ -9,7 +9,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart";
 import useGameDurations from "@/hooks/useGameDurations";
-import { formatDuration } from "@/lib/utils";
+import { cn, formatDuration } from "@/lib/utils";
 
 const chartConfig = {
     duration: {
@@ -18,7 +18,11 @@ const chartConfig = {
     },
 } satisfies ChartConfig;
 
-export function GameDurationsChart() {
+export function GameDurationsChart({
+    expanded = false,
+}: {
+    expanded?: boolean;
+}) {
     const { games } = useGameDurations();
 
     const data = games
@@ -35,14 +39,19 @@ export function GameDurationsChart() {
     const totalDuration = data.reduce((sum, game) => sum + game.duration, 0);
 
     return (
-        <>
+        <div className={cn(expanded && "flex h-full flex-col")}>
             <p className="mb-2 text-sm text-muted-foreground">
                 Total:{" "}
                 <span className="font-medium text-foreground">
                     {formatDuration(totalDuration * 1000)}
                 </span>
             </p>
-            <ChartContainer config={chartConfig} className="max-h-[80vh]">
+            <ChartContainer
+                config={chartConfig}
+                className={cn(
+                    "max-h-[80vh]",
+                    expanded && "aspect-auto min-h-0 w-full flex-1"
+                )}>
                 <BarChart
                     accessibilityLayer
                     data={data}
@@ -91,6 +100,6 @@ export function GameDurationsChart() {
                     />
                 </BarChart>
             </ChartContainer>
-        </>
+        </div>
     );
 }
