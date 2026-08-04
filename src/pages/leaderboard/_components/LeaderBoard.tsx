@@ -47,32 +47,32 @@ export default function LeaderBoard() {
             <div className="gap-4 flex flex-col align-middle overflow-hidden bg-gradient-to-t from-background to-transparent p-4 from-30%">
                 {settings.showNextDealer ? <NextDealer /> : null}
                 <Tabs defaultValue="leaderboard" className="mx-auto overflow-hidden">
-                    <TabsList className="h-auto rounded-2xl">
+                    <TabsList className="h-auto rounded-3xl">
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.LEADERBOARD)}
                             value="leaderboard"
-                            className="flex-col gap-1 rounded-xl px-2">
+                            className="w-16 flex-col gap-0 rounded-2xl px-2">
                             <Award size="1.4em" />
-                            <span className="text-[10px]">Leaderboard</span>
+                            <span className="text-[10px]">Ranks</span>
                         </TabsTrigger>
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.PLAYERS)}
                             value="players"
-                            className="flex-col gap-1 rounded-xl px-2">
+                            className="w-16 flex-col gap-0 rounded-2xl px-2">
                             <Users size="1.4em" />
                             <span className="text-[10px]">Players</span>
                         </TabsTrigger>
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.SETTINGS)}
                             value="settings"
-                            className="flex-col gap-1 rounded-xl px-2">
+                            className="w-16 flex-col gap-0 rounded-2xl px-2">
                             <Settings size="1.4em" />
                             <span className="text-[10px]">Settings</span>
                         </TabsTrigger>
                         <TabsTrigger
                             onClick={() => setCurrentTab(TabsState.ANALYSIS)}
                             value="analysis"
-                            className="flex-col gap-1 rounded-xl px-2">
+                            className="w-16 flex-col gap-0 rounded-2xl px-2">
                             <BarChart size="1.4em" />
                             <span className="text-[10px]">Analysis</span>
                         </TabsTrigger>
