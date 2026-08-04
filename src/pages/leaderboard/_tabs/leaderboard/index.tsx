@@ -5,10 +5,7 @@ import { Award } from "lucide-react";
 const LeaderboardTab = () => {
     return (
         <>
-            <Heading>
-                <Award size="1.2em" />
-                Leaderboard
-            </Heading>
+            <Heading icon={Award}>Ranks</Heading>
             <LeaderBoardData />
         </>
     );

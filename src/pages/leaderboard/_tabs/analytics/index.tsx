@@ -12,23 +12,24 @@ const AnalyticsTab = () => {
 
     return (
         <>
-            <Heading>
-                <BarChart size="1.2em" />
-                Analysis
-            </Heading>
+            <Heading icon={BarChart}>Analysis</Heading>
             {maxGamesPlayed > 1 ? (
                 <>
                     <AnalyticsTemplate
                         title="Per game values"
-                        expanded={<AllPlayersChart showLegend />}>
+                        expanded={<AllPlayersChart showLegend expanded />}>
                         <AllPlayersChart />
                     </AnalyticsTemplate>
                     <AnalyticsTemplate
                         title="Leaderboard progress"
-                        expanded={<AllPlayersProgressChart showLegend />}>
+                        expanded={
+                            <AllPlayersProgressChart showLegend expanded />
+                        }>
                         <AllPlayersProgressChart />
                     </AnalyticsTemplate>
-                    <AnalyticsTemplate title="Game durations">
+                    <AnalyticsTemplate
+                        title="Game durations"
+                        expanded={<GameDurationsChart expanded />}>
                         <GameDurationsChart />
                     </AnalyticsTemplate>
                 </>

@@ -20,8 +20,8 @@ const AnalyticsTemplate = ({
                         <ChevronRight className="my-auto" size={20} />
                     </p>
                 </DrawerTrigger>
-                <DrawerContent className="p-6 max-h-[90vh]">
-                    {expanded ?? children}
+                <DrawerContent className="flex h-[90vh] max-h-[90vh] flex-col p-6">
+                    <div className="min-h-0 flex-1">{expanded ?? children}</div>
                 </DrawerContent>
             </Drawer>
             {children}

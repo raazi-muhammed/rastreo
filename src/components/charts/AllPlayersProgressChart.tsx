@@ -18,12 +18,15 @@ import {
 } from "@/components/ui/chart";
 import useVisiblePlayers from "@/hooks/useVisiblePlayers";
 import { CHART_COLORS } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import { ActivePointLabels } from "./ActivePointLabels";
 
 export function AllPlayersProgressChart({
     showLegend = false,
+    expanded = false,
 }: {
     showLegend?: boolean;
+    expanded?: boolean;
 }) {
     const { players, scores } = useVisiblePlayers();
 
@@ -67,7 +70,12 @@ export function AllPlayersProgressChart({
     }
 
     return (
-        <ChartContainer config={chartConfig} className="max-h-[80vh]">
+        <ChartContainer
+            config={chartConfig}
+            className={cn(
+                "max-h-[80vh]",
+                expanded && "aspect-auto h-full w-full"
+            )}>
             <LineChart
                 accessibilityLayer
                 data={data}

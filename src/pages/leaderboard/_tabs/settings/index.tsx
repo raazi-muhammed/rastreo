@@ -18,6 +18,7 @@ import {
     setShowDragHandle,
     setShowNextDealer,
     ThemeOptions,
+    toggleCompactView,
     toggleFitEveryone,
     toggleLock,
     toggleTouchMode,
@@ -32,10 +33,7 @@ const SettingsTab = () => {
 
     return (
         <>
-            <Heading>
-                <Settings size="1.2em" />
-                Settings
-            </Heading>
+            <Heading icon={Settings}>Settings</Heading>
             <section className="mt-auto h-full space-y-4">
                 <SectionWrapper
                     title="Game"
@@ -171,8 +169,28 @@ const SettingsTab = () => {
                                 }}
                             />
                         </SettingIconTemplate>,
+                        <SettingIconTemplate
+                            label="Compact View"
+                            key="compact-view">
+                            <Switch
+                                checked={settings.isCompactViewOn}
+                                onCheckedChange={() => {
+                                    dispatch(toggleCompactView());
+                                }}
+                            />
+                        </SettingIconTemplate>,
                     ]}
                 />
+                <p className="text-center text-xs text-muted-foreground">
+                    Created by
+                    <a
+                        href="https://www.linkedin.com/in/raazimuhammed/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ms-1 font-semibold text-primary underline">
+                        Raazi
+                    </a>
+                </p>
             </section>
         </>
     );
