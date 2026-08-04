@@ -26,7 +26,7 @@ type Settings = {
 
 const initialState: Settings = {
     isTouchModeOn: !isDesktop,
-    isFitEveryoneOn: false,
+    isFitEveryoneOn: true,
     isLocked: false,
     showLeaderBoard: isDesktop,
     sortOption: SortOptions.TO_LOW,
