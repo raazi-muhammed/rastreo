@@ -11,6 +11,9 @@ export enum ThemeOptions {
     DARK = "dark",
 }
 
+export const SIDEBAR_MIN_WIDTH = 260;
+export const SIDEBAR_MAX_WIDTH = 480;
+
 type Settings = {
     isTouchModeOn: boolean;
     isFitEveryoneOn: boolean;
@@ -22,6 +25,7 @@ type Settings = {
     theme: ThemeOptions;
     keepScreenOn: boolean;
     showDragHandle: boolean;
+    sidebarWidth: number;
 };
 
 const initialState: Settings = {
@@ -35,6 +39,7 @@ const initialState: Settings = {
     theme: ThemeOptions.SYSTEM,
     keepScreenOn: false,
     showDragHandle: true,
+    sidebarWidth: 320,
 };
 
 export const counterSlice = createSlice({
@@ -63,6 +68,10 @@ export const counterSlice = createSlice({
             state.showLeaderBoard = showStatus;
             return state;
         },
+        toggleShowLeaderBoard: (state) => {
+            state.showLeaderBoard = !state.showLeaderBoard;
+            return state;
+        },
         setShowNextDealer: (state, action: PayloadAction<boolean>) => {
             const showStatus = action.payload;
             state.showNextDealer = showStatus;
@@ -81,6 +90,13 @@ export const counterSlice = createSlice({
             state.showDragHandle = action.payload;
             return state;
         },
+        setSidebarWidth: (state, action: PayloadAction<number>) => {
+            state.sidebarWidth = Math.min(
+                Math.max(action.payload, SIDEBAR_MIN_WIDTH),
+                SIDEBAR_MAX_WIDTH
+            );
+            return state;
+        },
     },
 });
 
@@ -88,12 +104,14 @@ export const {
     changeSortOption,
     toggleTouchMode,
     setShowLeaderBoard,
+    toggleShowLeaderBoard,
     toggleFitEveryone,
     toggleLock,
     setShowNextDealer,
     setMobileMode,
     setKeepScreenOn,
     setShowDragHandle,
+    setSidebarWidth,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

@@ -28,9 +28,9 @@ export default function LeaderBoard() {
     const settings = useAppSelector((state) => state.settings);
 
     return (
-        <aside className="flex h-svh w-[20rem] flex-col justify-between gap-4 bg-background shadow-xl overflow-auto no-scrollbar">
+        <aside className="flex h-svh w-full flex-col bg-background shadow-xl">
             <motion.section
-                className="h-full mb-24 p-4"
+                className="min-h-0 flex-1 overflow-auto no-scrollbar p-4"
                 initial={{ scale: 0.85, originY: 0, originX: 0 }}
                 animate={{ scale: 1 }}
                 key={currentTab}>
@@ -43,9 +43,8 @@ export default function LeaderBoard() {
                 ) : (
                     <SettingsTab />
                 )}
-                <div className={settings.showNextDealer ? "h-56" : "h-24"} />
             </motion.section>
-            <div className="fixed w-[20rem] bottom-0 gap-4 flex flex-col align-middle bg-gradient-to-t from-background to-transparent p-4 from-30%">
+            <div className="gap-4 flex flex-col align-middle bg-gradient-to-t from-background to-transparent p-4 from-30%">
                 {settings.showNextDealer ? <NextDealer /> : null}
                 <Tabs defaultValue="leaderboard" className="mx-auto">
                     <TabsList>
