@@ -158,7 +158,7 @@ export default function LeaderBoardData() {
                                             undefined ? (
                                                 <small className="flex items-center justify-end gap-0.5 text-end text-indigo-800">
                                                     <ChevronsDown
-                                                        className="text-green-800/60"
+                                                        className="text-red-800/60"
                                                         size="0.9em"
                                                     />
                                                     {formatNumber(
@@ -221,7 +221,7 @@ export default function LeaderBoardData() {
                                                     !isCompact && "-mt-1"
                                                 )}>
                                                 <ChevronsUp
-                                                    className="text-red-800/60"
+                                                    className="text-green-800/60"
                                                     size="0.9em"
                                                 />
                                                 {formatNumber(
@@ -235,7 +235,7 @@ export default function LeaderBoardData() {
                                                         </span>
                                                         <span className="flex items-center gap-0.5">
                                                             <ChevronsDown
-                                                                className="text-green-800/60"
+                                                                className="text-red-800/60"
                                                                 size="0.9em"
                                                             />
                                                             {formatNumber(
