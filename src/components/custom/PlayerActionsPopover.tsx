@@ -20,6 +20,19 @@ import {
     touchPlayersModified,
 } from "@/store/features/playersMetaSlice";
 import { PlayerChart } from "../charts/PlayerChart";
+import useLeaderBoardData from "@/hooks/useLeaderBoardData";
+import { formatNumber } from "@/lib/utils";
+
+function StatTile({ label, value }: { label: string; value: string }) {
+    return (
+        <div className="rounded-md bg-muted px-2 py-1.5">
+            <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                {label}
+            </p>
+            <p className="text-sm font-semibold">{value}</p>
+        </div>
+    );
+}
 
 export default function PlayerActionsPopover({
     player,
@@ -35,6 +48,11 @@ export default function PlayerActionsPopover({
     const isTouchModeOn = useAppSelector(
         (state) => state.settings.isTouchModeOn
     );
+    const leaderBoardData = useLeaderBoardData();
+    const rank = leaderBoardData.findIndex((item) =>
+        item.players.some((p) => p.id === player.id)
+    );
+    const stats = rank >= 0 ? leaderBoardData[rank] : undefined;
 
     function handleDeletePerson(userId: string) {
         dispatch(deletePersonScores(userId));
@@ -72,6 +90,43 @@ export default function PlayerActionsPopover({
                         e.preventDefault();
                         handleChangePersonName(player.id, inputPerson);
                     }}>
+                    {stats && (
+                        <div className="mb-3 grid grid-cols-2 gap-2">
+                            <StatTile
+                                label="Total"
+                                value={formatNumber(stats.sum)}
+                            />
+                            <StatTile label="Rank" value={`#${rank + 1}`} />
+                            {stats.totalDifference !== undefined && (
+                                <StatTile
+                                    label="Gap to leader"
+                                    value={formatNumber(
+                                        stats.totalDifference
+                                    )}
+                                />
+                            )}
+                            {stats.differenceFromLast !== undefined && (
+                                <StatTile
+                                    label="Gap to last"
+                                    value={formatNumber(
+                                        stats.differenceFromLast
+                                    )}
+                                />
+                            )}
+                            {stats.difference !== undefined && (
+                                <StatTile
+                                    label="Gap above"
+                                    value={formatNumber(stats.difference)}
+                                />
+                            )}
+                            {stats.differenceBelow !== undefined && (
+                                <StatTile
+                                    label="Gap below"
+                                    value={formatNumber(stats.differenceBelow)}
+                                />
+                            )}
+                        </div>
+                    )}
                     <PlayerChart player={player} />
                     <Label>Change player name</Label>
                     <Input

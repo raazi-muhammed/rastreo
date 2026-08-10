@@ -3,16 +3,10 @@ import { ChevronsDown, ChevronsUp, Crown as WinnerIcon } from "lucide-react";
 import { Fragment } from "react";
 import { Separator } from "@/components/ui/separator";
 import PlayerActionsPopover from "@/components/custom/PlayerActionsPopover";
-
-export type LeaderBoardPlayer = { id: string; name: string };
-
-export type LeaderBoardItem = {
-    players: LeaderBoardPlayer[];
-    sum: number;
-    difference?: number;
-    totalDifference?: number;
-    differenceFromLast?: number;
-};
+import type {
+    LeaderBoardItem,
+    LeaderBoardPlayer,
+} from "@/hooks/useLeaderBoardData";
 
 function PlayerNames({
     players,
