@@ -11,6 +11,7 @@ import {
     ResizablePanelGroup,
 } from "./components/ui/resizable";
 import {
+    setShowLeaderBoard,
     setSidebarWidth,
     SIDEBAR_MAX_WIDTH,
     SIDEBAR_MIN_WIDTH,
@@ -34,6 +35,13 @@ export default function App() {
     const sidebarWidthRef = useRef(sidebarWidth);
     sidebarWidthRef.current = sidebarWidth;
     const isFirstRender = useRef(true);
+    // react-resizable-panels fires onResize from a ResizeObserver watching
+    // the panel's live DOM box, so animating it via CSS floods onResize with
+    // in-progress sizes (including a transient 0 right as an open transition
+    // starts). Suppress handleSidebarResize while our own toggle-driven
+    // transition is running so that noise is ignored; only a genuine user
+    // drag should update state from onResize.
+    const isProgrammaticResize = useRef(false);
     ReactGa.pageview("/");
     useWakeLock();
 
@@ -57,6 +65,7 @@ export default function App() {
                 "flex-grow 300ms cubic-bezier(0.4, 0, 0.2, 1), flex-basis 300ms cubic-bezier(0.4, 0, 0.2, 1)";
         }
 
+        isProgrammaticResize.current = true;
         if (showLeaderBoard) {
             sidebarPanelRef.current?.resize(sidebarWidthRef.current);
         } else {
@@ -65,15 +74,32 @@ export default function App() {
 
         const timeout = setTimeout(() => {
             if (el) el.style.transition = "";
+            isProgrammaticResize.current = false;
         }, 300);
         return () => clearTimeout(timeout);
     }, [showLeaderBoard]);
 
     function handleSidebarResize(panelSize: PanelSize) {
-        // Collapsing reports a size of 0; ignore it so the persisted width
-        // still reflects the last size the user actually dragged to.
+        if (isProgrammaticResize.current) return;
+
         if (panelSize.inPixels > 0) {
+            // Collapsing reports a size of 0; ignore it so the persisted
+            // width still reflects the last size the user actually dragged
+            // to.
             dispatch(setSidebarWidth(Math.round(panelSize.inPixels)));
+            // Dragging the handle back out of a collapsed panel bypasses
+            // the toggle button the same way collapsing it does (see
+            // below); keep showLeaderBoard in sync in this direction too.
+            if (!showLeaderBoard) {
+                dispatch(setShowLeaderBoard(true));
+            }
+        } else if (showLeaderBoard) {
+            // Dragging the handle past the snap threshold collapses the
+            // panel directly, bypassing the toggle button. Without this,
+            // showLeaderBoard stays true while the panel sits at 0px, so
+            // the next toggle click calls collapse() on an already-
+            // collapsed panel (a no-op) and appears to do nothing.
+            dispatch(setShowLeaderBoard(false));
         }
     }
 
