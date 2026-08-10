@@ -3,6 +3,16 @@ import { Heading } from "@/pages/leaderboard/_components/LeaderBoard";
 import MessageTemplate from "@/components/template/MessageTemplate";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { addPerson, reorderPersons } from "@/store/features/playerSlice";
 import {
@@ -12,9 +22,16 @@ import {
 import {
     setLastPlayersChangedAt,
     touchPlayersChangedIfNotStarted,
+    touchPlayersModified,
 } from "@/store/features/playersMetaSlice";
 import { formatEntryTime, toDatetimeLocalValue } from "@/lib/utils";
-import { Pencil, UserRoundPlus as AddPersonIcon, Users } from "lucide-react";
+import {
+    Clock,
+    History,
+    Pencil,
+    UserRoundPlus as AddPersonIcon,
+    Users,
+} from "lucide-react";
 import {
     DndContext,
     DragEndEvent,
@@ -38,6 +55,9 @@ const PlayersTab = () => {
     const isLocked = useAppSelector((state) => state.settings.isLocked);
     const lastPlayersChangedAt = useAppSelector(
         (state) => state.playersMeta.lastPlayersChangedAt
+    );
+    const lastPlayersModifiedAt = useAppSelector(
+        (state) => state.playersMeta.lastPlayersModifiedAt
     );
     const [newPlayerName, setNewPlayerName] = useState("");
     const [isEditingStartTime, setIsEditingStartTime] = useState(false);
@@ -63,6 +83,7 @@ const PlayersTab = () => {
         dispatch(reorderPersons({ oldIndex, newIndex }));
         dispatch(reorderPersonScores({ oldIndex, newIndex }));
         dispatch(touchPlayersChangedIfNotStarted());
+        dispatch(touchPlayersModified());
     }
 
     function handleAddPlayer() {
@@ -72,6 +93,7 @@ const PlayersTab = () => {
         const id = uuidv4();
         dispatch(addPerson({ id, name }));
         dispatch(initializePerson(id));
+        dispatch(touchPlayersModified());
         setNewPlayerName("");
     }
 
@@ -82,12 +104,20 @@ const PlayersTab = () => {
         setIsEditingStartTime(true);
     }
 
+    function setStartTimeToNow() {
+        setStartTimeInput(toDatetimeLocalValue(Date.now()));
+    }
+
+    function setStartTimeToLastPlayersModified() {
+        if (!lastPlayersModifiedAt) return;
+        setStartTimeInput(toDatetimeLocalValue(lastPlayersModifiedAt));
+    }
+
     function saveStartTime() {
         const timestamp = new Date(startTimeInput).getTime();
         if (!isNaN(timestamp)) {
             dispatch(setLastPlayersChangedAt(timestamp));
         }
-        setIsEditingStartTime(false);
     }
 
     return (
@@ -135,36 +165,67 @@ const PlayersTab = () => {
                 </DndContext>
             )}
             <div className="mt-4 flex justify-center text-xs text-muted-foreground">
-                {isEditingStartTime ? (
-                    <div className="flex items-center gap-2">
-                        <input
+                <button
+                    type="button"
+                    onClick={beginEditStartTime}
+                    className="inline-flex items-center gap-1 hover:text-foreground">
+                    {lastPlayersChangedAt
+                        ? `First game started: ${formatEntryTime(lastPlayersChangedAt)}`
+                        : "First game start time not recorded — tap to set"}
+                    <Pencil size="0.9em" />
+                </button>
+            </div>
+            <AlertDialog
+                open={isEditingStartTime}
+                onOpenChange={setIsEditingStartTime}>
+                <AlertDialogContent className="max-w-screen flex w-full flex-col sm:max-w-sm">
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            First game start time
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Used to calculate how long game 1 has been
+                            running.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <div className="flex flex-col gap-3">
+                        <Input
                             type="datetime-local"
                             value={startTimeInput}
                             onChange={(e) => setStartTimeInput(e.target.value)}
-                            className="rounded border border-input bg-background px-2 py-1 text-foreground"
                         />
-                        <Button size="sm" onClick={saveStartTime}>
-                            Save
-                        </Button>
-                        <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => setIsEditingStartTime(false)}>
-                            Cancel
-                        </Button>
+                        <div className="flex flex-wrap gap-2">
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant="secondary"
+                                onClick={setStartTimeToNow}>
+                                <Clock size="1em" className="me-1.5" />
+                                Now
+                            </Button>
+                            {lastPlayersModifiedAt && (
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="secondary"
+                                    onClick={
+                                        setStartTimeToLastPlayersModified
+                                    }>
+                                    <History size="1em" className="me-1.5" />
+                                    Last player change ·{" "}
+                                    {formatEntryTime(lastPlayersModifiedAt)}
+                                </Button>
+                            )}
+                        </div>
                     </div>
-                ) : (
-                    <button
-                        type="button"
-                        onClick={beginEditStartTime}
-                        className="inline-flex items-center gap-1 hover:text-foreground">
-                        {lastPlayersChangedAt
-                            ? `First game started: ${formatEntryTime(lastPlayersChangedAt)}`
-                            : "First game start time not recorded — tap to set"}
-                        <Pencil size="0.9em" />
-                    </button>
-                )}
-            </div>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={saveStartTime}>
+                            Save
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </>
     );
 };

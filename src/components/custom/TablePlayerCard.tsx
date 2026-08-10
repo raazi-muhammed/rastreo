@@ -15,7 +15,10 @@ import {
     editPerson,
     setPlayerHidden,
 } from "@/store/features/playerSlice";
-import { touchPlayersChangedIfNotStarted } from "@/store/features/playersMetaSlice";
+import {
+    touchPlayersChangedIfNotStarted,
+    touchPlayersModified,
+} from "@/store/features/playersMetaSlice";
 import { PlayerChart } from "../charts/PlayerChart";
 
 export default function TablePlayerCard({
@@ -32,13 +35,16 @@ export default function TablePlayerCard({
     function handleDeletePerson(userId: string) {
         dispatch(deletePersonScores(userId));
         dispatch(deletePerson(userId));
+        dispatch(touchPlayersModified());
     }
     function handleHidePerson(userId: string) {
         dispatch(setPlayerHidden({ id: userId, hidden: true }));
+        dispatch(touchPlayersModified());
     }
     function handleChangePersonName(userId: string, name: string) {
         dispatch(editPerson({ id: userId, name: name }));
         dispatch(touchPlayersChangedIfNotStarted());
+        dispatch(touchPlayersModified());
     }
 
     return (

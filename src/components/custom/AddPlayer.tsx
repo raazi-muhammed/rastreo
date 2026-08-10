@@ -25,6 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { addPersons } from "@/store/features/playerSlice";
 import { initializePersons } from "@/store/features/scoreSlice";
+import { touchPlayersModified } from "@/store/features/playersMetaSlice";
 import { v4 as uuidv4 } from "uuid";
 
 const FormSchema = z.object({
@@ -54,6 +55,7 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
         const newPlayers = names.map((name) => ({ id: uuidv4(), name }));
         dispatch(addPersons(newPlayers));
         dispatch(initializePersons(newPlayers.map((p) => p.id)));
+        dispatch(touchPlayersModified());
     }
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
