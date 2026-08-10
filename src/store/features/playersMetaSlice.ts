@@ -2,10 +2,12 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type PlayersMeta = {
     lastPlayersChangedAt?: number;
+    lastPlayersModifiedAt?: number;
 };
 
 const initialState: PlayersMeta = {
     lastPlayersChangedAt: undefined,
+    lastPlayersModifiedAt: undefined,
 };
 
 export const playersMetaSlice = createSlice({
@@ -24,11 +26,22 @@ export const playersMetaSlice = createSlice({
         setLastPlayersChangedAt: (state, action: PayloadAction<number>) => {
             state.lastPlayersChangedAt = action.payload;
         },
+        // Unconditionally records the last time the players list changed
+        // (add, remove, rename, hide, reorder), regardless of game state.
+        touchPlayersModified: {
+            reducer: (state, action: PayloadAction<number>) => {
+                state.lastPlayersModifiedAt = action.payload;
+            },
+            prepare: () => ({ payload: Date.now() }),
+        },
     },
 });
 
-export const { touchPlayersChanged, setLastPlayersChangedAt } =
-    playersMetaSlice.actions;
+export const {
+    touchPlayersChanged,
+    setLastPlayersChangedAt,
+    touchPlayersModified,
+} = playersMetaSlice.actions;
 
 // Only bump lastPlayersChangedAt while game 1 hasn't started yet. It's used
 // as game 1's start time in duration calculations, so once scores exist, a

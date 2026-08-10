@@ -5,7 +5,10 @@ import TableScoreCard from "@/components/custom/TableScoreCard";
 import { useAppDispatch } from "@/hooks/redux";
 import useVisiblePlayers from "@/hooks/useVisiblePlayers";
 import { reorderPersons } from "@/store/features/playerSlice";
-import { touchPlayersChangedIfNotStarted } from "@/store/features/playersMetaSlice";
+import {
+    touchPlayersChangedIfNotStarted,
+    touchPlayersModified,
+} from "@/store/features/playersMetaSlice";
 import { reorderPersonScores } from "@/store/features/scoreSlice";
 import { AnimatePresence } from "framer-motion";
 import {
@@ -47,6 +50,7 @@ const ScoresTable = () => {
         dispatch(reorderPersons({ oldIndex, newIndex }));
         dispatch(reorderPersonScores({ oldIndex, newIndex }));
         dispatch(touchPlayersChangedIfNotStarted());
+        dispatch(touchPlayersModified());
     }
 
     return (
