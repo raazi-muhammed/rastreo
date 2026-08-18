@@ -11,7 +11,7 @@ export enum ThemeOptions {
     DARK = "dark",
 }
 
-export const SIDEBAR_MIN_WIDTH = 300;
+export const SIDEBAR_MIN_WIDTH = 200;
 export const SIDEBAR_MAX_WIDTH = 480;
 
 type Settings = {
