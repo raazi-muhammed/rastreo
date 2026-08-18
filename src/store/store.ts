@@ -6,9 +6,10 @@ import playersMetaReducer from "./features/playersMetaSlice";
 
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import { REDUX_PERSIST_KEY } from "@/lib/storage-keys";
 
 const persistConfig = {
-    key: "root",
+    key: REDUX_PERSIST_KEY,
     version: 1,
     storage,
 };
