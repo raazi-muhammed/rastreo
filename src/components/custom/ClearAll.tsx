@@ -70,7 +70,7 @@ export function ClearAll() {
             <AlertDialogTrigger asChild>
                 <Button
                     disabled={isLocked}
-                    variant="outline"
+                    variant="ghost"
                     className="my-auto ms-auto">
                     <HugeiconsIcon icon={ListXIcon} size="1em" />
                 </Button>

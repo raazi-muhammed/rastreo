@@ -34,7 +34,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
                     disabled={isLocked}
                     onClick={() => setOpen(true)}
                     size="icon"
-                    className="mx-auto flex shadow-md shadow-primary/80">
+                    className="mx-auto flex rounded-full">
                     <HugeiconsIcon icon={AddIcon} size="1.5em" className="mx-auto" />
                 </Button>
             </PopoverTrigger>
