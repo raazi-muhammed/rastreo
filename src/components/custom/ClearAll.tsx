@@ -108,8 +108,7 @@ export function ClearAll() {
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
-                        onClick={handleClearAll}
-                        className="bg-destructive">
+                        onClick={handleClearAll}>
                         Clear all
                     </AlertDialogAction>
                 </AlertDialogFooter>
