@@ -75,7 +75,7 @@ const ScoresTable = () => {
                             ))}
                         </AnimatePresence>
                         {scores[i].scores.length === 0 && (
-                            <div className="grid h-12 w-full place-items-center rounded-xs bg-card opacity-50">
+                            <div className="grid h-12 w-full place-items-center rounded-xs bg-background opacity-50">
                                 <p className="my-auto text-xs text-card-foreground">
                                     No score yet
                                 </p>

@@ -87,7 +87,7 @@ export default function LeaderBoardRow({
     const content = isWinnerRow ? (
         <section
             className={cn(
-                "flex justify-between rounded border bg-card",
+                "flex justify-between rounded bg-card",
                 isSinglePlayer && "cursor-pointer",
                 isCompact
                     ? "my-1 items-center gap-2 px-2 py-1"
