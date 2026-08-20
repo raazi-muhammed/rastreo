@@ -7,6 +7,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { Fragment } from "react";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import PlayerActionsPopover from "@/components/custom/PlayerActionsPopover";
 import type {
     LeaderBoardItem,
@@ -89,15 +90,20 @@ export default function LeaderBoardRow({
 }) {
     const isSinglePlayer = item.players.length === 1;
 
-    const content = isWinnerRow ? (
-        <section
-            className={cn(
-                "flex justify-between rounded bg-card",
-                isSinglePlayer && "cursor-pointer",
-                isCompact
-                    ? "my-1 items-center gap-2 px-2 py-1"
-                    : "my-2 px-4 py-2"
-            )}>
+    const rowClassName = isWinnerRow
+        ? cn(
+              "flex justify-between rounded",
+              isCompact
+                  ? "my-1 items-center gap-2 px-2 py-1"
+                  : "my-2 px-4 py-2"
+          )
+        : cn(
+              "flex justify-between rounded",
+              isCompact ? "my-1 items-center gap-2 px-2 py-1" : "my-2 p-2"
+          );
+
+    const rowBody = isWinnerRow ? (
+        <>
             <div
                 className={cn(
                     "flex-1",
@@ -134,14 +140,9 @@ export default function LeaderBoardRow({
                     </small>
                 ) : null}
             </div>
-        </section>
+        </>
     ) : (
-        <section
-            className={cn(
-                "flex justify-between rounded bg-card",
-                isSinglePlayer && "cursor-pointer",
-                isCompact ? "my-1 items-center gap-2 px-2 py-1" : "my-2 p-2"
-            )}>
+        <>
             <div
                 className={cn(
                     "flex flex-1",
@@ -194,16 +195,23 @@ export default function LeaderBoardRow({
                     </span>
                 </small>
             </div>
-        </section>
+        </>
     );
 
     if (isSinglePlayer) {
         return (
             <PlayerActionsPopover player={item.players[0]} side="right">
-                {content}
+                <Button
+                    variant="card"
+                    className={cn(
+                        rowClassName,
+                        "h-auto w-full text-start font-normal"
+                    )}>
+                    {rowBody}
+                </Button>
             </PlayerActionsPopover>
         );
     }
 
-    return content;
+    return <section className={cn("bg-card", rowClassName)}>{rowBody}</section>;
 }

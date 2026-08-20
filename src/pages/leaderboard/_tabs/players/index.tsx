@@ -165,16 +165,18 @@ const PlayersTab = () => {
                     </SortableContext>
                 </DndContext>
             )}
-            <div className="mt-4 flex justify-center text-xs text-muted-foreground">
-                <button
+            <div className="mt-4 flex justify-center">
+                <Button
                     type="button"
+                    variant="ghost"
+                    size="sm"
                     onClick={beginEditStartTime}
-                    className="inline-flex items-center gap-1 hover:text-foreground">
+                    className="h-auto gap-1 px-2 py-1 text-xs text-muted-foreground hover:bg-transparent hover:text-foreground">
                     {lastPlayersChangedAt
                         ? `First game started: ${formatEntryTime(lastPlayersChangedAt)}`
                         : "First game start time not recorded — tap to set"}
                     <HugeiconsIcon icon={PencilIcon} size="0.9em" />
-                </button>
+                </Button>
             </div>
             <AlertDialog
                 open={isEditingStartTime}

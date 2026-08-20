@@ -70,7 +70,7 @@ export function ClearAll() {
             <AlertDialogTrigger asChild>
                 <Button
                     disabled={isLocked}
-                    variant="outline"
+                    variant="card"
                     className="my-auto ms-auto">
                     <HugeiconsIcon icon={ListXIcon} size="1em" />
                 </Button>
@@ -108,8 +108,7 @@ export function ClearAll() {
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
-                        onClick={handleClearAll}
-                        className="bg-destructive">
+                        onClick={handleClearAll}>
                         Clear all
                     </AlertDialogAction>
                 </AlertDialogFooter>

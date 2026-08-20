@@ -39,7 +39,7 @@ const initialState: Settings = {
     isMobileModeOn: false,
     theme: ThemeOptions.SYSTEM,
     keepScreenOn: false,
-    showDragHandle: true,
+    showDragHandle: false,
     sidebarWidth: 320,
     isCompactViewOn: false,
 };

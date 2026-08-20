@@ -3,6 +3,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import useGameDurations, { GameDuration } from "@/hooks/useGameDurations";
 import { formatDuration, formatEntryTime } from "@/lib/utils";
 
@@ -12,9 +13,13 @@ const GameIndexItem = ({ game }: { game: GameDuration }) => {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <button className="flex h-12 items-center justify-end text-xs text-muted-foreground font-mono hover:text-foreground">
+                <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-12 justify-end px-0 font-mono text-xs text-muted-foreground hover:bg-transparent hover:text-foreground">
                     {index + 1}
-                </button>
+                </Button>
             </PopoverTrigger>
             <PopoverContent side="right" className="w-fit">
                 <p className="text-sm font-medium mb-2">Game {index + 1}</p>

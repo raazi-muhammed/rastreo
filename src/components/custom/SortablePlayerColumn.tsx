@@ -4,6 +4,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { GripVerticalIcon } from "@hugeicons/core-free-icons";
 import { ReactNode } from "react";
 import { useAppSelector } from "@/hooks/redux";
+import { Button } from "@/components/ui/button";
 import TablePlayerCard from "./TablePlayerCard";
 
 export default function SortablePlayerColumn({
@@ -42,14 +43,16 @@ export default function SortablePlayerColumn({
             } py-2 ${isDragging ? "z-10 opacity-80" : ""}`}>
             <div className="flex h-10 items-center gap-1">
                 {showDragHandle && (
-                    <button
+                    <Button
                         type="button"
+                        variant="ghost"
+                        size="icon-xs"
                         aria-label="Drag to reorder player"
                         className="shrink-0 cursor-grab touch-none text-muted-foreground active:cursor-grabbing"
                         {...attributes}
                         {...listeners}>
                         <HugeiconsIcon icon={GripVerticalIcon} size="1.1em" />
-                    </button>
+                    </Button>
                 )}
                 <div className="min-w-0 flex-1">
                     <TablePlayerCard player={player} />
