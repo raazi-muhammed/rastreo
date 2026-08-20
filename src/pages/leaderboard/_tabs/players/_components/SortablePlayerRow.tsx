@@ -29,7 +29,7 @@ export default function SortablePlayerRow({
         <section
             ref={setNodeRef}
             style={style}
-            className={`flex items-center justify-between gap-4 rounded bg-secondary p-3 ${
+            className={`flex items-center justify-between gap-4 rounded bg-card p-3 ${
                 isDragging ? "z-10 opacity-80" : ""
             }`}>
             <div className="flex min-w-0 items-center gap-2">

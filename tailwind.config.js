@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class"],
@@ -17,6 +19,10 @@ module.exports = {
             },
         },
         extend: {
+            fontFamily: {
+                sans: ["Inter", ...defaultTheme.fontFamily.sans],
+                mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
+            },
             colors: {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
@@ -51,13 +57,24 @@ module.exports = {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
                 },
+                chart: {
+                    1: "hsl(var(--chart-1))",
+                    2: "hsl(var(--chart-2))",
+                    3: "hsl(var(--chart-3))",
+                    4: "hsl(var(--chart-4))",
+                    5: "hsl(var(--chart-5))",
+                },
             },
             borderRadius: {
                 DEFAULT: "var(--radius)",
+                xs: "calc(var(--radius) * 0.4)",
+                sm: "calc(var(--radius) * 0.6)",
+                md: "calc(var(--radius) * 0.8)",
                 lg: "var(--radius)",
-                md: "calc(var(--radius) - 2px)",
-                sm: "calc(var(--radius) - 4px)",
-                xs: "calc(var(--radius) - 8px)",
+                xl: "calc(var(--radius) * 1.4)",
+                "2xl": "calc(var(--radius) * 1.8)",
+                "3xl": "calc(var(--radius) * 2.2)",
+                "4xl": "calc(var(--radius) * 2.6)",
             },
             keyframes: {
                 "accordion-down": {

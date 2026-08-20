@@ -21,7 +21,7 @@ export default function NextDealer() {
                     <p className="z-10 ms-2 text-sm text-primary">
                         Next Dealer
                     </p>
-                    <section className="flex flex-col justify-between rounded bg-secondary p-3 shadow-sm">
+                    <section className="flex flex-col justify-between rounded bg-card p-3 shadow-sm">
                         <p className="text-lg">
                             <span className="mr-2 rounded bg-background px-3 py-1 text-primary text-sm">
                                 {maxGamesPlayed + 1}

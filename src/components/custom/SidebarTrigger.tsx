@@ -15,7 +15,7 @@ export default function SidebarTrigger({
         <Button
             variant="ghost"
             size="icon"
-            className={cn("h-7 w-7 text-primary", className)}
+            className={cn("h-7 w-7", className)}
             onClick={() => dispatch(toggleShowLeaderBoard())}>
             <PanelLeft />
             <span className="sr-only">Toggle Sidebar</span>

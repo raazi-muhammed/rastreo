@@ -14,7 +14,7 @@ import { cn, formatDuration } from "@/lib/utils";
 const chartConfig = {
     duration: {
         label: "Duration",
-        color: "hsl(var(--chart-1))",
+        color: "hsl(var(--primary))",
     },
 } satisfies ChartConfig;
 
