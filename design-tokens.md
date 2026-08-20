@@ -8,8 +8,8 @@ project's look. Built on Tailwind v3 (JS config, `hsl(var(--x))` color values) +
 - **Sans / body / heading**: [Inter](https://fonts.google.com/specimen/Inter) (Google Font)
 - **Mono / display**: [Fira Code](https://fonts.google.com/specimen/Fira+Code) (Google Font)
 
-This project is a Vite app (no Next.js), so fonts are loaded via plain `<link>` tags in
-`index.html`:
+Load them however the project's build tool supports Google Fonts — a `next/font/google`
+import, a framework's font plugin, or plain `<link>` tags in the HTML head:
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -68,8 +68,15 @@ No custom type scale — uses Tailwind's default `text-*` utilities
 ## Colors
 
 Values are stored as bare HSL component triplets (`H S% L%`, no `hsl()` wrapper) and
-consumed via `hsl(var(--x))` in `tailwind.config.js`. Where a token is an exact duplicate
-of another, it references it with `var()` instead of repeating the value.
+consumed via `hsl(var(--x))` in `tailwind.config.js`.
+
+**Rule: never duplicate a color value.** If a token's value is an exact match for another
+token, define it as `var(--other-token)` instead of repeating the literal — e.g.
+`--popover: var(--card);` rather than copying `--card`'s value into `--popover`. This keeps
+the palette as one source of truth: changing `--card` automatically updates everything that
+was defined in terms of it, instead of silently drifting out of sync. Below, `--card-foreground`,
+`--popover`, `--popover-foreground`, `--secondary-foreground`, `--destructive-foreground`,
+and `--input` are all defined this way.
 
 Light theme (`:root`):
 

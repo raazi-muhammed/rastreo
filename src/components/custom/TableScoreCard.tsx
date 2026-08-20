@@ -47,9 +47,7 @@ export default function TableScoreCard({
         <Popover open={open}>
             <PopoverTrigger asChild>
                 <Button
-                    className={`h-12 w-full rounded-xs bg-background relative hover:shadow-lg ${
-                        isTop ? "border-primary/30 border" : ""
-                    }`}
+                    className={`h-12 w-full rounded-sm bg-card relative hover:shadow-lg`}
                     variant="ghost"
                     onClick={() => {
                         if (isLocked) return;
