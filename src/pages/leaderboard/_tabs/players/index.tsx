@@ -25,13 +25,14 @@ import {
     touchPlayersModified,
 } from "@/store/features/playersMetaSlice";
 import { formatEntryTime, toDatetimeLocalValue } from "@/lib/utils";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-    Clock,
-    History,
-    Pencil,
-    UserRoundPlus as AddPersonIcon,
-    Users,
-} from "lucide-react";
+    Clock01Icon,
+    HistoryIcon,
+    PencilIcon,
+    UserRoundPlusIcon as AddPersonIcon,
+    UsersIcon,
+} from "@hugeicons/core-free-icons";
 import {
     DndContext,
     DragEndEvent,
@@ -122,7 +123,7 @@ const PlayersTab = () => {
 
     return (
         <>
-            <Heading icon={Users}>Players</Heading>
+            <Heading icon={UsersIcon}>Players</Heading>
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
@@ -136,7 +137,7 @@ const PlayersTab = () => {
                     disabled={isLocked}
                 />
                 <Button type="submit" disabled={isLocked}>
-                    <AddPersonIcon size="1.2em" className="me-1" />
+                    <HugeiconsIcon icon={AddPersonIcon} size="1.2em" className="me-1" />
                     Add
                 </Button>
             </form>
@@ -172,7 +173,7 @@ const PlayersTab = () => {
                     {lastPlayersChangedAt
                         ? `First game started: ${formatEntryTime(lastPlayersChangedAt)}`
                         : "First game start time not recorded — tap to set"}
-                    <Pencil size="0.9em" />
+                    <HugeiconsIcon icon={PencilIcon} size="0.9em" />
                 </button>
             </div>
             <AlertDialog
@@ -200,7 +201,7 @@ const PlayersTab = () => {
                                 size="sm"
                                 variant="secondary"
                                 onClick={setStartTimeToNow}>
-                                <Clock size="1em" className="me-1.5" />
+                                <HugeiconsIcon icon={Clock01Icon} size="1em" className="me-1.5" />
                                 Now
                             </Button>
                             {lastPlayersModifiedAt && (
@@ -211,7 +212,7 @@ const PlayersTab = () => {
                                     onClick={
                                         setStartTimeToLastPlayersModified
                                     }>
-                                    <History size="1em" className="me-1.5" />
+                                    <HugeiconsIcon icon={HistoryIcon} size="1em" className="me-1.5" />
                                     Last player change ·{" "}
                                     {formatEntryTime(lastPlayersModifiedAt)}
                                 </Button>

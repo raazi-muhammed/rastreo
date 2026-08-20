@@ -26,7 +26,8 @@ import {
     deleteAllPersonScores,
     deleteAllScores,
 } from "@/store/features/scoreSlice";
-import { ListX } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ListXIcon } from "@hugeicons/core-free-icons";
 import { useState } from "react";
 
 enum ClearAllMode {
@@ -71,7 +72,7 @@ export function ClearAll() {
                     disabled={isLocked}
                     variant="outline"
                     className="my-auto ms-auto">
-                    <ListX size="1em" />
+                    <HugeiconsIcon icon={ListXIcon} size="1em" />
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

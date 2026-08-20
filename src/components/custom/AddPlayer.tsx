@@ -9,7 +9,8 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
-import { UserRoundPlus as AddPersonIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { UserRoundPlusIcon as AddPersonIcon } from "@hugeicons/core-free-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -74,7 +75,7 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                         onClick={() => {
                             form.reset();
                         }}>
-                        <AddPersonIcon size="1.35em" />
+                        <HugeiconsIcon icon={AddPersonIcon} size="1.35em" />
                     </Button>
                 ) : (
                     <Button
@@ -84,7 +85,7 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                         onClick={() => {
                             form.reset();
                         }}>
-                        <AddPersonIcon size="1.35em" className="" />
+                        <HugeiconsIcon icon={AddPersonIcon} size="1.35em" className="" />
                         <span className="hidden sm:block ms-2">Add</span>
                     </Button>
                 )}
@@ -123,7 +124,8 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction asChild>
                                 <Button type="submit">
-                                    <AddPersonIcon
+                                    <HugeiconsIcon
+                                        icon={AddPersonIcon}
                                         size="1.25em"
                                         className="me-1"
                                     />

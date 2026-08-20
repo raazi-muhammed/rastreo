@@ -7,7 +7,13 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import NumberInput from "./NumberInput";
-import { Crown, Trash2 as DeleteIcon, X, Frown } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+    CrownIcon,
+    Delete02Icon as DeleteIcon,
+    MultiplicationSignIcon,
+    FrownIcon,
+} from "@hugeicons/core-free-icons";
 import { Label } from "@/components/ui/label";
 import { calculateNumber, formatNumber } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
@@ -58,15 +64,17 @@ export default function TableScoreCard({
                         {formatNumber(score)}
                     </p>
                     {isTop ? (
-                        <Crown
+                        <HugeiconsIcon
+                            icon={CrownIcon}
                             size="0.75em"
-                            className="absolute bottom-2 right-2 stroke-primary"
+                            className="absolute bottom-2 right-2 text-primary"
                         />
                     ) : null}
                     {isBottom ? (
-                        <Frown
+                        <HugeiconsIcon
+                            icon={FrownIcon}
                             size="0.75em"
-                            className="absolute bottom-2 right-2 stroke-red-400"
+                            className="absolute bottom-2 right-2 text-destructive"
                         />
                     ) : null}
                 </Button>
@@ -111,7 +119,8 @@ export default function TableScoreCard({
                                     )
                                 }
                                 variant="secondary">
-                                <X
+                                <HugeiconsIcon
+                                    icon={MultiplicationSignIcon}
                                     size=".8rem"
                                     strokeWidth={2.5}
                                     className="my-auto"
@@ -131,7 +140,7 @@ export default function TableScoreCard({
                                 handleRemoveScore(personId, index);
                                 setOpen(false);
                             }}>
-                            <DeleteIcon size="1.2em" />
+                            <HugeiconsIcon icon={DeleteIcon} size="1.2em" />
                         </Button>
                         <Button>Save</Button>
                     </div>

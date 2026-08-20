@@ -6,7 +6,8 @@ import {
 import { ReactNode, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { EyeOff as HideIcon, Trash2 as DeleteIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { EyeOffIcon as HideIcon, Delete02Icon as DeleteIcon } from "@hugeicons/core-free-icons";
 import { Label } from "../ui/label";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { deletePersonScores } from "@/store/features/scoreSlice";
@@ -139,13 +140,13 @@ export default function PlayerActionsPopover({
                             variant="secondary"
                             type="button"
                             onClick={() => handleHidePerson(player.id)}>
-                            <HideIcon size="1.2em" />
+                            <HugeiconsIcon icon={HideIcon} size="1.2em" />
                         </Button>
                         <Button
                             variant="destructive"
                             type="button"
                             onClick={() => handleDeletePerson(player.id)}>
-                            <DeleteIcon size="1.2em" />
+                            <HugeiconsIcon icon={DeleteIcon} size="1.2em" />
                         </Button>
                         <Button>Change</Button>
                     </div>

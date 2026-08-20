@@ -1,6 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { GripVerticalIcon } from "@hugeicons/core-free-icons";
 import { ReactNode } from "react";
 import { useAppSelector } from "@/hooks/redux";
 import TablePlayerCard from "./TablePlayerCard";
@@ -47,7 +48,7 @@ export default function SortablePlayerColumn({
                         className="shrink-0 cursor-grab touch-none text-muted-foreground active:cursor-grabbing"
                         {...attributes}
                         {...listeners}>
-                        <GripVertical size="1.1em" />
+                        <HugeiconsIcon icon={GripVerticalIcon} size="1.1em" />
                     </button>
                 )}
                 <div className="min-w-0 flex-1">

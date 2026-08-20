@@ -1,4 +1,11 @@
-import { Delete, Equal, Minus, Plus, X } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+    Delete01Icon,
+    EqualIcon,
+    MinusSignIcon,
+    PlusSignIcon,
+    MultiplicationSignIcon,
+} from "@hugeicons/core-free-icons";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import { calculateNumber } from "@/lib/utils";
@@ -9,10 +16,10 @@ export default function NumberInput({
 }) {
     const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00"];
     const calculation = [
-        { icon: Plus, value: "+" },
-        { icon: Minus, value: "-" },
-        { icon: X, value: "*" },
-        { icon: Equal, value: "=" },
+        { icon: PlusSignIcon, value: "+" },
+        { icon: MinusSignIcon, value: "-" },
+        { icon: MultiplicationSignIcon, value: "*" },
+        { icon: EqualIcon, value: "=" },
     ];
     return (
         <div className="grid grid-cols-4 gap-2">
@@ -46,7 +53,7 @@ export default function NumberInput({
                                 );
                             } else setInputData((i) => i + n.value);
                         }}>
-                        <n.icon size="1em" />
+                        <HugeiconsIcon icon={n.icon} size="1em" />
                     </Button>
                 </motion.div>
             ))}
@@ -71,7 +78,7 @@ export default function NumberInput({
                         setInputData((e) => e.toString().slice(0, -1))
                     }
                     variant="destructive">
-                    <Delete size="1.3em" />
+                    <HugeiconsIcon icon={Delete01Icon} size="1.3em" />
                 </Button>
             </motion.div>
         </div>

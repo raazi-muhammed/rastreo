@@ -2,7 +2,7 @@ import { AllPlayersChart } from "@/components/charts/AllPlayersChart";
 import { AllPlayersProgressChart } from "@/components/charts/AllPlayersProgressChart";
 import { GameDurationsChart } from "@/components/charts/GameDurationsChart";
 import { Heading } from "@/pages/leaderboard/_components/LeaderBoard";
-import { BarChart } from "lucide-react";
+import { ChartColumnIcon } from "@hugeicons/core-free-icons";
 import AnalyticsTemplate from "./AnalyticsTemplate";
 import MessageTemplate from "@/components/template/MessageTemplate";
 import useGamesStats from "@/hooks/useGamesStats";
@@ -12,7 +12,7 @@ const AnalyticsTab = () => {
 
     return (
         <>
-            <Heading icon={BarChart}>Analysis</Heading>
+            <Heading icon={ChartColumnIcon}>Analysis</Heading>
             {maxGamesPlayed > 1 ? (
                 <>
                     <AnalyticsTemplate
