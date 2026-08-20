@@ -39,8 +39,7 @@ export default function NumberInput({
                         key={n.value}
                         type="button"
                         className="w-full"
-                        variant="outline"
-                        size="sm"
+                        variant="card"
                         onDoubleClick={() =>
                             setInputData((inputData) =>
                                 String(calculateNumber(inputData))

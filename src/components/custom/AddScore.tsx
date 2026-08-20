@@ -76,7 +76,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
                                         String(calculateNumber(e) * 2)
                                     )
                                 }
-                                variant="secondary">
+                                variant="card">
                                 <HugeiconsIcon
                                     icon={MultiplicationSignIcon}
                                     size=".8rem"
@@ -90,7 +90,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
                     {isTouchModeOn && (
                         <NumberInput setInputData={setInputData} />
                     )}
-                    <Button size="sm" className="mx-auto mt-2 flex">
+                    <Button className="mt-2 flex w-fit mx-auto" >
                         <HugeiconsIcon icon={AddIcon} size="1.2em" className="me-1" />
                         Add
                     </Button>
