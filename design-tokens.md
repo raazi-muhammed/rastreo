@@ -1,53 +1,36 @@
 # Design Tokens
 
 Copy the relevant sections into a new project's global CSS (and font setup) to match this
-project's look. Built on Tailwind v4 (`@theme inline`) + shadcn.
+project's look. Built on Tailwind v3 (JS config, `hsl(var(--x))` color values) + shadcn.
 
 ## Fonts
 
 - **Sans / body / heading**: [Inter](https://fonts.google.com/specimen/Inter) (Google Font)
 - **Mono / display**: [Fira Code](https://fonts.google.com/specimen/Fira+Code) (Google Font)
 
-Next.js setup (`app/layout.tsx`):
-
-```tsx
-import { Fira_Code, Inter } from "next/font/google"
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
-const fontMono = Fira_Code({ subsets: ["latin"], variable: "--font-mono" })
-
-// on <html>: className={cn(fontMono.variable, "font-sans", inter.variable)}
-```
-
-Theme mapping (`globals.css`):
-
-```css
-@theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: var(--font-sans);
-    --font-display: var(--font-mono);
-    --font-mono: var(--font-mono);
-}
-
-@layer base {
-  html {
-    @apply font-sans;
-  }
-}
-```
-
-Plain `<link>` alternative (no Next.js):
+This project is a Vite app (no Next.js), so fonts are loaded via plain `<link>` tags in
+`index.html`:
 
 ```html
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Fira+Code:wght@400..700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Fira+Code:wght@400..700&display=swap"
+    rel="stylesheet" />
 ```
 
-```css
-:root {
-  --font-sans: "Inter", sans-serif;
-  --font-mono: "Fira Code", monospace;
+`tailwind.config.js`:
+
+```js
+const defaultTheme = require("tailwindcss/defaultTheme");
+
+theme: {
+    extend: {
+        fontFamily: {
+            sans: ["Inter", ...defaultTheme.fontFamily.sans],
+            mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
+        },
+    },
 }
 ```
 
@@ -57,17 +40,21 @@ Base radius is `1rem`, with every other size derived from it as a multiple:
 
 ```css
 :root {
-  --radius: 1rem;
+    --radius: 1rem;
 }
+```
 
-@theme inline {
-    --radius-sm: calc(var(--radius) * 0.6);   /* 0.6rem */
-    --radius-md: calc(var(--radius) * 0.8);   /* 0.8rem */
-    --radius-lg: var(--radius);               /* 1rem   */
-    --radius-xl: calc(var(--radius) * 1.4);   /* 1.4rem */
-    --radius-2xl: calc(var(--radius) * 1.8);  /* 1.8rem */
-    --radius-3xl: calc(var(--radius) * 2.2);  /* 2.2rem */
-    --radius-4xl: calc(var(--radius) * 2.6);  /* 2.6rem */
+```js
+borderRadius: {
+    DEFAULT: "var(--radius)",
+    xs: "calc(var(--radius) * 0.4)",   /* 0.4rem */
+    sm: "calc(var(--radius) * 0.6)",   /* 0.6rem */
+    md: "calc(var(--radius) * 0.8)",   /* 0.8rem */
+    lg: "var(--radius)",               /* 1rem   */
+    xl: "calc(var(--radius) * 1.4)",   /* 1.4rem */
+    "2xl": "calc(var(--radius) * 1.8)", /* 1.8rem */
+    "3xl": "calc(var(--radius) * 2.2)", /* 2.2rem */
+    "4xl": "calc(var(--radius) * 2.6)", /* 2.6rem */
 }
 ```
 
@@ -80,41 +67,39 @@ No custom type scale — uses Tailwind's default `text-*` utilities
 
 ## Colors
 
+Values are stored as bare HSL component triplets (`H S% L%`, no `hsl()` wrapper) and
+consumed via `hsl(var(--x))` in `tailwind.config.js`. Where a token is an exact duplicate
+of another, it references it with `var()` instead of repeating the value.
+
 Light theme (`:root`):
 
 ```css
 :root {
-    --background: #e8e8ee;
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: #6466f1;
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: hsl(244, 49%, 90%);
-    --chart-2: hsl(227, 49%, 90%);
-    --chart-3: hsl(263, 69%, 89%);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --background: 240 15% 92%;
+    --foreground: 0 0% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: var(--foreground);
+    --popover: var(--card);
+    --popover-foreground: var(--card-foreground);
+    --primary: 239 83% 67%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 15% 94%;
+    --secondary-foreground: var(--foreground);
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 239 58% 85%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 357 100% 45%;
+    --destructive-foreground: var(--primary-foreground);
+    --border: 0 0% 90%;
+    --input: var(--border);
+    --ring: 0 0% 63%;
+    --chart-1: 244 49% 90%;
+    --chart-2: 227 49% 90%;
+    --chart-3: 263 69% 89%;
+    --chart-4: 0 0% 25%;
+    --chart-5: 0 0% 15%;
+    --radius: 1rem;
 }
 ```
 
@@ -122,76 +107,83 @@ Dark theme (`.dark`):
 
 ```css
 .dark {
-    --background: hsl(240, 4%, 5%);
-    --foreground: oklch(0.985 0 0);
-    --card: hsl(240, 9%, 9%);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: #151519;
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: #6466f1;
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: hsl(244, 39%, 10%);
-    --chart-2: hsl(227, 49%, 10%);
-    --chart-3: hsl(263, 69%, 11%);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: hsl(240, 9%, 9%);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --background: 240 4% 5%;
+    --foreground: 0 0% 98%;
+    --card: 240 9% 9%;
+    --card-foreground: var(--foreground);
+    --popover: var(--card);
+    --popover-foreground: var(--card-foreground);
+    --primary: 239 83% 67%;
+    --primary-foreground: var(--foreground);
+    --secondary: 240 6% 6%;
+    --secondary-foreground: var(--foreground);
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 63%;
+    --accent: 239 35% 24%;
+    --accent-foreground: var(--foreground);
+    --destructive: 359 100% 70%;
+    --destructive-foreground: var(--foreground);
+    --border: 240 1% 15%;
+    --input: 240 1% 19%;
+    --ring: 0 0% 45%;
+    --chart-1: 244 39% 10%;
+    --chart-2: 227 49% 10%;
+    --chart-3: 263 69% 11%;
+    --chart-4: 0 0% 25%;
+    --chart-5: 0 0% 15%;
+    --radius: 1rem;
 }
 ```
 
-Tailwind `@theme inline` bindings (maps the raw vars above to `bg-*`/`text-*`/`border-*`
-utilities — needed for Tailwind v4 + shadcn setups):
+`primary`, `secondary`, and `accent` all share the same ~239° indigo hue — `secondary` and
+`accent` are blends of `primary`/`background`/`card` rather than unrelated neutrals, so the
+palette reads as one family instead of a gray UI with an indigo primary bolted on.
 
-```css
-@theme inline {
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
+Tailwind color bindings (`tailwind.config.js`, `theme.extend.colors` — maps the raw vars
+above to `bg-*`/`text-*`/`border-*` utilities for Tailwind v3 + shadcn):
+
+```js
+colors: {
+    border: "hsl(var(--border))",
+    input: "hsl(var(--input))",
+    ring: "hsl(var(--ring))",
+    background: "hsl(var(--background))",
+    foreground: "hsl(var(--foreground))",
+    primary: {
+        DEFAULT: "hsl(var(--primary))",
+        foreground: "hsl(var(--primary-foreground))",
+    },
+    secondary: {
+        DEFAULT: "hsl(var(--secondary))",
+        foreground: "hsl(var(--secondary-foreground))",
+    },
+    destructive: {
+        DEFAULT: "hsl(var(--destructive))",
+        foreground: "hsl(var(--destructive-foreground))",
+    },
+    muted: {
+        DEFAULT: "hsl(var(--muted))",
+        foreground: "hsl(var(--muted-foreground))",
+    },
+    accent: {
+        DEFAULT: "hsl(var(--accent))",
+        foreground: "hsl(var(--accent-foreground))",
+    },
+    popover: {
+        DEFAULT: "hsl(var(--popover))",
+        foreground: "hsl(var(--popover-foreground))",
+    },
+    card: {
+        DEFAULT: "hsl(var(--card))",
+        foreground: "hsl(var(--card-foreground))",
+    },
+    chart: {
+        1: "hsl(var(--chart-1))",
+        2: "hsl(var(--chart-2))",
+        3: "hsl(var(--chart-3))",
+        4: "hsl(var(--chart-4))",
+        5: "hsl(var(--chart-5))",
+    },
 }
 ```
 
@@ -199,11 +191,21 @@ utilities — needed for Tailwind v4 + shadcn setups):
 
 | Token | Light | Dark |
 |---|---|---|
-| Background | `#e8e8ee` | `hsl(240, 4%, 5%)` |
-| Foreground | `oklch(0.145 0 0)` (near-black) | `oklch(0.985 0 0)` (near-white) |
-| Primary | `#6466f1` (indigo) | `#6466f1` (indigo) |
-| Card | `oklch(1 0 0)` (white) | `hsl(240, 9%, 9%)` |
-| Border | `oklch(0.922 0 0)` | `oklch(1 0 0 / 10%)` |
-| Destructive | `oklch(0.577 0.245 27.325)` | `oklch(0.704 0.191 22.216)` |
+| Background | `240 15% 92%` | `240 4% 5%` |
+| Foreground | `0 0% 4%` (near-black) | `0 0% 98%` (near-white) |
+| Primary | `239 83% 67%` (indigo) | `239 83% 67%` (indigo) |
+| Card | `0 0% 100%` (white) | `240 9% 9%` |
+| Secondary | `240 15% 94%` | `240 6% 6%` |
+| Accent | `239 58% 85%` (indigo tint) | `239 35% 24%` (indigo tint) |
+| Border | `0 0% 90%` | `240 1% 15%` |
+| Destructive | `357 100% 45%` | `359 100% 70%` |
 
-Source: [app/globals.css](app/globals.css), [app/layout.tsx](app/layout.tsx)
+Source: [src/index.css](src/index.css), [tailwind.config.js](tailwind.config.js)
+
+## Preview page
+
+This project has a `/design-tokens` route ([src/pages/design-tokens/index.tsx](src/pages/design-tokens/index.tsx))
+that renders every color group, both fonts, the full radius scale, and a "Surface Layering"
+section showing how `background`/`card`/`secondary` look nested against each other — plus a
+light/dark toggle. When applying this token system to a new project, create the same kind
+of page so the whole palette can be checked at a glance instead of guessing from CSS alone.
