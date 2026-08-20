@@ -70,12 +70,12 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                 {variant ? (
                     <Button
                         disabled={isLocked}
-                        className="mx-auto my-auto flex size-16 shadow-md"
-                        size="icon"
+                        className="mx-auto flex h-14 w-full max-w-xs items-center justify-center gap-2 rounded-full px-6 text-base font-semibold shadow-md"
                         onClick={() => {
                             form.reset();
                         }}>
-                        <HugeiconsIcon icon={AddPersonIcon} size="1.35em" />
+                        <HugeiconsIcon icon={AddPersonIcon} size="1.25em" />
+                        Add player
                     </Button>
                 ) : (
                     <Button
@@ -86,7 +86,7 @@ export default function AddPlayer({ variant }: { variant?: "default" | "lg" }) {
                             form.reset();
                         }}>
                         <HugeiconsIcon icon={AddPersonIcon} size="1.35em" className="" />
-                        <span className="hidden sm:block ms-2">Add</span>
+                        Add
                     </Button>
                 )}
             </AlertDialogTrigger>

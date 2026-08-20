@@ -1,7 +1,11 @@
 import { ReactNode } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { MoonIcon, Sun01Icon } from "@hugeicons/core-free-icons";
-import { Button } from "@/components/ui/button";
+import {
+    MoonIcon,
+    Sun01Icon,
+    UserRoundPlusIcon as AddPersonIcon,
+} from "@hugeicons/core-free-icons";
+import { Button, type ButtonProps } from "@/components/ui/button";
 import { useTheme } from "@/components/theme/theme-provider";
 import { ThemeOptions } from "@/store/features/settingsSlice";
 
@@ -123,6 +127,39 @@ const LAYER_EXAMPLES: {
         innerBg: "bg-card",
         innerFg: "text-card-foreground",
     },
+];
+
+const BUTTON_VARIANTS: {
+    label: string;
+    variant: NonNullable<ButtonProps["variant"]>;
+}[] = [
+    { label: "default", variant: "default" },
+    { label: "secondary", variant: "secondary" },
+    { label: "card", variant: "card" },
+    { label: "outline", variant: "outline" },
+    { label: "ghost", variant: "ghost" },
+    { label: "destructive", variant: "destructive" },
+    { label: "link", variant: "link" },
+];
+
+const BUTTON_SIZES: {
+    label: string;
+    size: NonNullable<ButtonProps["size"]>;
+}[] = [
+    { label: "xs", size: "xs" },
+    { label: "sm", size: "sm" },
+    { label: "default", size: "default" },
+    { label: "lg", size: "lg" },
+];
+
+const ICON_BUTTON_SIZES: {
+    label: string;
+    size: NonNullable<ButtonProps["size"]>;
+}[] = [
+    { label: "icon-xs", size: "icon-xs" },
+    { label: "icon-sm", size: "icon-sm" },
+    { label: "icon", size: "icon" },
+    { label: "icon-lg", size: "icon-lg" },
 ];
 
 const RADIUS_SWATCHES = [
@@ -277,6 +314,109 @@ export default function DesignTokensPage() {
                                 </p>
                             </div>
                         ))}
+                    </div>
+                </Section>
+
+                <Section title="Buttons">
+                    <div className="flex flex-col gap-8">
+                        <div>
+                            <h3 className="mb-3 text-sm font-medium text-muted-foreground">
+                                Variants
+                            </h3>
+                            <div className="flex flex-wrap items-center gap-3">
+                                {BUTTON_VARIANTS.map(({ label, variant }) => (
+                                    <div
+                                        key={label}
+                                        className="flex flex-col items-center gap-2">
+                                        <Button variant={variant}>
+                                            {label}
+                                        </Button>
+                                        <span className="font-mono text-xs text-muted-foreground">
+                                            variant="{label}"
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 className="mb-3 text-sm font-medium text-muted-foreground">
+                                Sizes
+                            </h3>
+                            <div className="flex flex-wrap items-end gap-3">
+                                {BUTTON_SIZES.map(({ label, size }) => (
+                                    <div
+                                        key={label}
+                                        className="flex flex-col items-center gap-2">
+                                        <Button size={size}>Button</Button>
+                                        <span className="font-mono text-xs text-muted-foreground">
+                                            size="{label}"
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 className="mb-3 text-sm font-medium text-muted-foreground">
+                                Icon sizes
+                            </h3>
+                            <div className="flex flex-wrap items-end gap-3">
+                                {ICON_BUTTON_SIZES.map(({ label, size }) => (
+                                    <div
+                                        key={label}
+                                        className="flex flex-col items-center gap-2">
+                                        <Button
+                                            variant="secondary"
+                                            size={size}
+                                            aria-label={label}>
+                                            <HugeiconsIcon
+                                                icon={Sun01Icon}
+                                                className="h-4 w-4"
+                                            />
+                                        </Button>
+                                        <span className="font-mono text-xs text-muted-foreground">
+                                            size="{label}"
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 className="mb-3 text-sm font-medium text-muted-foreground">
+                                Disabled
+                            </h3>
+                            <div className="flex flex-wrap items-center gap-3">
+                                {BUTTON_VARIANTS.map(({ label, variant }) => (
+                                    <Button key={label} variant={variant} disabled>
+                                        {label}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 className="mb-3 text-sm font-medium text-muted-foreground">
+                                Large CTA (pill)
+                            </h3>
+                            <p className="mb-3 text-xs text-muted-foreground">
+                                One-off pattern for prominent calls to action
+                                — see{" "}
+                                <code className="font-mono">
+                                    AddPlayer.tsx
+                                </code>
+                                . Not a built-in size; composed with a
+                                className override.
+                            </p>
+                            <Button className="flex h-14 w-full max-w-xs items-center justify-center gap-2 rounded-full px-6 text-base font-semibold shadow-md">
+                                <HugeiconsIcon
+                                    icon={AddPersonIcon}
+                                    size="1.25em"
+                                />
+                                Add player
+                            </Button>
+                        </div>
                     </div>
                 </Section>
 
