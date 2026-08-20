@@ -1,6 +1,6 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-    Delete01Icon,
+    ArrowLeft01Icon,
     EqualIcon,
     MinusSignIcon,
     PlusSignIcon,
@@ -72,12 +72,11 @@ export default function NumberInput({
                 <Button
                     type="button"
                     className="w-full"
-                    onDoubleClick={() => setInputData("")}
                     onClick={() =>
                         setInputData((e) => e.toString().slice(0, -1))
                     }
                     variant="destructive">
-                    <HugeiconsIcon icon={Delete01Icon} size="1.3em" />
+                    <HugeiconsIcon icon={ArrowLeft01Icon} size="1.3em" />
                 </Button>
             </motion.div>
         </div>
