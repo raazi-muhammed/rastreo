@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { Moon, Sun } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { MoonIcon, Sun01Icon } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme/theme-provider";
 import { ThemeOptions } from "@/store/features/settingsSlice";
@@ -164,7 +165,11 @@ function ThemeToggle() {
             onClick={() =>
                 setTheme(isDark ? ThemeOptions.LIGHT : ThemeOptions.DARK)
             }>
-            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {isDark ? (
+                <HugeiconsIcon icon={Sun01Icon} className="h-4 w-4" />
+            ) : (
+                <HugeiconsIcon icon={MoonIcon} className="h-4 w-4" />
+            )}
             <span className="sr-only">Toggle theme</span>
         </Button>
     );

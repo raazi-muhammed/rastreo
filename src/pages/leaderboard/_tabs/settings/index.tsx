@@ -23,7 +23,7 @@ import {
     toggleLock,
     toggleTouchMode,
 } from "@/store/features/settingsSlice";
-import { Settings } from "lucide-react";
+import { Settings01Icon } from "@hugeicons/core-free-icons";
 import SectionWrapper from "./_components/SectionWrapper";
 
 const SettingsTab = () => {
@@ -33,7 +33,7 @@ const SettingsTab = () => {
 
     return (
         <>
-            <Heading icon={Settings}>Settings</Heading>
+            <Heading icon={Settings01Icon}>Settings</Heading>
             <section className="mt-auto h-full space-y-4">
                 <SectionWrapper
                     title="Game"

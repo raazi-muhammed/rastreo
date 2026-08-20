@@ -1,5 +1,10 @@
 import { cn, formatNumber } from "@/lib/utils";
-import { ChevronsDown, ChevronsUp, Crown as WinnerIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+    ChevronsDownIcon,
+    ChevronsUpIcon,
+    CrownIcon as WinnerIcon,
+} from "@hugeicons/core-free-icons";
 import { Fragment } from "react";
 import { Separator } from "@/components/ui/separator";
 import PlayerActionsPopover from "@/components/custom/PlayerActionsPopover";
@@ -100,7 +105,8 @@ export default function LeaderBoardRow({
                         ? "flex items-center gap-1.5 overflow-hidden"
                         : "pr-3"
                 )}>
-                <WinnerIcon
+                <HugeiconsIcon
+                    icon={WinnerIcon}
                     className="shrink-0 text-primary"
                     size={isCompact ? "1em" : undefined}
                 />
@@ -119,7 +125,8 @@ export default function LeaderBoardRow({
                 <p className="font-semibold">{formatNumber(item.sum)}</p>
                 {item.differenceFromLast !== undefined ? (
                     <small className="flex items-center justify-end gap-0.5 text-end text-indigo-800">
-                        <ChevronsDown
+                        <HugeiconsIcon
+                            icon={ChevronsDownIcon}
                             className="text-red-800/60"
                             size="0.9em"
                         />
@@ -166,13 +173,14 @@ export default function LeaderBoardRow({
                         "flex items-center justify-end text-end text-indigo-800",
                         !isCompact && "-mt-1"
                     )}>
-                    <ChevronsUp className="text-green-800/60" size="0.9em" />
+                    <HugeiconsIcon icon={ChevronsUpIcon} className="text-green-800/60" size="0.9em" />
                     {formatNumber(item.totalDifference ?? 0)}
                     {item.differenceFromLast !== undefined ? (
                         <>
                             <span className="mx-1">•</span>
                             <span className="flex items-center gap-0.5">
-                                <ChevronsDown
+                                <HugeiconsIcon
+                                    icon={ChevronsDownIcon}
                                     className="text-red-800/60"
                                     size="0.9em"
                                 />

@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/hooks/redux";
 import { toggleShowLeaderBoard } from "@/store/features/settingsSlice";
-import { PanelLeft } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PanelLeftIcon } from "@hugeicons/core-free-icons";
 
 export default function SidebarTrigger({
     className,
@@ -17,7 +18,7 @@ export default function SidebarTrigger({
             size="icon"
             className={cn("h-7 w-7", className)}
             onClick={() => dispatch(toggleShowLeaderBoard())}>
-            <PanelLeft />
+            <HugeiconsIcon icon={PanelLeftIcon} />
             <span className="sr-only">Toggle Sidebar</span>
         </Button>
     );

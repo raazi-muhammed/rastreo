@@ -6,7 +6,8 @@ import {
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
-import { Plus as AddIcon, X } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PlusSignIcon as AddIcon, MultiplicationSignIcon } from "@hugeicons/core-free-icons";
 import NumberInput from "./NumberInput";
 import { Label } from "../ui/label";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
@@ -34,7 +35,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
                     onClick={() => setOpen(true)}
                     size="icon"
                     className="mx-auto flex shadow-md shadow-primary/80">
-                    <AddIcon size="1.5em" className="mx-auto" />
+                    <HugeiconsIcon icon={AddIcon} size="1.5em" className="mx-auto" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -76,7 +77,8 @@ export default function AddScore({ playerId }: { playerId: string }) {
                                     )
                                 }
                                 variant="secondary">
-                                <X
+                                <HugeiconsIcon
+                                    icon={MultiplicationSignIcon}
                                     size=".8rem"
                                     strokeWidth={2.5}
                                     className="my-auto"
@@ -89,7 +91,7 @@ export default function AddScore({ playerId }: { playerId: string }) {
                         <NumberInput setInputData={setInputData} />
                     )}
                     <Button size="sm" className="mx-auto mt-2 flex">
-                        <AddIcon size="1.2em" className="me-1" />
+                        <HugeiconsIcon icon={AddIcon} size="1.2em" className="me-1" />
                         Add
                     </Button>
                 </form>

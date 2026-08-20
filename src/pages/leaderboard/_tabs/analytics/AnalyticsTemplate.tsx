@@ -1,5 +1,6 @@
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { ChevronRight } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ChevronRightIcon } from "@hugeicons/core-free-icons";
 import { ReactNode } from "react";
 
 const AnalyticsTemplate = ({
@@ -17,7 +18,7 @@ const AnalyticsTemplate = ({
                 <DrawerTrigger>
                     <p className="text-lg font-semibold mb-2 flex align-middle gap-1">
                         {title}
-                        <ChevronRight className="my-auto" size={20} />
+                        <HugeiconsIcon icon={ChevronRightIcon} className="my-auto" size={20} />
                     </p>
                 </DrawerTrigger>
                 <DrawerContent className="flex h-[90vh] max-h-[90vh] flex-col p-6">

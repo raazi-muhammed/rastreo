@@ -1,4 +1,10 @@
-import { Award, BarChart, LucideIcon, Settings, Users } from "lucide-react";
+import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
+import {
+    Award01Icon,
+    ChartColumnIcon,
+    Settings01Icon,
+    UsersIcon,
+} from "@hugeicons/core-free-icons";
 import { ReactNode, useState } from "react";
 import NextDealer from "../../../components/custom/NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,12 +20,12 @@ export function Heading({
     icon: Icon,
     children,
 }: {
-    icon: LucideIcon;
+    icon: IconSvgElement;
     children: ReactNode;
 }) {
     return (
         <h3 className="mb-4 flex h-fit items-center gap-1 text-2xl font-semibold text-primary">
-            <Icon size="1.5rem" />
+            <HugeiconsIcon icon={Icon} size="1.5rem" />
             {children}
         </h3>
     );
@@ -63,7 +69,7 @@ export default function LeaderBoard() {
                                 "flex-col gap-0 rounded-lg px-2",
                                 settings.isCompactViewOn ? "w-10" : "w-16"
                             )}>
-                            <Award size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
+                            <HugeiconsIcon icon={Award01Icon} size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
                             {!settings.isCompactViewOn && (
                                 <span className="text-[10px]">Ranks</span>
                             )}
@@ -75,7 +81,7 @@ export default function LeaderBoard() {
                                 "flex-col gap-0 rounded-lg px-2",
                                 settings.isCompactViewOn ? "w-10" : "w-16"
                             )}>
-                            <Users size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
+                            <HugeiconsIcon icon={UsersIcon} size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
                             {!settings.isCompactViewOn && (
                                 <span className="text-[10px]">Players</span>
                             )}
@@ -87,7 +93,7 @@ export default function LeaderBoard() {
                                 "flex-col gap-0 rounded-lg px-2",
                                 settings.isCompactViewOn ? "w-10" : "w-16"
                             )}>
-                            <Settings size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
+                            <HugeiconsIcon icon={Settings01Icon} size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
                             {!settings.isCompactViewOn && (
                                 <span className="text-[10px]">Settings</span>
                             )}
@@ -99,7 +105,7 @@ export default function LeaderBoard() {
                                 "flex-col gap-0 rounded-lg px-2",
                                 settings.isCompactViewOn ? "w-10" : "w-16"
                             )}>
-                            <BarChart size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
+                            <HugeiconsIcon icon={ChartColumnIcon} size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
                             {!settings.isCompactViewOn && (
                                 <span className="text-[10px]">Analysis</span>
                             )}
