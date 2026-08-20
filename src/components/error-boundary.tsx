@@ -43,7 +43,7 @@ export default class ErrorBoundary extends Component<Props, State> {
         if (!error) return this.props.children;
 
         return (
-            <div className="flex min-h-screen w-screen items-center justify-center bg-secondary p-4">
+            <div className="flex min-h-screen w-screen items-center justify-center bg-background p-4">
                 <Card className="w-full max-w-md">
                     <CardHeader>
                         <CardTitle>Something went wrong</CardTitle>

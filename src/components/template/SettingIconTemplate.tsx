@@ -8,7 +8,7 @@ const SettingIconTemplate = ({
     label: string;
 }) => {
     return (
-        <section className="flex justify-between gap-4 rounded bg-secondary p-3">
+        <section className="flex justify-between gap-4 rounded bg-card p-3">
             <p className="my-auto">{label}</p>
             {children}
         </section>

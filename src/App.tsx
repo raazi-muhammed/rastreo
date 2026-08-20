@@ -106,7 +106,7 @@ export default function App() {
     return (
         <ResizablePanelGroup
             orientation="horizontal"
-            className="min-h-screen w-screen overflow-hidden bg-secondary">
+            className="min-h-screen w-screen overflow-hidden bg-background">
             <ResizablePanel
                 panelRef={sidebarPanelRef}
                 elementRef={sidebarElementRef}
