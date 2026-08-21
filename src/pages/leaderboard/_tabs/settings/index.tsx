@@ -1,5 +1,9 @@
 import { Heading } from "@/pages/leaderboard/_components/LeaderBoard";
 import SortOption from "@/components/custom/SortOption";
+import {
+    ExportScoresButton,
+    ImportScoresButton,
+} from "@/components/custom/ImportExportScores";
 import SettingIconTemplate from "@/components/template/SettingIconTemplate";
 import { useTheme } from "@/components/theme/theme-provider";
 import {
@@ -178,6 +182,21 @@ const SettingsTab = () => {
                                     dispatch(toggleCompactView());
                                 }}
                             />
+                        </SettingIconTemplate>,
+                    ]}
+                />
+                <SectionWrapper
+                    title="Data"
+                    settings={[
+                        <SettingIconTemplate
+                            label="Export Scores"
+                            key="export-scores">
+                            <ExportScoresButton />
+                        </SettingIconTemplate>,
+                        <SettingIconTemplate
+                            label="Import Scores"
+                            key="import-scores">
+                            <ImportScoresButton />
                         </SettingIconTemplate>,
                     ]}
                 />
