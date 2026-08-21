@@ -1,13 +1,13 @@
 import { arrayMove } from "@/lib/utils";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type ScoreTracker = {
+export type PlayerList = {
     id: string;
     name: string;
     hidden?: boolean;
 }[];
 
-const initialState: ScoreTracker = [];
+const initialState: PlayerList = [];
 
 export const counterSlice = createSlice({
     name: "players",
@@ -64,6 +64,9 @@ export const counterSlice = createSlice({
             const { oldIndex, newIndex } = action.payload;
             return arrayMove(state, oldIndex, newIndex);
         },
+        setPlayers: (_state, action: PayloadAction<PlayerList>) => {
+            return action.payload;
+        },
     },
 });
 
@@ -76,6 +79,7 @@ export const {
     editPerson,
     deletePerson,
     reorderPersons,
+    setPlayers,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

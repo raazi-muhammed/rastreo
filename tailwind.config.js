@@ -22,6 +22,7 @@ module.exports = {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],
                 mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
+                display: ["Fira Code", ...defaultTheme.fontFamily.mono],
             },
             colors: {
                 border: "hsl(var(--border))",

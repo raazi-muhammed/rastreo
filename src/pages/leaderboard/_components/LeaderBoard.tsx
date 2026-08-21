@@ -24,7 +24,7 @@ export function Heading({
     children: ReactNode;
 }) {
     return (
-        <h3 className="mb-4 flex h-fit items-center gap-1 text-2xl font-semibold text-primary">
+        <h3 className="mb-4 flex h-fit items-center gap-1 font-display text-2xl font-semibold text-primary">
             <HugeiconsIcon icon={Icon} size="1.5rem" />
             {children}
         </h3>
