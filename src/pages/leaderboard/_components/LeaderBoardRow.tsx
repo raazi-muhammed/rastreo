@@ -1,10 +1,6 @@
 import { cn, formatNumber } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-    ChevronsDownIcon,
-    ChevronsUpIcon,
-    CrownIcon as WinnerIcon,
-} from "@hugeicons/core-free-icons";
+import { CrownIcon as WinnerIcon } from "@hugeicons/core-free-icons";
 import { Fragment } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -129,16 +125,6 @@ export default function LeaderBoardRow({
                     isCompact ? "shrink-0" : "-me-1 mt-auto"
                 )}>
                 <p className="font-semibold">{formatNumber(item.sum)}</p>
-                {item.differenceFromLast !== undefined ? (
-                    <small className="flex items-center justify-end gap-0.5 text-end text-indigo-800">
-                        <HugeiconsIcon
-                            icon={ChevronsDownIcon}
-                            className="text-red-800/60"
-                            size="0.9em"
-                        />
-                        {formatNumber(item.differenceFromLast)}
-                    </small>
-                ) : null}
             </div>
         </>
     ) : (
@@ -169,31 +155,15 @@ export default function LeaderBoardRow({
                 <p className="me-0 ms-auto w-fit font-semibold">
                     {formatNumber(item.sum)}
                 </p>
-                <small
-                    className={cn(
-                        "flex items-center justify-end text-end text-indigo-800",
-                        !isCompact && "-mt-1"
-                    )}>
-                    <HugeiconsIcon icon={ChevronsUpIcon} className="text-green-800/60" size="0.9em" />
-                    {formatNumber(item.totalDifference ?? 0)}
-                    {item.differenceFromLast !== undefined ? (
-                        <>
-                            <span className="mx-1">•</span>
-                            <span className="flex items-center gap-0.5">
-                                <HugeiconsIcon
-                                    icon={ChevronsDownIcon}
-                                    className="text-red-800/60"
-                                    size="0.9em"
-                                />
-                                {formatNumber(item.differenceFromLast)}
-                            </span>
-                        </>
-                    ) : null}
-                    <span className="mx-1">•</span>
-                    <span className="text-indigo-400">
-                        {formatNumber(item.difference ?? 0)}
-                    </span>
-                </small>
+                {item.differenceBelow !== undefined ? (
+                    <small
+                        className={cn(
+                            "flex items-center justify-end text-end text-primary",
+                            !isCompact && "-mt-1"
+                        )}>
+                        {formatNumber(item.differenceBelow)}
+                    </small>
+                ) : null}
             </div>
         </>
     );
