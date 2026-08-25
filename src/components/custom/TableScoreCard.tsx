@@ -60,7 +60,7 @@ export default function TableScoreCard({
                         setInputData(String(score));
                         setOpen(true);
                     }}>
-                    <p className="me-auto text-start text-foreground">
+                    <p className="me-auto truncate text-start text-foreground">
                         {formatNumber(score)}
                     </p>
                     {isTop ? (

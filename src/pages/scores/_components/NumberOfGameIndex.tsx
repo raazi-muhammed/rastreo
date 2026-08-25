@@ -38,7 +38,7 @@ const GameIndexItem = ({ game }: { game: GameDuration }) => {
 const NumberOfGameIndex = () => {
     const { games } = useGameDurations();
     return (
-        <div className="flex flex-col gap-2 px-2 py-2">
+        <div className="flex flex-col gap-2 py-2">
             {/* spacer matching TablePlayerCard height so rows line up */}
             <div className="h-10" />
             {games.map((game) => (

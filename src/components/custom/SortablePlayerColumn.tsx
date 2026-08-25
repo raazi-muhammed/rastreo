@@ -38,8 +38,8 @@ export default function SortablePlayerColumn({
         <div
             ref={setNodeRef}
             style={style}
-            className={`flex flex-col gap-2 w-44 ${
-                isFitEveryoneOn ? "flex-shrink" : "flex-shrink-0"
+            className={`flex flex-col gap-2 min-w-0 ${
+                isFitEveryoneOn ? "flex-1 basis-0" : "w-44 flex-shrink-0"
             } py-2 ${isDragging ? "z-10 opacity-80" : ""}`}>
             <div className="flex h-10 items-center gap-1">
                 {showDragHandle && (

@@ -11,7 +11,7 @@ export default function TablePlayerCard({
             <Button
                 variant="ghost"
                 className="h-10 w-full rounded overflow-hidden text-ellipsis">
-                <p className="w-full text-start text-xl font-semibold">
+                <p className="w-full truncate text-start text-xl font-semibold">
                     {player.name}
                 </p>
             </Button>
