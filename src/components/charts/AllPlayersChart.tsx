@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import {
     CartesianGrid,
     Customized,
@@ -30,37 +31,40 @@ export function AllPlayersChart({
 }) {
     const { players, scores } = useVisiblePlayers();
 
-    const chartConfig = players.reduce<ChartConfig>(
-        (config, player, index) => {
-            config[player.name] = {
-                label: player.name,
-                color: CHART_COLORS[index % CHART_COLORS.length],
-            };
-            return config;
-        },
-        {}
+    const chartConfig = useMemo(
+        () =>
+            players.reduce<ChartConfig>((config, player, index) => {
+                config[player.name] = {
+                    label: player.name,
+                    color: CHART_COLORS[index % CHART_COLORS.length],
+                };
+                return config;
+            }, {}),
+        [players]
     );
 
-    // Find the maximum number of scores among all players
-    const maxScores = Math.max(
-        ...scores.map((playerScores) => playerScores.scores.length)
-    );
+    const data = useMemo(() => {
+        // Find the maximum number of scores among all players
+        const maxScores = Math.max(
+            ...scores.map((playerScores) => playerScores.scores.length)
+        );
 
-    // Create data points for each score index
-    const data = Array.from({ length: maxScores }, (_, scoreIndex) => {
-        const dataPoint: Record<string, number> = {};
+        // Create data points for each score index
+        return Array.from({ length: maxScores }, (_, scoreIndex) => {
+            const dataPoint: Record<string, number> = {};
 
-        // Add each player's score at this index
-        scores.forEach((playerScores, playerIndex) => {
-            const playerName = players[playerIndex]?.name;
-            const score = playerScores.scores[scoreIndex];
-            if (playerName && score) {
-                dataPoint[playerName] = score.val;
-            }
+            // Add each player's score at this index
+            scores.forEach((playerScores, playerIndex) => {
+                const playerName = players[playerIndex]?.name;
+                const score = playerScores.scores[scoreIndex];
+                if (playerName && score) {
+                    dataPoint[playerName] = score.val;
+                }
+            });
+
+            return dataPoint;
         });
-
-        return dataPoint;
-    });
+    }, [players, scores]);
 
     if (data.length === 0) {
         return null;

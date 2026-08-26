@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { SortOptions } from "@/store/features/settingsSlice";
 import { useAppSelector } from "@/hooks/redux";
 import useVisiblePlayers from "@/hooks/useVisiblePlayers";
@@ -17,11 +17,8 @@ export type LeaderBoardItem = {
 export default function useLeaderBoardData() {
     const { players, scores } = useVisiblePlayers();
     const sortOption = useAppSelector((state) => state.settings.sortOption);
-    const [leaderBoardData, setLeaderBoardData] = useState<LeaderBoardItem[]>(
-        []
-    );
 
-    useEffect(() => {
+    return useMemo(() => {
         function findSumOfPlayerWithId(id: string) {
             let sum = 0;
             scores.map((e) => {
@@ -84,8 +81,6 @@ export default function useLeaderBoardData() {
             rawData.sort((a, b) => b.sum - a.sum);
         }
 
-        setLeaderBoardData(addDifferences(mergeDraws(rawData)));
+        return addDifferences(mergeDraws(rawData));
     }, [players, scores, sortOption]);
-
-    return leaderBoardData;
 }

@@ -65,7 +65,7 @@ const ScoresTable = () => {
                     <SortablePlayerColumn key={player.id} player={player}>
                         <AnimatePresence initial={false}>
                             {scores[i].scores.map((score, index) => (
-                                <ScoreAnimation>
+                                <ScoreAnimation key={score.id}>
                                     <TableScoreCard
                                         score={score.val}
                                         personId={scores[i].id}
