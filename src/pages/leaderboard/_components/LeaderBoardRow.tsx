@@ -109,8 +109,10 @@ export default function LeaderBoardRow({
                 )}>
                 <HugeiconsIcon
                     icon={WinnerIcon}
-                    className="shrink-0 text-primary"
-                    size={isCompact ? "1em" : "1.8em"}
+                    className={cn(
+                        "shrink-0 text-primary",
+                        isCompact ? "size-4" : "size-6"
+                    )}
                 />
                 <PlayerNames
                     players={item.players}
