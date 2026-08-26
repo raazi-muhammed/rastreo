@@ -10,6 +10,7 @@ import NumberInput from "./NumberInput";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
     CrownIcon,
+    ChartDecreaseIcon,
     Delete02Icon as DeleteIcon,
     MultiplicationSignIcon,
     FrownIcon,
@@ -20,6 +21,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { deleteScore, editScore } from "@/store/features/scoreSlice";
 import { motion } from "framer-motion";
 import { usePlayInfo } from "@/hooks/usePlayInfo";
+import { useStandingAtRound } from "@/hooks/useStandingAtRound";
 
 export default function TableScoreCard({
     score,
@@ -48,6 +50,14 @@ export default function TableScoreCard({
         index,
         score,
     });
+    const { isTop: isOverallTop, isBottom: isOverallBottom } =
+        useStandingAtRound({
+            index,
+            personId,
+        });
+    // Overall standing takes precedence so a player winning both isn't shown twice.
+    const showRoundTop = isTop && !isOverallTop;
+    const showRoundBottom = isBottom && !isOverallBottom;
 
     return (
         <Popover open={open}>
@@ -63,18 +73,32 @@ export default function TableScoreCard({
                     <p className="me-auto truncate text-start text-foreground">
                         {formatNumber(score)}
                     </p>
-                    {isTop ? (
+                    {showRoundTop ? (
                         <HugeiconsIcon
                             icon={CrownIcon}
                             size="0.75em"
                             className="absolute bottom-2 right-2 text-primary"
                         />
                     ) : null}
-                    {isBottom ? (
+                    {showRoundBottom ? (
                         <HugeiconsIcon
                             icon={FrownIcon}
                             size="0.75em"
                             className="absolute bottom-2 right-2 text-destructive"
+                        />
+                    ) : null}
+                    {isOverallTop ? (
+                        <HugeiconsIcon
+                            icon={CrownIcon}
+                            size="0.75em"
+                            className="absolute right-2 top-2 text-primary"
+                        />
+                    ) : null}
+                    {isOverallBottom ? (
+                        <HugeiconsIcon
+                            icon={ChartDecreaseIcon}
+                            size="0.75em"
+                            className="absolute right-2 top-2 text-destructive"
                         />
                     ) : null}
                 </Button>
