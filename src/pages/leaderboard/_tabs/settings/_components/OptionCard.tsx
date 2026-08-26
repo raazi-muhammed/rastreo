@@ -7,21 +7,24 @@ function OptionCard({
     label,
     selected,
     onClick,
+    onDoubleClick,
     children,
 }: {
     label: string;
     selected: boolean;
     onClick: () => void;
+    onDoubleClick?: () => void;
     children: ReactNode;
 }) {
     return (
         <button
             type="button"
             onClick={onClick}
+            onDoubleClick={onDoubleClick}
             className="flex flex-col items-center gap-2">
             <div
                 className={cn(
-                    "relative flex h-16 w-full items-center justify-center overflow-hidden rounded-xl border-2 bg-card",
+                    "relative flex h-16 w-full items-center justify-center overflow-hidden rounded border-2 bg-card",
                     selected
                         ? "border-primary"
                         : "border-transparent hover:border-muted-foreground/30"

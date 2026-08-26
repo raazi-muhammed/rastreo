@@ -27,7 +27,7 @@ const LayoutPicker = () => {
                     {Array.from({ length: 4 }).map((_, i) => (
                         <div
                             key={i}
-                            className="flex flex-col justify-center gap-1 rounded-md bg-background/60 px-1.5">
+                            className="flex flex-col justify-center gap-1 rounded bg-background/60 px-1.5">
                             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                             <span className="h-1 w-full rounded-full bg-muted-foreground/40" />
                         </div>
