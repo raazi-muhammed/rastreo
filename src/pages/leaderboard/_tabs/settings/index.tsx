@@ -5,14 +5,6 @@ import {
     ImportScoresButton,
 } from "@/components/custom/ImportExportScores";
 import SettingIconTemplate from "@/components/template/SettingIconTemplate";
-import { useTheme } from "@/components/theme/theme-provider";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toast } from "@/hooks/use-toast";
@@ -21,19 +13,18 @@ import {
     setMobileMode,
     setShowDragHandle,
     setShowNextDealer,
-    ThemeOptions,
-    toggleCompactView,
     toggleFitEveryone,
     toggleLock,
     toggleTouchMode,
 } from "@/store/features/settingsSlice";
 import { Settings01Icon } from "@hugeicons/core-free-icons";
 import SectionWrapper from "./_components/SectionWrapper";
+import ThemePicker from "./_components/ThemePicker";
+import LayoutPicker from "./_components/LayoutPicker";
 
 const SettingsTab = () => {
     const settings = useAppSelector((state) => state.settings);
     const dispatch = useAppDispatch();
-    const { setTheme, theme } = useTheme();
 
     return (
         <>
@@ -138,31 +129,21 @@ const SettingsTab = () => {
                         </SettingIconTemplate>,
                     ]}
                 />
+                <div className="flex flex-col gap-2">
+                    <p className="ms-2 text-sm text-muted-foreground">
+                        Theme
+                    </p>
+                    <ThemePicker />
+                </div>
+                <div className="flex flex-col gap-2">
+                    <p className="ms-2 text-sm text-muted-foreground">
+                        Layout
+                    </p>
+                    <LayoutPicker />
+                </div>
                 <SectionWrapper
                     title="View"
                     settings={[
-                        <SettingIconTemplate label="Theme" key="theme">
-                            <Select
-                                defaultValue={theme}
-                                onValueChange={(value) => {
-                                    setTheme(value as ThemeOptions);
-                                }}>
-                                <SelectTrigger className="-me-1 h-8 w-fit bg-secondary">
-                                    <SelectValue placeholder="none" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value={ThemeOptions.SYSTEM}>
-                                        System
-                                    </SelectItem>
-                                    <SelectItem value={ThemeOptions.LIGHT}>
-                                        Light
-                                    </SelectItem>
-                                    <SelectItem value={ThemeOptions.DARK}>
-                                        Dark
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </SettingIconTemplate>,
                         <SettingIconTemplate
                             label="Fit Everyone"
                             key="fit-everyone">
@@ -170,16 +151,6 @@ const SettingsTab = () => {
                                 checked={settings.isFitEveryoneOn}
                                 onCheckedChange={() => {
                                     dispatch(toggleFitEveryone());
-                                }}
-                            />
-                        </SettingIconTemplate>,
-                        <SettingIconTemplate
-                            label="Compact View"
-                            key="compact-view">
-                            <Switch
-                                checked={settings.isCompactViewOn}
-                                onCheckedChange={() => {
-                                    dispatch(toggleCompactView());
                                 }}
                             />
                         </SettingIconTemplate>,
