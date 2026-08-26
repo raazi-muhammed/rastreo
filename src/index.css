@@ -12,6 +12,7 @@
         --popover-foreground: var(--secondary-foreground);
         --primary: 239 83% 67%;
         --primary-foreground: 0 0% 98%;
+        --primary-muted: 239 24% 18%;
         --secondary: 240 15% 94%;
         --secondary-foreground: var(--foreground);
         --muted: 0 0% 96%;
@@ -20,6 +21,7 @@
         --accent-foreground: 0 0% 9%;
         --destructive: 357 100% 45%;
         --destructive-foreground: var(--primary-foreground);
+        --destructive-muted: 349 24% 18%;
         --border: 0 0% 90%;
         --input: var(--border);
         --ring: 0 0% 63%;
@@ -35,6 +37,7 @@
         --popover-foreground: var(--secondary-foreground);
         --primary: 239 83% 67%;
         --primary-foreground: var(--foreground);
+        --primary-muted: 239 24% 18%;
         --secondary: 240 6% 6%;
         --secondary-foreground: var(--foreground);
         --muted: 0 0% 15%;
@@ -43,6 +46,7 @@
         --accent-foreground: var(--foreground);
         --destructive: 359 100% 70%;
         --destructive-foreground: var(--foreground);
+        --destructive-muted: 349 24% 18%;
         --border: 240 1% 15%;
         --input: 240 1% 19%;
         --ring: 0 0% 45%;

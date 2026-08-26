@@ -101,8 +101,8 @@ export default function TableScoreCard({
                                         "flex size-5 items-center justify-center rounded-full ring-2 ring-card",
                                         i > 0 && "-ml-2",
                                         badge.tone === "primary"
-                                            ? "bg-primary/15"
-                                            : "bg-destructive/15"
+                                            ? "bg-primary-muted"
+                                            : "bg-destructive-muted"
                                     )}>
                                     <HugeiconsIcon
                                         icon={badge.icon}
