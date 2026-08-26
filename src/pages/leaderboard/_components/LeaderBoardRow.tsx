@@ -155,13 +155,13 @@ export default function LeaderBoardRow({
                 <p className="me-0 ms-auto w-fit font-semibold">
                     {formatNumber(item.sum)}
                 </p>
-                {item.differenceBelow !== undefined ? (
+                {item.difference !== undefined ? (
                     <small
                         className={cn(
                             "flex items-center justify-end text-end text-primary",
                             !isCompact && "-mt-1"
                         )}>
-                        {formatNumber(item.differenceBelow)}
+                        {formatNumber(item.difference)}
                     </small>
                 ) : null}
             </div>
