@@ -12,26 +12,21 @@ export const usePlayInfo = ({
     const { scores } = useVisiblePlayers();
     const sortOption = useAppSelector((state) => state.settings.sortOption);
 
-    try {
-        const playScores = scores.map((s) => ({
-            id: s.id,
-            score: s.scores[index].val,
-        }));
+    const playScores = scores
+        .map((s) => s.scores[index])
+        .filter((entry) => entry != null)
+        .map((entry) => ({ id: entry.id, score: entry.val }));
 
-        let playerScoreSorted = [];
-        if (sortOption == SortOptions.TO_HIGH) {
-            playerScoreSorted = playScores.sort((a, b) => a.score - b.score);
-        } else {
-            playerScoreSorted = playScores.sort((a, b) => b.score - a.score);
-        }
+    if (playScores.length === 0) return { isTop: false, isBottom: false };
 
-        const isTop = playerScoreSorted[0].score === score;
-        const isBottom =
-            playerScoreSorted[playerScoreSorted.length - 1].score === score;
+    const playerScoreSorted =
+        sortOption == SortOptions.TO_HIGH
+            ? playScores.sort((a, b) => a.score - b.score)
+            : playScores.sort((a, b) => b.score - a.score);
 
-        return { isTop, isBottom: isTop ? false : isBottom };
-    } catch (error) {
-        console.log(error);
-        return { isTop: false, isBottom: false };
-    }
+    const isTop = playerScoreSorted[0].score === score;
+    const isBottom =
+        playerScoreSorted[playerScoreSorted.length - 1].score === score;
+
+    return { isTop, isBottom: isTop ? false : isBottom };
 };
