@@ -92,7 +92,7 @@ export default function TableScoreCard({
                     <p className="me-auto truncate text-start text-foreground">
                         {formatNumber(score)}
                     </p>
-                    {badges.length > 0 ? (
+                    {settings.showScoreBadges && badges.length > 0 ? (
                         <div className="absolute bottom-2 right-2 flex items-center">
                             {badges.map((badge, i) => (
                                 <span

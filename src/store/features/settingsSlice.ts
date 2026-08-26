@@ -27,6 +27,7 @@ type Settings = {
     showDragHandle: boolean;
     sidebarWidth: number;
     isCompactViewOn: boolean;
+    showScoreBadges: boolean;
 };
 
 const initialState: Settings = {
@@ -42,6 +43,7 @@ const initialState: Settings = {
     showDragHandle: false,
     sidebarWidth: 320,
     isCompactViewOn: false,
+    showScoreBadges: true,
 };
 
 export const counterSlice = createSlice({
@@ -103,6 +105,10 @@ export const counterSlice = createSlice({
             state.isCompactViewOn = !state.isCompactViewOn;
             return state;
         },
+        toggleShowScoreBadges: (state) => {
+            state.showScoreBadges = !state.showScoreBadges;
+            return state;
+        },
     },
 });
 
@@ -119,6 +125,7 @@ export const {
     setShowDragHandle,
     setSidebarWidth,
     toggleCompactView,
+    toggleShowScoreBadges,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

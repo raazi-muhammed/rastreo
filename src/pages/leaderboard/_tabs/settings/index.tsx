@@ -13,6 +13,7 @@ import {
     setShowDragHandle,
     setShowNextDealer,
     toggleLock,
+    toggleShowScoreBadges,
     toggleTouchMode,
 } from "@/store/features/settingsSlice";
 import {
@@ -141,6 +142,16 @@ const SettingsTab = () => {
                                                 "Double click to unlock the game",
                                         });
                                 }}
+                            />
+                        </SettingIconTemplate>,
+                        <SettingIconTemplate
+                            label="Score Badges"
+                            key="score-badges">
+                            <Switch
+                                checked={settings.showScoreBadges}
+                                onCheckedChange={() =>
+                                    dispatch(toggleShowScoreBadges())
+                                }
                             />
                         </SettingIconTemplate>,
                     ]}
