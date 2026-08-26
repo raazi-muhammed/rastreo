@@ -7,19 +7,21 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import NumberInput from "./NumberInput";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
 import {
     CrownIcon,
+    ChartDecreaseIcon,
     Delete02Icon as DeleteIcon,
     MultiplicationSignIcon,
     FrownIcon,
 } from "@hugeicons/core-free-icons";
 import { Label } from "@/components/ui/label";
-import { calculateNumber, formatNumber } from "@/lib/utils";
+import { calculateNumber, cn, formatNumber } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { deleteScore, editScore } from "@/store/features/scoreSlice";
 import { motion } from "framer-motion";
 import { usePlayInfo } from "@/hooks/usePlayInfo";
+import { useStandingAtRound } from "@/hooks/useStandingAtRound";
 
 export default function TableScoreCard({
     score,
@@ -48,6 +50,33 @@ export default function TableScoreCard({
         index,
         score,
     });
+    const { isTop: isOverallTop, isBottom: isOverallBottom } =
+        useStandingAtRound({
+            index,
+            personId,
+        });
+    // Both use the crown icon, so suppress the round one when it would duplicate
+    // the overall crown. The bottom icons differ (frown vs chart-decrease), so
+    // both can show together.
+    const showRoundTop = isTop && !isOverallTop;
+    const showRoundBottom = isBottom;
+
+    const badges: { icon: IconSvgElement; tone: "primary" | "destructive" }[] =
+        [
+            isOverallTop && { icon: CrownIcon, tone: "primary" as const },
+            isOverallBottom && {
+                icon: ChartDecreaseIcon,
+                tone: "destructive" as const,
+            },
+            showRoundTop && { icon: CrownIcon, tone: "primary" as const },
+            showRoundBottom && {
+                icon: FrownIcon,
+                tone: "destructive" as const,
+            },
+        ].filter(Boolean) as {
+            icon: IconSvgElement;
+            tone: "primary" | "destructive";
+        }[];
 
     return (
         <Popover open={open}>
@@ -60,22 +89,33 @@ export default function TableScoreCard({
                         setInputData(String(score));
                         setOpen(true);
                     }}>
-                    <p className="me-auto text-start text-foreground">
+                    <p className="me-auto truncate text-start text-foreground">
                         {formatNumber(score)}
                     </p>
-                    {isTop ? (
-                        <HugeiconsIcon
-                            icon={CrownIcon}
-                            size="0.75em"
-                            className="absolute bottom-2 right-2 text-primary"
-                        />
-                    ) : null}
-                    {isBottom ? (
-                        <HugeiconsIcon
-                            icon={FrownIcon}
-                            size="0.75em"
-                            className="absolute bottom-2 right-2 text-destructive"
-                        />
+                    {settings.showScoreBadges && badges.length > 0 ? (
+                        <div className="absolute bottom-2 right-2 flex items-center">
+                            {badges.map((badge, i) => (
+                                <span
+                                    key={i}
+                                    className={cn(
+                                        "flex size-5 items-center justify-center rounded-full ring-2 ring-card",
+                                        i > 0 && "-ml-2",
+                                        badge.tone === "primary"
+                                            ? "bg-primary/15"
+                                            : "bg-destructive/15"
+                                    )}>
+                                    <HugeiconsIcon
+                                        icon={badge.icon}
+                                        className={cn(
+                                            "size-3",
+                                            badge.tone === "primary"
+                                                ? "text-primary"
+                                                : "text-destructive"
+                                        )}
+                                    />
+                                </span>
+                            ))}
+                        </div>
                     ) : null}
                 </Button>
             </PopoverTrigger>

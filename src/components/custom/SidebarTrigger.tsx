@@ -16,9 +16,9 @@ export default function SidebarTrigger({
         <Button
             variant="ghost"
             size="icon"
-            className={cn("h-7 w-7", className)}
+            className={cn("h-8 w-8", className)}
             onClick={() => dispatch(toggleShowLeaderBoard())}>
-            <HugeiconsIcon icon={PanelLeftIcon} />
+            <HugeiconsIcon icon={PanelLeftIcon} size="1.4em" />
             <span className="sr-only">Toggle Sidebar</span>
         </Button>
     );

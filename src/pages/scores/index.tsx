@@ -17,7 +17,7 @@ export default function ScoresPage() {
             <ScoresHeader />
             <Separator className="my-2 bg-transparent" />
             {players.length !== 0 ? (
-                <div className="min-h-0 flex-1 w-full overflow-auto px-4 pb-44">
+                <div className="min-h-0 flex-1 w-full overflow-auto pl-2 pr-4 pb-44">
                     <section
                         className={`flex gap-1 text-foreground min-w-full ${
                             isFitEveryoneOn ? "" : "w-max"

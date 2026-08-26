@@ -4,9 +4,11 @@ import SidebarTrigger from "@/components/custom/SidebarTrigger";
 
 const ScoresHeader = () => {
     return (
-        <section className="mt-4 flex w-full items-center gap-4 px-8">
-            <SidebarTrigger />
-            <h3 className="font-display text-2xl font-semibold text-foreground">Scores</h3>
+        <section className="relative mt-4 flex w-full items-center px-4">
+            <SidebarTrigger className="absolute top-1/2 -translate-y-1/2" />
+            <h3 className="pl-8 font-display text-2xl font-semibold text-foreground">
+                Scores
+            </h3>
             <div className="ms-auto gap-2 flex w-fit align-middle">
                 <ClearAll />
                 <AddPlayer />

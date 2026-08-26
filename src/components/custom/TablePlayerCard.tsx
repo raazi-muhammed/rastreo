@@ -10,8 +10,8 @@ export default function TablePlayerCard({
         <PlayerActionsPopover player={player}>
             <Button
                 variant="ghost"
-                className="h-10 w-full rounded overflow-hidden text-ellipsis">
-                <p className="w-full text-start text-xl font-semibold">
+                className="h-10 w-full rounded overflow-hidden px-3 text-ellipsis">
+                <p className="w-full truncate text-start text-xl font-semibold">
                     {player.name}
                 </p>
             </Button>
