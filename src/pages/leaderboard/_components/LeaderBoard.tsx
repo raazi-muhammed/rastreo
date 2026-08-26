@@ -8,6 +8,13 @@ import {
 import { ReactNode, useState } from "react";
 import NextDealer from "../../../components/custom/NextDealer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 import { motion } from "framer-motion";
 import { useAppSelector } from "@/hooks/redux";
 import { cn } from "@/lib/utils";
@@ -32,7 +39,6 @@ export function Heading({
 }
 
 enum TabsState {
-    SETTINGS = "settings",
     LEADERBOARD = "leaderboard",
     ANALYSIS = "analysis",
     PLAYERS = "players",
@@ -42,7 +48,22 @@ export default function LeaderBoard() {
     const settings = useAppSelector((state) => state.settings);
 
     return (
-        <aside className="flex h-svh w-full flex-col bg-secondary shadow-xl">
+        <aside className="relative flex h-svh w-full flex-col bg-secondary shadow-xl">
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button
+                        variant="card"
+                        size="icon"
+                        className="absolute right-4 top-4 z-10 h-8 w-8">
+                        <HugeiconsIcon icon={Settings01Icon} size="1.2em" />
+                        <span className="sr-only">Settings</span>
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="p-4">
+                    <DialogTitle className="sr-only">Settings</DialogTitle>
+                    <SettingsTab />
+                </DialogContent>
+            </Dialog>
             <motion.section
                 className="min-h-0 flex-1 overflow-auto no-scrollbar p-4"
                 initial={{ scale: 0.85, originY: 0, originX: 0 }}
@@ -52,10 +73,8 @@ export default function LeaderBoard() {
                     <LeaderboardTab />
                 ) : currentTab === TabsState.ANALYSIS ? (
                     <AnalyticsTab />
-                ) : currentTab === TabsState.PLAYERS ? (
-                    <PlayersTab />
                 ) : (
-                    <SettingsTab />
+                    <PlayersTab />
                 )}
             </motion.section>
             <div className="gap-4 flex flex-col align-middle overflow-hidden bg-gradient-to-t from-secondary to-transparent p-4 from-30%">
@@ -84,18 +103,6 @@ export default function LeaderBoard() {
                             <HugeiconsIcon icon={UsersIcon} size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
                             {!settings.isCompactViewOn && (
                                 <span className="text-[10px]">Players</span>
-                            )}
-                        </TabsTrigger>
-                        <TabsTrigger
-                            onClick={() => setCurrentTab(TabsState.SETTINGS)}
-                            value="settings"
-                            className={cn(
-                                "flex-col gap-0 rounded-lg px-2",
-                                settings.isCompactViewOn ? "w-10" : "w-16"
-                            )}>
-                            <HugeiconsIcon icon={Settings01Icon} size={settings.isCompactViewOn ? "1.1em" : "1.4em"} />
-                            {!settings.isCompactViewOn && (
-                                <span className="text-[10px]">Settings</span>
                             )}
                         </TabsTrigger>
                         <TabsTrigger
