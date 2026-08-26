@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import {
     CartesianGrid,
     Customized,
@@ -30,40 +31,43 @@ export function AllPlayersProgressChart({
 }) {
     const { players, scores } = useVisiblePlayers();
 
-    const chartConfig = players.reduce<ChartConfig>(
-        (config, player, index) => {
-            config[player.name] = {
-                label: player.name,
-                color: CHART_COLORS[index % CHART_COLORS.length],
-            };
-            return config;
-        },
-        {}
+    const chartConfig = useMemo(
+        () =>
+            players.reduce<ChartConfig>((config, player, index) => {
+                config[player.name] = {
+                    label: player.name,
+                    color: CHART_COLORS[index % CHART_COLORS.length],
+                };
+                return config;
+            }, {}),
+        [players]
     );
 
-    // Find the maximum number of scores among all players
-    const maxScores = Math.max(
-        ...scores.map((playerScores) => playerScores.scores.length)
-    );
+    const data = useMemo(() => {
+        // Find the maximum number of scores among all players
+        const maxScores = Math.max(
+            ...scores.map((playerScores) => playerScores.scores.length)
+        );
 
-    // Create data points for each score index
-    const data = Array.from({ length: maxScores }, (_, scoreIndex) => {
-        const dataPoint: Record<string, number> = {};
+        // Create data points for each score index, carrying cumulative
+        // sums forward instead of re-summing the prefix at each index
+        const runningTotals: Record<string, number> = {};
+        return Array.from({ length: maxScores }, (_, scoreIndex) => {
+            const dataPoint: Record<string, number> = {};
 
-        // Add each player's cumulative score at this index
-        scores.forEach((playerScores, playerIndex) => {
-            const playerName = players[playerIndex]?.name;
-            if (playerName) {
-                // Calculate cumulative score up to this index
-                const cumulativeScore = playerScores.scores
-                    .slice(0, scoreIndex + 1)
-                    .reduce((sum, score) => sum + (score?.val || 0), 0);
-                dataPoint[playerName] = cumulativeScore;
-            }
+            scores.forEach((playerScores, playerIndex) => {
+                const playerName = players[playerIndex]?.name;
+                if (playerName) {
+                    const val = playerScores.scores[scoreIndex]?.val || 0;
+                    runningTotals[playerName] =
+                        (runningTotals[playerName] || 0) + val;
+                    dataPoint[playerName] = runningTotals[playerName];
+                }
+            });
+
+            return dataPoint;
         });
-
-        return dataPoint;
-    });
+    }, [players, scores]);
 
     if (data.length === 0) {
         return null;

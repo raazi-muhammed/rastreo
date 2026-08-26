@@ -4,7 +4,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Input } from "../ui/input";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon as AddIcon, MultiplicationSignIcon } from "@hugeicons/core-free-icons";
@@ -15,11 +15,15 @@ import { addScore } from "@/store/features/scoreSlice";
 import { motion } from "framer-motion";
 import { calculateNumber } from "@/lib/utils";
 
-export default function AddScore({ playerId }: { playerId: string }) {
+function AddScore({ playerId }: { playerId: string }) {
     const [inputData, setInputData] = useState<string>("");
     const [open, setOpen] = useState(false);
-    const { isLocked, isTouchModeOn, isMobileModeOn } = useAppSelector(
-        (state) => state.settings
+    const isLocked = useAppSelector((state) => state.settings.isLocked);
+    const isTouchModeOn = useAppSelector(
+        (state) => state.settings.isTouchModeOn
+    );
+    const isMobileModeOn = useAppSelector(
+        (state) => state.settings.isMobileModeOn
     );
     const dispatch = useAppDispatch();
 
@@ -99,3 +103,6 @@ export default function AddScore({ playerId }: { playerId: string }) {
         </Popover>
     );
 }
+
+const MemoizedAddScore = memo(AddScore);
+export default MemoizedAddScore;

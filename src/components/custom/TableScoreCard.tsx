@@ -4,7 +4,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Input } from "../ui/input";
 import NumberInput from "./NumberInput";
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
@@ -23,7 +23,7 @@ import { motion } from "framer-motion";
 import { usePlayInfo } from "@/hooks/usePlayInfo";
 import { useStandingAtRound } from "@/hooks/useStandingAtRound";
 
-export default function TableScoreCard({
+function TableScoreCard({
     score,
     index,
     personId,
@@ -38,8 +38,13 @@ export default function TableScoreCard({
         (state) => state.settings.isTouchModeOn
     );
     const isLocked = useAppSelector((state) => state.settings.isLocked);
+    const showScoreBadges = useAppSelector(
+        (state) => state.settings.showScoreBadges
+    );
+    const isMobileModeOn = useAppSelector(
+        (state) => state.settings.isMobileModeOn
+    );
     const dispatch = useAppDispatch();
-    const settings = useAppSelector((state) => state.settings);
     function handleEditScore(userId: string, index: number, newScore: number) {
         dispatch(editScore({ userId, index, newScore }));
     }
@@ -92,7 +97,7 @@ export default function TableScoreCard({
                     <p className="me-auto truncate text-start text-foreground">
                         {formatNumber(score)}
                     </p>
-                    {settings.showScoreBadges && badges.length > 0 ? (
+                    {showScoreBadges && badges.length > 0 ? (
                         <div className="absolute bottom-2 right-2 flex items-center">
                             {badges.map((badge, i) => (
                                 <span
@@ -101,8 +106,8 @@ export default function TableScoreCard({
                                         "flex size-5 items-center justify-center rounded-full ring-2 ring-card",
                                         i > 0 && "-ml-2",
                                         badge.tone === "primary"
-                                            ? "bg-primary/15"
-                                            : "bg-destructive/15"
+                                            ? "bg-primary-muted"
+                                            : "bg-destructive-muted"
                                     )}>
                                     <HugeiconsIcon
                                         icon={badge.icon}
@@ -120,7 +125,7 @@ export default function TableScoreCard({
                 </Button>
             </PopoverTrigger>
             <PopoverContent
-                side={settings.isMobileModeOn ? "right" : "bottom"}
+                side={isMobileModeOn ? "right" : "bottom"}
                 onInteractOutside={() => setOpen(false)}
                 onOpenAutoFocus={
                     isTouchModeOn
@@ -189,3 +194,6 @@ export default function TableScoreCard({
         </Popover>
     );
 }
+
+const MemoizedTableScoreCard = memo(TableScoreCard);
+export default MemoizedTableScoreCard;

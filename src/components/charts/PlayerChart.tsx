@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import {
@@ -26,21 +27,23 @@ export function PlayerChart({
 }: {
     player: { id: string; name: string };
 }) {
-    const scores = useAppSelector((state) => state.scores);
+    const playerScores = useAppSelector((state) =>
+        state.scores.find((s) => s?.id == player?.id)
+    );
 
-    const playerScores = scores.find((s) => s?.id == player?.id);
+    const data = useMemo(() => {
+        let lastValue = 0;
+        return playerScores?.scores.map((s, index) => {
+            const toReturn = {
+                index: index + 1,
+                value: s.val + lastValue,
+            };
 
-    let lastValue = 0;
-    const data = playerScores?.scores.map((s, index) => {
-        const toReturn = {
-            index: index + 1,
-            value: s.val + lastValue,
-        };
+            lastValue = s.val + lastValue;
 
-        lastValue = s.val + lastValue;
-
-        return toReturn;
-    });
+            return toReturn;
+        });
+    }, [playerScores]);
 
     if (data?.length === 0) {
         return null;
