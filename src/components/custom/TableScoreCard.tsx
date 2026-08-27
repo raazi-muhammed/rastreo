@@ -10,10 +10,11 @@ import NumberInput from "./NumberInput";
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
 import {
     CrownIcon,
-    ChartDecreaseIcon,
+    ThumbsDownIcon,
     Delete02Icon as DeleteIcon,
     MultiplicationSignIcon,
     FrownIcon,
+    SmileIcon,
 } from "@hugeicons/core-free-icons";
 import { Label } from "@/components/ui/label";
 import { calculateNumber, cn, formatNumber } from "@/lib/utils";
@@ -60,21 +61,15 @@ function TableScoreCard({
             index,
             personId,
         });
-    // Both use the crown icon, so suppress the round one when it would duplicate
-    // the overall crown. The bottom icons differ (frown vs chart-decrease), so
-    // both can show together.
-    const showRoundTop = isTop && !isOverallTop;
-    const showRoundBottom = isBottom;
-
     const badges: { icon: IconSvgElement; tone: "primary" | "destructive" }[] =
         [
             isOverallTop && { icon: CrownIcon, tone: "primary" as const },
             isOverallBottom && {
-                icon: ChartDecreaseIcon,
+                icon: ThumbsDownIcon,
                 tone: "destructive" as const,
             },
-            showRoundTop && { icon: CrownIcon, tone: "primary" as const },
-            showRoundBottom && {
+            isTop && { icon: SmileIcon, tone: "primary" as const },
+            isBottom && {
                 icon: FrownIcon,
                 tone: "destructive" as const,
             },
