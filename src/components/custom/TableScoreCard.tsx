@@ -39,8 +39,11 @@ function TableScoreCard({
         (state) => state.settings.isTouchModeOn
     );
     const isLocked = useAppSelector((state) => state.settings.isLocked);
-    const showScoreBadges = useAppSelector(
-        (state) => state.settings.showScoreBadges
+    const showLeaderboardBadges = useAppSelector(
+        (state) => state.settings.showLeaderboardBadges
+    );
+    const showPerGameBadges = useAppSelector(
+        (state) => state.settings.showPerGameBadges
     );
     const isMobileModeOn = useAppSelector(
         (state) => state.settings.isMobileModeOn
@@ -63,16 +66,20 @@ function TableScoreCard({
         });
     const badges: { icon: IconSvgElement; tone: "primary" | "destructive" }[] =
         [
-            isOverallTop && { icon: CrownIcon, tone: "primary" as const },
-            isOverallBottom && {
-                icon: ThumbsDownIcon,
-                tone: "destructive" as const,
-            },
-            isTop && { icon: SmileIcon, tone: "primary" as const },
-            isBottom && {
-                icon: FrownIcon,
-                tone: "destructive" as const,
-            },
+            showLeaderboardBadges &&
+                isOverallTop && { icon: CrownIcon, tone: "primary" as const },
+            showLeaderboardBadges &&
+                isOverallBottom && {
+                    icon: ThumbsDownIcon,
+                    tone: "destructive" as const,
+                },
+            showPerGameBadges &&
+                isTop && { icon: SmileIcon, tone: "primary" as const },
+            showPerGameBadges &&
+                isBottom && {
+                    icon: FrownIcon,
+                    tone: "destructive" as const,
+                },
         ].filter(Boolean) as {
             icon: IconSvgElement;
             tone: "primary" | "destructive";
@@ -92,7 +99,7 @@ function TableScoreCard({
                     <p className="me-auto truncate text-start text-foreground">
                         {formatNumber(score)}
                     </p>
-                    {showScoreBadges && badges.length > 0 ? (
+                    {badges.length > 0 ? (
                         <div className="absolute bottom-2 right-2 flex items-center">
                             {badges.map((badge, i) => (
                                 <span

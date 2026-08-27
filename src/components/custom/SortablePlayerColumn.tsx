@@ -40,7 +40,7 @@ export default function SortablePlayerColumn({
             style={style}
             className={`flex flex-col gap-2 min-w-0 ${
                 isFitEveryoneOn
-                    ? "flex-1 basis-0 max-w-56"
+                    ? "flex-1 basis-0 max-w-44"
                     : "w-44 flex-shrink-0"
             } py-2 ${isDragging ? "z-10 opacity-80" : ""}`}>
             <div className="flex h-10 items-center gap-1">

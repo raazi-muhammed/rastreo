@@ -13,7 +13,8 @@ import {
     setShowDragHandle,
     setShowNextDealer,
     toggleLock,
-    toggleShowScoreBadges,
+    toggleShowLeaderboardBadges,
+    toggleShowPerGameBadges,
     toggleTouchMode,
 } from "@/store/features/settingsSlice";
 import { Settings01Icon } from "@hugeicons/core-free-icons";
@@ -114,12 +115,24 @@ const SettingsTab = () => {
                     <SectionWrapper
                         settings={[
                             <SettingIconTemplate
-                                label="Score Badges"
-                                key="score-badges">
+                                label="Leaderboard Badges"
+                                key="leaderboard-badges">
                                 <Switch
-                                    checked={settings.showScoreBadges}
+                                    checked={settings.showLeaderboardBadges}
                                     onCheckedChange={() =>
-                                        dispatch(toggleShowScoreBadges())
+                                        dispatch(
+                                            toggleShowLeaderboardBadges()
+                                        )
+                                    }
+                                />
+                            </SettingIconTemplate>,
+                            <SettingIconTemplate
+                                label="Per-Game Badges"
+                                key="per-game-badges">
+                                <Switch
+                                    checked={settings.showPerGameBadges}
+                                    onCheckedChange={() =>
+                                        dispatch(toggleShowPerGameBadges())
                                     }
                                 />
                             </SettingIconTemplate>,
