@@ -5,12 +5,14 @@ function SectionWrapper({
     title,
     settings = [],
 }: {
-    title: string;
+    title?: string;
     settings?: ReactNode[];
 }) {
     return (
         <div className="flex flex-col gap-2">
-            <p className="ms-2 text-sm text-muted-foreground">{title}</p>
+            {title && (
+                <p className="ms-2 text-sm text-muted-foreground">{title}</p>
+            )}
             <div className="bg-card rounded px-1">
                 {settings.map((setting, index) => (
                     <>
