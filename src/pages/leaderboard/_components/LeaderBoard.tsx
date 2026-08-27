@@ -59,7 +59,7 @@ export default function LeaderBoard() {
                         <span className="sr-only">Settings</span>
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl p-4">
+                <DialogContent className="max-w-md p-4">
                     <DialogTitle className="sr-only">Settings</DialogTitle>
                     <SettingsTab />
                 </DialogContent>

@@ -10,10 +10,11 @@ import NumberInput from "./NumberInput";
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
 import {
     CrownIcon,
-    ChartDecreaseIcon,
+    ThumbsDownIcon,
     Delete02Icon as DeleteIcon,
     MultiplicationSignIcon,
     FrownIcon,
+    SmileIcon,
 } from "@hugeicons/core-free-icons";
 import { Label } from "@/components/ui/label";
 import { calculateNumber, cn, formatNumber } from "@/lib/utils";
@@ -38,8 +39,11 @@ function TableScoreCard({
         (state) => state.settings.isTouchModeOn
     );
     const isLocked = useAppSelector((state) => state.settings.isLocked);
-    const showScoreBadges = useAppSelector(
-        (state) => state.settings.showScoreBadges
+    const showLeaderboardBadges = useAppSelector(
+        (state) => state.settings.showLeaderboardBadges
+    );
+    const showPerGameBadges = useAppSelector(
+        (state) => state.settings.showPerGameBadges
     );
     const isMobileModeOn = useAppSelector(
         (state) => state.settings.isMobileModeOn
@@ -60,24 +64,22 @@ function TableScoreCard({
             index,
             personId,
         });
-    // Both use the crown icon, so suppress the round one when it would duplicate
-    // the overall crown. The bottom icons differ (frown vs chart-decrease), so
-    // both can show together.
-    const showRoundTop = isTop && !isOverallTop;
-    const showRoundBottom = isBottom;
-
     const badges: { icon: IconSvgElement; tone: "primary" | "destructive" }[] =
         [
-            isOverallTop && { icon: CrownIcon, tone: "primary" as const },
-            isOverallBottom && {
-                icon: ChartDecreaseIcon,
-                tone: "destructive" as const,
-            },
-            showRoundTop && { icon: CrownIcon, tone: "primary" as const },
-            showRoundBottom && {
-                icon: FrownIcon,
-                tone: "destructive" as const,
-            },
+            showLeaderboardBadges &&
+                isOverallTop && { icon: CrownIcon, tone: "primary" as const },
+            showLeaderboardBadges &&
+                isOverallBottom && {
+                    icon: ThumbsDownIcon,
+                    tone: "destructive" as const,
+                },
+            showPerGameBadges &&
+                isTop && { icon: SmileIcon, tone: "primary" as const },
+            showPerGameBadges &&
+                isBottom && {
+                    icon: FrownIcon,
+                    tone: "destructive" as const,
+                },
         ].filter(Boolean) as {
             icon: IconSvgElement;
             tone: "primary" | "destructive";
@@ -97,7 +99,7 @@ function TableScoreCard({
                     <p className="me-auto truncate text-start text-foreground">
                         {formatNumber(score)}
                     </p>
-                    {showScoreBadges && badges.length > 0 ? (
+                    {badges.length > 0 ? (
                         <div className="absolute bottom-2 right-2 flex items-center">
                             {badges.map((badge, i) => (
                                 <span
