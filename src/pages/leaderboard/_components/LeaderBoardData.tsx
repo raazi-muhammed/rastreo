@@ -7,7 +7,7 @@ import LeaderBoardRow from "./LeaderBoardRow";
 
 export default function LeaderBoardData() {
     const settings = useAppSelector((state) => state.settings);
-    const { sortOption, isCompactViewOn: isCompact } = settings;
+    const { sortOption, isCompactViewOn: isCompact, showRankGaps } = settings;
     const { maxGamesPlayed } = useGamesStats();
     const leaderBoardData = useLeaderBoardData();
 
@@ -33,6 +33,7 @@ export default function LeaderBoardData() {
                                     item={l}
                                     index={index}
                                     isCompact={isCompact}
+                                    showGaps={!!showRankGaps}
                                     isWinnerRow={
                                         index === 0 &&
                                         !!sortOption &&

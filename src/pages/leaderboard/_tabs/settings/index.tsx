@@ -15,6 +15,7 @@ import {
     toggleLock,
     toggleShowLeaderboardBadges,
     toggleShowPerGameBadges,
+    toggleShowRankGaps,
     toggleTouchMode,
 } from "@/store/features/settingsSlice";
 import { Settings01Icon } from "@hugeicons/core-free-icons";
@@ -133,6 +134,16 @@ const SettingsTab = () => {
                                     checked={settings.showPerGameBadges}
                                     onCheckedChange={() =>
                                         dispatch(toggleShowPerGameBadges())
+                                    }
+                                />
+                            </SettingIconTemplate>,
+                            <SettingIconTemplate
+                                label="Gaps to 1st & Last"
+                                key="rank-gaps">
+                                <Switch
+                                    checked={settings.showRankGaps}
+                                    onCheckedChange={() =>
+                                        dispatch(toggleShowRankGaps())
                                     }
                                 />
                             </SettingIconTemplate>,

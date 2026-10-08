@@ -1,6 +1,11 @@
 import { cn, formatNumber } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { CrownIcon as WinnerIcon } from "@hugeicons/core-free-icons";
+import {
+    ArrowDownDoubleIcon,
+    ArrowUp01Icon,
+    ArrowUpDoubleIcon,
+    CrownIcon as WinnerIcon,
+} from "@hugeicons/core-free-icons";
 import { Fragment } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -73,18 +78,66 @@ function PlayerNames({
     );
 }
 
+function GapSummary({
+    toLeader,
+    toLast,
+}: {
+    toLeader?: number;
+    toLast?: number;
+}) {
+    return (
+        <>
+            {toLast !== undefined ? (
+                <span
+                    className="flex items-center gap-0.5 text-primary"
+                    title="Gap over last">
+                    <HugeiconsIcon
+                        icon={ArrowDownDoubleIcon}
+                        className="size-[1em] text-red"
+                    />
+                    <span className="sr-only">Gap over last:</span>
+                    {formatNumber(toLast)}
+                </span>
+            ) : null}
+            {toLeader !== undefined ? (
+                <span
+                    className="flex items-center gap-0.5 text-primary"
+                    title="Gap to 1st">
+                    <HugeiconsIcon
+                        icon={ArrowUpDoubleIcon}
+                        className="size-[1em] text-green"
+                    />
+                    <span className="sr-only">Gap to 1st:</span>
+                    {formatNumber(toLeader)}
+                </span>
+            ) : null}
+        </>
+    );
+}
+
 export default function LeaderBoardRow({
     item,
     index,
     isCompact,
     isWinnerRow,
+    showGaps,
 }: {
     item: LeaderBoardItem;
     index: number;
     isCompact: boolean;
     isWinnerRow: boolean;
+    showGaps: boolean;
 }) {
     const isSinglePlayer = item.players.length === 1;
+
+    // Index 0 is the leader (or tied for it) and index 1's gap to the leader
+    // equals its diff, so only show it from 3rd place on. The last row has no
+    // gap to last. Compact rows have no room for the extra numbers.
+    const canShowGaps = showGaps && !isCompact;
+    const toLeader =
+        canShowGaps && index > 1 ? item.totalDifference : undefined;
+    const toLast = canShowGaps ? item.differenceFromLast : undefined;
+    const hasGaps = toLeader !== undefined || toLast !== undefined;
 
     const rowClassName = isWinnerRow
         ? cn(
@@ -157,13 +210,31 @@ export default function LeaderBoardRow({
                 <p className="me-0 ms-auto w-fit font-semibold">
                     {formatNumber(item.sum)}
                 </p>
-                {item.difference !== undefined ? (
+                {item.difference !== undefined || hasGaps ? (
                     <small
                         className={cn(
-                            "flex items-center justify-end text-end text-primary",
+                            "flex items-center justify-end gap-x-2 text-end tabular-nums",
                             !isCompact && "-mt-1"
                         )}>
-                        {formatNumber(item.difference)}
+                        {hasGaps ? <GapSummary toLeader={toLeader} toLast={toLast} /> : null}
+                        {item.difference !== undefined ? (
+                            <span
+                                className="flex items-center gap-0.5 text-primary"
+                                title="Gap to player above">
+                                {canShowGaps ? (
+                                    <>
+                                        <HugeiconsIcon
+                                            icon={ArrowUp01Icon}
+                                            className="size-[1em] text-yellow"
+                                        />
+                                        <span className="sr-only">
+                                            Gap to player above:
+                                        </span>
+                                    </>
+                                ) : null}
+                                {formatNumber(item.difference)}
+                            </span>
+                        ) : null}
                     </small>
                 ) : null}
             </div>

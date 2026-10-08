@@ -22,7 +22,7 @@ module.exports = {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],
                 mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
-                display: ["Fira Code", ...defaultTheme.fontFamily.mono],
+                display: ["Mona Sans", ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 border: "hsl(var(--border))",
@@ -44,6 +44,9 @@ module.exports = {
                     foreground: "hsl(var(--destructive-foreground))",
                     muted: "hsl(var(--destructive-muted))",
                 },
+                green: { DEFAULT: "hsl(var(--green))" },
+                red: { DEFAULT: "hsl(var(--red))" },
+                yellow: { DEFAULT: "hsl(var(--yellow))" },
                 muted: {
                     DEFAULT: "hsl(var(--muted))",
                     foreground: "hsl(var(--muted-foreground))",
