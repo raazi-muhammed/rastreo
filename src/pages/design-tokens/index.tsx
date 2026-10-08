@@ -294,6 +294,17 @@ export default function DesignTokensPage() {
                                 The quick brown fox jumps over the lazy dog. 0123456789
                             </p>
                         </div>
+                        <div>
+                            <p className="text-sm text-muted-foreground">
+                                font-display — Mona Sans (wdth 125, Expanded)
+                            </p>
+                            <p className="font-display text-3xl font-bold text-foreground">
+                                The quick brown fox
+                            </p>
+                            <p className="font-display text-base text-foreground">
+                                The quick brown fox jumps over the lazy dog. 0123456789
+                            </p>
+                        </div>
                     </div>
                 </Section>
 

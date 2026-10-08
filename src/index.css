@@ -95,4 +95,8 @@
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
     }
+    /* Pin Mona Sans to its Expanded width */
+    .font-display {
+        font-variation-settings: "wdth" 125;
+    }
 }

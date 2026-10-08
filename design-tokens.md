@@ -6,7 +6,8 @@ project's look. Built on Tailwind v3 (JS config, `hsl(var(--x))` color values) +
 ## Fonts
 
 - **Sans / body / heading**: [Inter](https://fonts.google.com/specimen/Inter) (Google Font)
-- **Mono / display**: [Fira Code](https://fonts.google.com/specimen/Fira+Code) (Google Font)
+- **Mono**: [Fira Code](https://fonts.google.com/specimen/Fira+Code) (Google Font)
+- **Display**: [Mona Sans](https://fonts.google.com/specimen/Mona+Sans) (Google Font), width 125 (Expanded) via the `wdth` axis
 
 Load them however the project's build tool supports Google Fonts — a `next/font/google`
 import, a framework's font plugin, or plain `<link>` tags in the HTML head:
@@ -15,7 +16,7 @@ import, a framework's font plugin, or plain `<link>` tags in the HTML head:
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Fira+Code:wght@400..700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Fira+Code:wght@400..700&family=Mona+Sans:wdth,wght@125,200..900&display=swap"
     rel="stylesheet" />
 ```
 
@@ -29,8 +30,20 @@ theme: {
         fontFamily: {
             sans: ["Inter", ...defaultTheme.fontFamily.sans],
             mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
+            display: ["Mona Sans", ...defaultTheme.fontFamily.sans],
         },
     },
+}
+```
+
+Global CSS — pin the display font to its Expanded width (use `font-variation-settings`,
+not `font-stretch`):
+
+```css
+@layer utilities {
+    .font-display {
+        font-variation-settings: "wdth" 125;
+    }
 }
 ```
 
