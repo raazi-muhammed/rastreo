@@ -29,6 +29,7 @@ type Settings = {
     isCompactViewOn: boolean;
     showLeaderboardBadges: boolean;
     showPerGameBadges: boolean;
+    showRankGaps: boolean;
 };
 
 const initialState: Settings = {
@@ -46,6 +47,7 @@ const initialState: Settings = {
     isCompactViewOn: false,
     showLeaderboardBadges: true,
     showPerGameBadges: true,
+    showRankGaps: false,
 };
 
 export const counterSlice = createSlice({
@@ -115,6 +117,10 @@ export const counterSlice = createSlice({
             state.showPerGameBadges = !state.showPerGameBadges;
             return state;
         },
+        toggleShowRankGaps: (state) => {
+            state.showRankGaps = !state.showRankGaps;
+            return state;
+        },
     },
 });
 
@@ -133,6 +139,7 @@ export const {
     toggleCompactView,
     toggleShowLeaderboardBadges,
     toggleShowPerGameBadges,
+    toggleShowRankGaps,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

@@ -22,6 +22,9 @@
         --destructive: 357 100% 45%;
         --destructive-foreground: var(--primary-foreground);
         --destructive-muted: 349 24% 18%;
+        --green: 145 38% 42%;
+        --red: 0 50% 52%;
+        --yellow: 42 58% 46%;
         --border: 0 0% 90%;
         --input: var(--border);
         --ring: 0 0% 63%;
@@ -47,6 +50,9 @@
         --destructive: 359 100% 70%;
         --destructive-foreground: var(--foreground);
         --destructive-muted: 349 24% 18%;
+        --green: 145 38% 62%;
+        --red: 0 50% 68%;
+        --yellow: 42 58% 66%;
         --border: 240 1% 15%;
         --input: 240 1% 19%;
         --ring: 0 0% 45%;
